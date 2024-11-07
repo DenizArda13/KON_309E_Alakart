@@ -1,0 +1,826 @@
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"blink.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "blink.c"
+  18              		.global	delaytime
+  19              		.bss
+  20              		.align	2
+  23              	delaytime:
+  24 0000 00000000 		.space	4
+  25              		.text
+  26              		.align	1
+  27              		.global	main
+  28              		.syntax unified
+  29              		.code	16
+  30              		.thumb_func
+  32              	main:
+  33              	.LFB0:
+   1:blink.c       **** #include <stdint.h>
+   2:blink.c       **** #include "lpc824.h"
+   3:blink.c       **** 
+   4:blink.c       **** #define SYSTEM_CORE_CLOCK 30000000UL   //Declare system clock as 30MHz
+   5:blink.c       **** // (The clock speed has been set in "init.c" file to 30MHz.)
+   6:blink.c       **** 
+   7:blink.c       **** static inline uint32_t SysTickConfig(uint32_t ticks);
+   8:blink.c       **** void SysTick_Handler(void);  //our systick interrupt handler
+   9:blink.c       **** void delay_ms(uint32_t ms);//delay (ms)
+  10:blink.c       **** 
+  11:blink.c       **** volatile uint32_t delaytime; // This is decremented by SysTick_Handler.
+  12:blink.c       **** 
+  13:blink.c       **** 
+  14:blink.c       **** int main(void) {
+  34              		.loc 1 14 16
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 8
+  37              		@ frame_needed = 1, uses_anonymous_args = 0
+  38 0000 80B5     		push	{r7, lr}
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 82B0     		sub	sp, sp, #8
+  43              		.cfi_def_cfa_offset 16
+  44 0004 00AF     		add	r7, sp, #0
+  45              		.cfi_def_cfa_register 7
+  15:blink.c       ****   int buttonState = 0;
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 2
+
+
+  46              		.loc 1 15 7
+  47 0006 0023     		movs	r3, #0
+  48 0008 7B60     		str	r3, [r7, #4]
+  16:blink.c       **** 
+  17:blink.c       ****   delaytime=0;
+  49              		.loc 1 17 12
+  50 000a 8B4B     		ldr	r3, .L10
+  51 000c 0022     		movs	r2, #0
+  52 000e 1A60     		str	r2, [r3]
+  18:blink.c       ****   
+  19:blink.c       ****   SYSCON_SYSAHBCLKCTRL |= 0x400C0; // Enable IOCON, SWM & GPIO clocks.
+  53              		.loc 1 19 3
+  54 0010 8A4B     		ldr	r3, .L10+4
+  55 0012 1A68     		ldr	r2, [r3]
+  56 0014 894B     		ldr	r3, .L10+4
+  57              		.loc 1 19 24
+  58 0016 8A49     		ldr	r1, .L10+8
+  59 0018 0A43     		orrs	r2, r1
+  60 001a 1A60     		str	r2, [r3]
+  20:blink.c       ****   
+  21:blink.c       ****   SYSCON_PRESETCTRL &= ~(0x400);  // Peripheral reset control to gpio/gpio int
+  61              		.loc 1 21 3
+  62 001c 894B     		ldr	r3, .L10+12
+  63 001e 1A68     		ldr	r2, [r3]
+  64 0020 884B     		ldr	r3, .L10+12
+  65              		.loc 1 21 21
+  66 0022 8949     		ldr	r1, .L10+16
+  67 0024 0A40     		ands	r2, r1
+  68 0026 1A60     		str	r2, [r3]
+  22:blink.c       ****   SYSCON_PRESETCTRL |=   0x400;   // AO: Check.
+  69              		.loc 1 22 3
+  70 0028 864B     		ldr	r3, .L10+12
+  71 002a 1A68     		ldr	r2, [r3]
+  72 002c 854B     		ldr	r3, .L10+12
+  73              		.loc 1 22 21
+  74 002e 8021     		movs	r1, #128
+  75 0030 C900     		lsls	r1, r1, #3
+  76 0032 0A43     		orrs	r2, r1
+  77 0034 1A60     		str	r2, [r3]
+  23:blink.c       ****   
+  24:blink.c       ****   //Make Pin 9,8,7 an output and Pin 10, 11 an input.
+  25:blink.c       ****   GPIO_DIR0 &= (!(1<<10));//Button 1 input
+  78              		.loc 1 25 3
+  79 0036 854B     		ldr	r3, .L10+20
+  80 0038 1B68     		ldr	r3, [r3]
+  81 003a 844B     		ldr	r3, .L10+20
+  82              		.loc 1 25 13
+  83 003c 0022     		movs	r2, #0
+  84 003e 1A60     		str	r2, [r3]
+  26:blink.c       ****   GPIO_DIR0 &= (!(1<<11));//Button 2 input
+  85              		.loc 1 26 3
+  86 0040 824B     		ldr	r3, .L10+20
+  87 0042 1B68     		ldr	r3, [r3]
+  88 0044 814B     		ldr	r3, .L10+20
+  89              		.loc 1 26 13
+  90 0046 0022     		movs	r2, #0
+  91 0048 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 3
+
+
+  27:blink.c       **** 
+  28:blink.c       ****   GPIO_DIR0 |= (1<<9);//Yellow Led output
+  92              		.loc 1 28 3
+  93 004a 804B     		ldr	r3, .L10+20
+  94 004c 1A68     		ldr	r2, [r3]
+  95 004e 7F4B     		ldr	r3, .L10+20
+  96              		.loc 1 28 13
+  97 0050 8021     		movs	r1, #128
+  98 0052 8900     		lsls	r1, r1, #2
+  99 0054 0A43     		orrs	r2, r1
+ 100 0056 1A60     		str	r2, [r3]
+  29:blink.c       ****   GPIO_DIR0 |= (1<<8);//Green Led output
+ 101              		.loc 1 29 3
+ 102 0058 7C4B     		ldr	r3, .L10+20
+ 103 005a 1A68     		ldr	r2, [r3]
+ 104 005c 7B4B     		ldr	r3, .L10+20
+ 105              		.loc 1 29 13
+ 106 005e 8021     		movs	r1, #128
+ 107 0060 4900     		lsls	r1, r1, #1
+ 108 0062 0A43     		orrs	r2, r1
+ 109 0064 1A60     		str	r2, [r3]
+  30:blink.c       ****   GPIO_DIR0 |= (1<<7);//Red Led output
+ 110              		.loc 1 30 3
+ 111 0066 794B     		ldr	r3, .L10+20
+ 112 0068 1A68     		ldr	r2, [r3]
+ 113 006a 784B     		ldr	r3, .L10+20
+ 114              		.loc 1 30 13
+ 115 006c 8021     		movs	r1, #128
+ 116 006e 0A43     		orrs	r2, r1
+ 117 0070 1A60     		str	r2, [r3]
+  31:blink.c       **** 
+  32:blink.c       ****   SysTickConfig(SYSTEM_CORE_CLOCK/1000);  //setup systick clock interrupt @1ms 
+ 118              		.loc 1 32 3
+ 119 0072 774B     		ldr	r3, .L10+24
+ 120 0074 1800     		movs	r0, r3
+ 121 0076 00F01BF9 		bl	SysTickConfig
+ 122              	.L8:
+  33:blink.c       **** 
+  34:blink.c       ****   while (1) { //infinite loop
+  35:blink.c       ****   // delay for taking input 
+  36:blink.c       ****   delay_ms(1000); 
+ 123              		.loc 1 36 3
+ 124 007a FA23     		movs	r3, #250
+ 125 007c 9B00     		lsls	r3, r3, #2
+ 126 007e 1800     		movs	r0, r3
+ 127 0080 FFF7FEFF 		bl	delay_ms
+  37:blink.c       ****  
+  38:blink.c       ****     // Button 1
+  39:blink.c       ****      if(GPIO_B10 == 1){
+ 128              		.loc 1 39 9
+ 129 0084 734B     		ldr	r3, .L10+28
+ 130 0086 1B78     		ldrb	r3, [r3]
+ 131 0088 DBB2     		uxtb	r3, r3
+ 132              		.loc 1 39 8
+ 133 008a 012B     		cmp	r3, #1
+ 134 008c 02D1     		bne	.L2
+  40:blink.c       ****       buttonState = 1;
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 4
+
+
+ 135              		.loc 1 40 19
+ 136 008e 0123     		movs	r3, #1
+ 137 0090 7B60     		str	r3, [r7, #4]
+ 138 0092 06E0     		b	.L3
+ 139              	.L2:
+  41:blink.c       ****      } 
+  42:blink.c       **** 
+  43:blink.c       ****     // Button 2
+  44:blink.c       ****     else if (GPIO_B11 == 1){
+ 140              		.loc 1 44 14
+ 141 0094 704B     		ldr	r3, .L10+32
+ 142 0096 1B78     		ldrb	r3, [r3]
+ 143 0098 DBB2     		uxtb	r3, r3
+ 144              		.loc 1 44 13
+ 145 009a 012B     		cmp	r3, #1
+ 146 009c 01D1     		bne	.L3
+  45:blink.c       ****       buttonState = 2; 
+ 147              		.loc 1 45 19
+ 148 009e 0223     		movs	r3, #2
+ 149 00a0 7B60     		str	r3, [r7, #4]
+ 150              	.L3:
+  46:blink.c       ****      }
+  47:blink.c       **** 
+  48:blink.c       ****      switch (buttonState){
+ 151              		.loc 1 48 6
+ 152 00a2 7B68     		ldr	r3, [r7, #4]
+ 153 00a4 012B     		cmp	r3, #1
+ 154 00a6 03D0     		beq	.L4
+ 155 00a8 7B68     		ldr	r3, [r7, #4]
+ 156 00aa 022B     		cmp	r3, #2
+ 157 00ac 5DD0     		beq	.L5
+ 158 00ae B9E0     		b	.L9
+ 159              	.L4:
+  49:blink.c       **** 
+  50:blink.c       ****       // Red,green,yellow,all ON, all OFF.
+  51:blink.c       ****       case 1:
+  52:blink.c       **** 
+  53:blink.c       ****       GPIO_B7 = 1;    //set pin high (Red LED is ON)
+ 160              		.loc 1 53 7
+ 161 00b0 6A4B     		ldr	r3, .L10+36
+ 162              		.loc 1 53 15
+ 163 00b2 0122     		movs	r2, #1
+ 164 00b4 1A70     		strb	r2, [r3]
+  54:blink.c       ****       delay_ms(1000);
+ 165              		.loc 1 54 7
+ 166 00b6 FA23     		movs	r3, #250
+ 167 00b8 9B00     		lsls	r3, r3, #2
+ 168 00ba 1800     		movs	r0, r3
+ 169 00bc FFF7FEFF 		bl	delay_ms
+  55:blink.c       ****       GPIO_B7 = 0;    //set pin low (Red LED is OFF) 
+ 170              		.loc 1 55 7
+ 171 00c0 664B     		ldr	r3, .L10+36
+ 172              		.loc 1 55 15
+ 173 00c2 0022     		movs	r2, #0
+ 174 00c4 1A70     		strb	r2, [r3]
+  56:blink.c       ****       delay_ms(1000);
+ 175              		.loc 1 56 7
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 5
+
+
+ 176 00c6 FA23     		movs	r3, #250
+ 177 00c8 9B00     		lsls	r3, r3, #2
+ 178 00ca 1800     		movs	r0, r3
+ 179 00cc FFF7FEFF 		bl	delay_ms
+  57:blink.c       **** 
+  58:blink.c       ****       GPIO_B8 = 1;    //set pin high (Green LED is ON)
+ 180              		.loc 1 58 7
+ 181 00d0 634B     		ldr	r3, .L10+40
+ 182              		.loc 1 58 15
+ 183 00d2 0122     		movs	r2, #1
+ 184 00d4 1A70     		strb	r2, [r3]
+  59:blink.c       ****       delay_ms(1000);   
+ 185              		.loc 1 59 7
+ 186 00d6 FA23     		movs	r3, #250
+ 187 00d8 9B00     		lsls	r3, r3, #2
+ 188 00da 1800     		movs	r0, r3
+ 189 00dc FFF7FEFF 		bl	delay_ms
+  60:blink.c       ****       GPIO_B8 = 0;    //set pin low (Green LED is OFF)
+ 190              		.loc 1 60 7
+ 191 00e0 5F4B     		ldr	r3, .L10+40
+ 192              		.loc 1 60 15
+ 193 00e2 0022     		movs	r2, #0
+ 194 00e4 1A70     		strb	r2, [r3]
+  61:blink.c       ****       delay_ms(1000); 
+ 195              		.loc 1 61 7
+ 196 00e6 FA23     		movs	r3, #250
+ 197 00e8 9B00     		lsls	r3, r3, #2
+ 198 00ea 1800     		movs	r0, r3
+ 199 00ec FFF7FEFF 		bl	delay_ms
+  62:blink.c       **** 
+  63:blink.c       ****       GPIO_B9 = 1;    //set pin high. (Yellow LED is ON)
+ 200              		.loc 1 63 7
+ 201 00f0 5C4B     		ldr	r3, .L10+44
+ 202              		.loc 1 63 15
+ 203 00f2 0122     		movs	r2, #1
+ 204 00f4 1A70     		strb	r2, [r3]
+  64:blink.c       ****       delay_ms(1000);
+ 205              		.loc 1 64 7
+ 206 00f6 FA23     		movs	r3, #250
+ 207 00f8 9B00     		lsls	r3, r3, #2
+ 208 00fa 1800     		movs	r0, r3
+ 209 00fc FFF7FEFF 		bl	delay_ms
+  65:blink.c       ****       GPIO_B9 = 0;    //set pin low. (Yellow LED is OFF)
+ 210              		.loc 1 65 7
+ 211 0100 584B     		ldr	r3, .L10+44
+ 212              		.loc 1 65 15
+ 213 0102 0022     		movs	r2, #0
+ 214 0104 1A70     		strb	r2, [r3]
+  66:blink.c       ****       delay_ms(1000);
+ 215              		.loc 1 66 7
+ 216 0106 FA23     		movs	r3, #250
+ 217 0108 9B00     		lsls	r3, r3, #2
+ 218 010a 1800     		movs	r0, r3
+ 219 010c FFF7FEFF 		bl	delay_ms
+  67:blink.c       **** 
+  68:blink.c       ****       GPIO_B9 = 1;    //set pin high. (Yellow LED is ON)
+ 220              		.loc 1 68 7
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 6
+
+
+ 221 0110 544B     		ldr	r3, .L10+44
+ 222              		.loc 1 68 15
+ 223 0112 0122     		movs	r2, #1
+ 224 0114 1A70     		strb	r2, [r3]
+  69:blink.c       ****       GPIO_B8 = 1;    //set pin high (Green LED is ON)  
+ 225              		.loc 1 69 7
+ 226 0116 524B     		ldr	r3, .L10+40
+ 227              		.loc 1 69 15
+ 228 0118 0122     		movs	r2, #1
+ 229 011a 1A70     		strb	r2, [r3]
+  70:blink.c       ****       GPIO_B7 = 1;    //set pin high (Red LED is ON)
+ 230              		.loc 1 70 7
+ 231 011c 4F4B     		ldr	r3, .L10+36
+ 232              		.loc 1 70 15
+ 233 011e 0122     		movs	r2, #1
+ 234 0120 1A70     		strb	r2, [r3]
+  71:blink.c       ****       delay_ms(1000);
+ 235              		.loc 1 71 7
+ 236 0122 FA23     		movs	r3, #250
+ 237 0124 9B00     		lsls	r3, r3, #2
+ 238 0126 1800     		movs	r0, r3
+ 239 0128 FFF7FEFF 		bl	delay_ms
+  72:blink.c       ****       GPIO_B9 = 0;    //set pin low (Yellow LED is OFF)
+ 240              		.loc 1 72 7
+ 241 012c 4D4B     		ldr	r3, .L10+44
+ 242              		.loc 1 72 15
+ 243 012e 0022     		movs	r2, #0
+ 244 0130 1A70     		strb	r2, [r3]
+  73:blink.c       ****       GPIO_B8 = 0;    //set pin low (Green LED is OFF)
+ 245              		.loc 1 73 7
+ 246 0132 4B4B     		ldr	r3, .L10+40
+ 247              		.loc 1 73 15
+ 248 0134 0022     		movs	r2, #0
+ 249 0136 1A70     		strb	r2, [r3]
+  74:blink.c       ****       GPIO_B7 = 0;    //set pin low (Red LED is OFF)
+ 250              		.loc 1 74 7
+ 251 0138 484B     		ldr	r3, .L10+36
+ 252              		.loc 1 74 15
+ 253 013a 0022     		movs	r2, #0
+ 254 013c 1A70     		strb	r2, [r3]
+  75:blink.c       ****       delay_ms(1000);       
+ 255              		.loc 1 75 7
+ 256 013e FA23     		movs	r3, #250
+ 257 0140 9B00     		lsls	r3, r3, #2
+ 258 0142 1800     		movs	r0, r3
+ 259 0144 FFF7FEFF 		bl	delay_ms
+  76:blink.c       **** 
+  77:blink.c       ****       GPIO_B9 = 0;    //set pin low (Yellow LED is OFF)
+ 260              		.loc 1 77 7
+ 261 0148 464B     		ldr	r3, .L10+44
+ 262              		.loc 1 77 15
+ 263 014a 0022     		movs	r2, #0
+ 264 014c 1A70     		strb	r2, [r3]
+  78:blink.c       ****       GPIO_B8 = 0;    //set pin low (Green LED is OFF)
+ 265              		.loc 1 78 7
+ 266 014e 444B     		ldr	r3, .L10+40
+ 267              		.loc 1 78 15
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 7
+
+
+ 268 0150 0022     		movs	r2, #0
+ 269 0152 1A70     		strb	r2, [r3]
+  79:blink.c       ****       GPIO_B7 = 0;    //set pin low (Red LED is OFF)
+ 270              		.loc 1 79 7
+ 271 0154 414B     		ldr	r3, .L10+36
+ 272              		.loc 1 79 15
+ 273 0156 0022     		movs	r2, #0
+ 274 0158 1A70     		strb	r2, [r3]
+  80:blink.c       ****       delay_ms(1000);
+ 275              		.loc 1 80 7
+ 276 015a FA23     		movs	r3, #250
+ 277 015c 9B00     		lsls	r3, r3, #2
+ 278 015e 1800     		movs	r0, r3
+ 279 0160 FFF7FEFF 		bl	delay_ms
+  81:blink.c       ****        
+  82:blink.c       ****       buttonState = 0;
+ 280              		.loc 1 82 19
+ 281 0164 0023     		movs	r3, #0
+ 282 0166 7B60     		str	r3, [r7, #4]
+  83:blink.c       **** 
+  84:blink.c       ****       break;
+ 283              		.loc 1 84 7
+ 284 0168 65E0     		b	.L7
+ 285              	.L5:
+  85:blink.c       **** 
+  86:blink.c       ****       //red, green, all ONN,yellow,all OFF.
+  87:blink.c       ****       case 2:
+  88:blink.c       ****       
+  89:blink.c       ****       GPIO_B7 = 1;    //set pin high (Red LED is ON)
+ 286              		.loc 1 89 7
+ 287 016a 3C4B     		ldr	r3, .L10+36
+ 288              		.loc 1 89 15
+ 289 016c 0122     		movs	r2, #1
+ 290 016e 1A70     		strb	r2, [r3]
+  90:blink.c       ****       delay_ms(1000);
+ 291              		.loc 1 90 7
+ 292 0170 FA23     		movs	r3, #250
+ 293 0172 9B00     		lsls	r3, r3, #2
+ 294 0174 1800     		movs	r0, r3
+ 295 0176 FFF7FEFF 		bl	delay_ms
+  91:blink.c       ****       GPIO_B7 = 0;    //set pin low (Red LED is OFF) 
+ 296              		.loc 1 91 7
+ 297 017a 384B     		ldr	r3, .L10+36
+ 298              		.loc 1 91 15
+ 299 017c 0022     		movs	r2, #0
+ 300 017e 1A70     		strb	r2, [r3]
+  92:blink.c       ****       delay_ms(1000);
+ 301              		.loc 1 92 7
+ 302 0180 FA23     		movs	r3, #250
+ 303 0182 9B00     		lsls	r3, r3, #2
+ 304 0184 1800     		movs	r0, r3
+ 305 0186 FFF7FEFF 		bl	delay_ms
+  93:blink.c       **** 
+  94:blink.c       ****       GPIO_B8 = 1;    //set pin high (Green LED is ON)
+ 306              		.loc 1 94 7
+ 307 018a 354B     		ldr	r3, .L10+40
+ 308              		.loc 1 94 15
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 8
+
+
+ 309 018c 0122     		movs	r2, #1
+ 310 018e 1A70     		strb	r2, [r3]
+  95:blink.c       ****       delay_ms(1000);   
+ 311              		.loc 1 95 7
+ 312 0190 FA23     		movs	r3, #250
+ 313 0192 9B00     		lsls	r3, r3, #2
+ 314 0194 1800     		movs	r0, r3
+ 315 0196 FFF7FEFF 		bl	delay_ms
+  96:blink.c       ****       GPIO_B8 = 0;    //set pin low (Green LED is OFF)
+ 316              		.loc 1 96 7
+ 317 019a 314B     		ldr	r3, .L10+40
+ 318              		.loc 1 96 15
+ 319 019c 0022     		movs	r2, #0
+ 320 019e 1A70     		strb	r2, [r3]
+  97:blink.c       ****       delay_ms(1000);
+ 321              		.loc 1 97 7
+ 322 01a0 FA23     		movs	r3, #250
+ 323 01a2 9B00     		lsls	r3, r3, #2
+ 324 01a4 1800     		movs	r0, r3
+ 325 01a6 FFF7FEFF 		bl	delay_ms
+  98:blink.c       **** 
+  99:blink.c       ****       GPIO_B9 = 1;    //set pin high. (Yellow LED is ON)
+ 326              		.loc 1 99 7
+ 327 01aa 2E4B     		ldr	r3, .L10+44
+ 328              		.loc 1 99 15
+ 329 01ac 0122     		movs	r2, #1
+ 330 01ae 1A70     		strb	r2, [r3]
+ 100:blink.c       ****       GPIO_B8 = 1;    //set pin high (Green LED is ON)  
+ 331              		.loc 1 100 7
+ 332 01b0 2B4B     		ldr	r3, .L10+40
+ 333              		.loc 1 100 15
+ 334 01b2 0122     		movs	r2, #1
+ 335 01b4 1A70     		strb	r2, [r3]
+ 101:blink.c       ****       GPIO_B7 = 1;    //set pin high (Red LED is ON)
+ 336              		.loc 1 101 7
+ 337 01b6 294B     		ldr	r3, .L10+36
+ 338              		.loc 1 101 15
+ 339 01b8 0122     		movs	r2, #1
+ 340 01ba 1A70     		strb	r2, [r3]
+ 102:blink.c       ****       delay_ms(1000);
+ 341              		.loc 1 102 7
+ 342 01bc FA23     		movs	r3, #250
+ 343 01be 9B00     		lsls	r3, r3, #2
+ 344 01c0 1800     		movs	r0, r3
+ 345 01c2 FFF7FEFF 		bl	delay_ms
+ 103:blink.c       ****       GPIO_B9 = 0;    //set pin low (Yellow LED is OFF)
+ 346              		.loc 1 103 7
+ 347 01c6 274B     		ldr	r3, .L10+44
+ 348              		.loc 1 103 15
+ 349 01c8 0022     		movs	r2, #0
+ 350 01ca 1A70     		strb	r2, [r3]
+ 104:blink.c       ****       GPIO_B8 = 0;    //set pin low (Green LED is OFF)
+ 351              		.loc 1 104 7
+ 352 01cc 244B     		ldr	r3, .L10+40
+ 353              		.loc 1 104 15
+ 354 01ce 0022     		movs	r2, #0
+ 355 01d0 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 9
+
+
+ 105:blink.c       ****       GPIO_B7 = 0;    //set pin low (Red LED is OFF)
+ 356              		.loc 1 105 7
+ 357 01d2 224B     		ldr	r3, .L10+36
+ 358              		.loc 1 105 15
+ 359 01d4 0022     		movs	r2, #0
+ 360 01d6 1A70     		strb	r2, [r3]
+ 106:blink.c       ****       delay_ms(1000);               
+ 361              		.loc 1 106 7
+ 362 01d8 FA23     		movs	r3, #250
+ 363 01da 9B00     		lsls	r3, r3, #2
+ 364 01dc 1800     		movs	r0, r3
+ 365 01de FFF7FEFF 		bl	delay_ms
+ 107:blink.c       ****       
+ 108:blink.c       ****       GPIO_B9 = 1;    //set pin high. (Yellow LED is ON)
+ 366              		.loc 1 108 7
+ 367 01e2 204B     		ldr	r3, .L10+44
+ 368              		.loc 1 108 15
+ 369 01e4 0122     		movs	r2, #1
+ 370 01e6 1A70     		strb	r2, [r3]
+ 109:blink.c       ****       delay_ms(1000);
+ 371              		.loc 1 109 7
+ 372 01e8 FA23     		movs	r3, #250
+ 373 01ea 9B00     		lsls	r3, r3, #2
+ 374 01ec 1800     		movs	r0, r3
+ 375 01ee FFF7FEFF 		bl	delay_ms
+ 110:blink.c       ****       GPIO_B9 = 0;    //set pin low. (Yellow LED is OFF)
+ 376              		.loc 1 110 7
+ 377 01f2 1C4B     		ldr	r3, .L10+44
+ 378              		.loc 1 110 15
+ 379 01f4 0022     		movs	r2, #0
+ 380 01f6 1A70     		strb	r2, [r3]
+ 111:blink.c       ****       delay_ms(1000);
+ 381              		.loc 1 111 7
+ 382 01f8 FA23     		movs	r3, #250
+ 383 01fa 9B00     		lsls	r3, r3, #2
+ 384 01fc 1800     		movs	r0, r3
+ 385 01fe FFF7FEFF 		bl	delay_ms
+ 112:blink.c       **** 
+ 113:blink.c       ****       GPIO_B9 = 0;    //set pin low (Yellow LED is OFF)
+ 386              		.loc 1 113 7
+ 387 0202 184B     		ldr	r3, .L10+44
+ 388              		.loc 1 113 15
+ 389 0204 0022     		movs	r2, #0
+ 390 0206 1A70     		strb	r2, [r3]
+ 114:blink.c       ****       GPIO_B8 = 0;    //set pin low (Green LED is OFF)
+ 391              		.loc 1 114 7
+ 392 0208 154B     		ldr	r3, .L10+40
+ 393              		.loc 1 114 15
+ 394 020a 0022     		movs	r2, #0
+ 395 020c 1A70     		strb	r2, [r3]
+ 115:blink.c       ****       GPIO_B7 = 0;    //set pin low (Red LED is OFF)
+ 396              		.loc 1 115 7
+ 397 020e 134B     		ldr	r3, .L10+36
+ 398              		.loc 1 115 15
+ 399 0210 0022     		movs	r2, #0
+ 400 0212 1A70     		strb	r2, [r3]
+ 116:blink.c       ****       delay_ms(1000); 
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 10
+
+
+ 401              		.loc 1 116 7
+ 402 0214 FA23     		movs	r3, #250
+ 403 0216 9B00     		lsls	r3, r3, #2
+ 404 0218 1800     		movs	r0, r3
+ 405 021a FFF7FEFF 		bl	delay_ms
+ 117:blink.c       **** 
+ 118:blink.c       ****       buttonState = 0;
+ 406              		.loc 1 118 19
+ 407 021e 0023     		movs	r3, #0
+ 408 0220 7B60     		str	r3, [r7, #4]
+ 119:blink.c       ****  
+ 120:blink.c       ****       break;
+ 409              		.loc 1 120 7
+ 410 0222 08E0     		b	.L7
+ 411              	.L9:
+ 121:blink.c       ****       
+ 122:blink.c       ****       //only Red ON.     
+ 123:blink.c       ****       default: 
+ 124:blink.c       **** 
+ 125:blink.c       ****       GPIO_B7 = 1;    //set pin high (Red LED is ON)
+ 412              		.loc 1 125 7
+ 413 0224 0D4B     		ldr	r3, .L10+36
+ 414              		.loc 1 125 15
+ 415 0226 0122     		movs	r2, #1
+ 416 0228 1A70     		strb	r2, [r3]
+ 126:blink.c       ****       delay_ms(1000);
+ 417              		.loc 1 126 7
+ 418 022a FA23     		movs	r3, #250
+ 419 022c 9B00     		lsls	r3, r3, #2
+ 420 022e 1800     		movs	r0, r3
+ 421 0230 FFF7FEFF 		bl	delay_ms
+ 127:blink.c       **** 
+ 128:blink.c       ****       break;
+ 422              		.loc 1 128 7
+ 423 0234 C046     		nop
+ 424              	.L7:
+  36:blink.c       ****  
+ 425              		.loc 1 36 3
+ 426 0236 20E7     		b	.L8
+ 427              	.L11:
+ 428              		.align	2
+ 429              	.L10:
+ 430 0238 00000000 		.word	delaytime
+ 431 023c 80800440 		.word	1074036864
+ 432 0240 C0000400 		.word	262336
+ 433 0244 04800440 		.word	1074036740
+ 434 0248 FFFBFFFF 		.word	-1025
+ 435 024c 002000A0 		.word	-1610604544
+ 436 0250 30750000 		.word	30000
+ 437 0254 0A0000A0 		.word	-1610612726
+ 438 0258 0B0000A0 		.word	-1610612725
+ 439 025c 070000A0 		.word	-1610612729
+ 440 0260 080000A0 		.word	-1610612728
+ 441 0264 090000A0 		.word	-1610612727
+ 442              		.cfi_endproc
+ 443              	.LFE0:
+ 445              		.align	1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 11
+
+
+ 446              		.global	SysTick_Handler
+ 447              		.syntax unified
+ 448              		.code	16
+ 449              		.thumb_func
+ 451              	SysTick_Handler:
+ 452              	.LFB1:
+ 129:blink.c       ****      }
+ 130:blink.c       ****      
+ 131:blink.c       **** 
+ 132:blink.c       ****   }
+ 133:blink.c       **** }
+ 134:blink.c       **** 
+ 135:blink.c       **** 
+ 136:blink.c       ****  //The interrupt handler for SysTick system time-base timer.
+ 137:blink.c       **** void SysTick_Handler(void) { 
+ 453              		.loc 1 137 28
+ 454              		.cfi_startproc
+ 455              		@ args = 0, pretend = 0, frame = 0
+ 456              		@ frame_needed = 1, uses_anonymous_args = 0
+ 457 0268 80B5     		push	{r7, lr}
+ 458              		.cfi_def_cfa_offset 8
+ 459              		.cfi_offset 7, -8
+ 460              		.cfi_offset 14, -4
+ 461 026a 00AF     		add	r7, sp, #0
+ 462              		.cfi_def_cfa_register 7
+ 138:blink.c       ****   if (delaytime!=0){ // If delaytime has been set somewhere in the program,
+ 463              		.loc 1 138 16
+ 464 026c 054B     		ldr	r3, .L15
+ 465 026e 1B68     		ldr	r3, [r3]
+ 466              		.loc 1 138 6
+ 467 0270 002B     		cmp	r3, #0
+ 468 0272 04D0     		beq	.L14
+ 139:blink.c       ****     --delaytime;     //  decrement it every time SysTick event occurs (1ms).
+ 469              		.loc 1 139 5
+ 470 0274 034B     		ldr	r3, .L15
+ 471 0276 1B68     		ldr	r3, [r3]
+ 472 0278 5A1E     		subs	r2, r3, #1
+ 473 027a 024B     		ldr	r3, .L15
+ 474 027c 1A60     		str	r2, [r3]
+ 475              	.L14:
+ 140:blink.c       ****   }
+ 141:blink.c       **** }
+ 476              		.loc 1 141 1
+ 477 027e C046     		nop
+ 478 0280 BD46     		mov	sp, r7
+ 479              		@ sp needed
+ 480 0282 80BD     		pop	{r7, pc}
+ 481              	.L16:
+ 482              		.align	2
+ 483              	.L15:
+ 484 0284 00000000 		.word	delaytime
+ 485              		.cfi_endproc
+ 486              	.LFE1:
+ 488              		.align	1
+ 489              		.global	delay_ms
+ 490              		.syntax unified
+ 491              		.code	16
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 12
+
+
+ 492              		.thumb_func
+ 494              	delay_ms:
+ 495              	.LFB2:
+ 142:blink.c       **** 
+ 143:blink.c       **** 
+ 144:blink.c       **** void delay_ms(uint32_t ms) {//delay (ms)
+ 496              		.loc 1 144 28
+ 497              		.cfi_startproc
+ 498              		@ args = 0, pretend = 0, frame = 8
+ 499              		@ frame_needed = 1, uses_anonymous_args = 0
+ 500 0288 80B5     		push	{r7, lr}
+ 501              		.cfi_def_cfa_offset 8
+ 502              		.cfi_offset 7, -8
+ 503              		.cfi_offset 14, -4
+ 504 028a 82B0     		sub	sp, sp, #8
+ 505              		.cfi_def_cfa_offset 16
+ 506 028c 00AF     		add	r7, sp, #0
+ 507              		.cfi_def_cfa_register 7
+ 508 028e 7860     		str	r0, [r7, #4]
+ 145:blink.c       **** 
+ 146:blink.c       ****   delaytime=ms;        // Set the delay time to the number of millisecs of wait
+ 509              		.loc 1 146 12
+ 510 0290 064B     		ldr	r3, .L19
+ 511 0292 7A68     		ldr	r2, [r7, #4]
+ 512 0294 1A60     		str	r2, [r3]
+ 147:blink.c       ****   while(delaytime!=0){}// Wait here until the delay time expires.
+ 513              		.loc 1 147 8
+ 514 0296 C046     		nop
+ 515              	.L18:
+ 516              		.loc 1 147 18 discriminator 1
+ 517 0298 044B     		ldr	r3, .L19
+ 518 029a 1B68     		ldr	r3, [r3]
+ 519 029c 002B     		cmp	r3, #0
+ 520 029e FBD1     		bne	.L18
+ 148:blink.c       **** 
+ 149:blink.c       **** }
+ 521              		.loc 1 149 1
+ 522 02a0 C046     		nop
+ 523 02a2 C046     		nop
+ 524 02a4 BD46     		mov	sp, r7
+ 525 02a6 02B0     		add	sp, sp, #8
+ 526              		@ sp needed
+ 527 02a8 80BD     		pop	{r7, pc}
+ 528              	.L20:
+ 529 02aa C046     		.align	2
+ 530              	.L19:
+ 531 02ac 00000000 		.word	delaytime
+ 532              		.cfi_endproc
+ 533              	.LFE2:
+ 535              		.align	1
+ 536              		.syntax unified
+ 537              		.code	16
+ 538              		.thumb_func
+ 540              	SysTickConfig:
+ 541              	.LFB3:
+ 150:blink.c       ****  
+ 151:blink.c       **** // System Tick Configuration:
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 13
+
+
+ 152:blink.c       **** // Initializes the System Timer and its interrupt, and
+ 153:blink.c       **** // Starts the System Tick Timer.
+ 154:blink.c       **** // ticks = Number of ticks between two interrupts.
+ 155:blink.c       **** 
+ 156:blink.c       **** static inline uint32_t SysTickConfig(uint32_t ticks) {
+ 542              		.loc 1 156 54
+ 543              		.cfi_startproc
+ 544              		@ args = 0, pretend = 0, frame = 8
+ 545              		@ frame_needed = 1, uses_anonymous_args = 0
+ 546 02b0 80B5     		push	{r7, lr}
+ 547              		.cfi_def_cfa_offset 8
+ 548              		.cfi_offset 7, -8
+ 549              		.cfi_offset 14, -4
+ 550 02b2 82B0     		sub	sp, sp, #8
+ 551              		.cfi_def_cfa_offset 16
+ 552 02b4 00AF     		add	r7, sp, #0
+ 553              		.cfi_def_cfa_register 7
+ 554 02b6 7860     		str	r0, [r7, #4]
+ 157:blink.c       ****   if (ticks > 0xFFFFFFUL) // Timer is only 24 bits wide.
+ 555              		.loc 1 157 6
+ 556 02b8 7A68     		ldr	r2, [r7, #4]
+ 557 02ba 8023     		movs	r3, #128
+ 558 02bc 5B04     		lsls	r3, r3, #17
+ 559 02be 9A42     		cmp	r2, r3
+ 560 02c0 01D3     		bcc	.L22
+ 158:blink.c       ****     return (1); //Reload value impossible
+ 561              		.loc 1 158 12
+ 562 02c2 0123     		movs	r3, #1
+ 563 02c4 0CE0     		b	.L23
+ 564              	.L22:
+ 159:blink.c       ****   
+ 160:blink.c       ****   SYST_RVR = (ticks & 0xFFFFFFUL) - 1;  //Set reload register
+ 565              		.loc 1 160 21
+ 566 02c6 7B68     		ldr	r3, [r7, #4]
+ 567 02c8 1B02     		lsls	r3, r3, #8
+ 568 02ca 1A0A     		lsrs	r2, r3, #8
+ 569              		.loc 1 160 3
+ 570 02cc 064B     		ldr	r3, .L24
+ 571              		.loc 1 160 35
+ 572 02ce 013A     		subs	r2, r2, #1
+ 573              		.loc 1 160 12
+ 574 02d0 1A60     		str	r2, [r3]
+ 161:blink.c       **** 
+ 162:blink.c       ****   SYST_CVR = 0;   //Load the initial count value.
+ 575              		.loc 1 162 3
+ 576 02d2 064B     		ldr	r3, .L24+4
+ 577              		.loc 1 162 12
+ 578 02d4 0022     		movs	r2, #0
+ 579 02d6 1A60     		str	r2, [r3]
+ 163:blink.c       **** 
+ 164:blink.c       ****   SYST_CSR = 0x07;  // Counter ENABLE, INT ENABLE, CLK source=system clock.
+ 580              		.loc 1 164 3
+ 581 02d8 054B     		ldr	r3, .L24+8
+ 582              		.loc 1 164 12
+ 583 02da 0722     		movs	r2, #7
+ 584 02dc 1A60     		str	r2, [r3]
+ 165:blink.c       **** 
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 14
+
+
+ 166:blink.c       ****   return (0);
+ 585              		.loc 1 166 10
+ 586 02de 0023     		movs	r3, #0
+ 587              	.L23:
+ 167:blink.c       **** }         // AO!: Check OK.
+ 588              		.loc 1 167 1
+ 589 02e0 1800     		movs	r0, r3
+ 590 02e2 BD46     		mov	sp, r7
+ 591 02e4 02B0     		add	sp, sp, #8
+ 592              		@ sp needed
+ 593 02e6 80BD     		pop	{r7, pc}
+ 594              	.L25:
+ 595              		.align	2
+ 596              	.L24:
+ 597 02e8 14E000E0 		.word	-536813548
+ 598 02ec 18E000E0 		.word	-536813544
+ 599 02f0 10E000E0 		.word	-536813552
+ 600              		.cfi_endproc
+ 601              	.LFE3:
+ 603              	.Letext0:
+ 604              		.file 2 "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/arm-none-eabi/include/ma
+ 605              		.file 3 "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/arm-none-eabi/include/sy
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 blink.c
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:23     .bss:00000000 delaytime
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:20     .bss:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:26     .text:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:32     .text:00000000 main
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:540    .text:000002b0 SysTickConfig
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:494    .text:00000288 delay_ms
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:430    .text:00000238 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:445    .text:00000268 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:451    .text:00000268 SysTick_Handler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:484    .text:00000284 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:488    .text:00000288 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:531    .text:000002ac $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:535    .text:000002b0 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqdYrP3.s:597    .text:000002e8 $d
+
+NO UNDEFINED SYMBOLS
