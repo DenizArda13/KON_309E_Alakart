@@ -1,0 +1,562 @@
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 1
+
+
+   1              		.cpu cortex-m0plus
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"experiment_3.c"
+  14              		.text
+  15              		.align	1
+  16              		.global	pint_intr_callback
+  17              		.syntax unified
+  18              		.code	16
+  19              		.thumb_func
+  21              	pint_intr_callback:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 0123     		movs	r3, #1
+  26              		@ sp needed
+  27 0002 044A     		ldr	r2, .L2
+  28 0004 1178     		ldrb	r1, [r2]
+  29 0006 4B40     		eors	r3, r1
+  30 0008 1370     		strb	r3, [r2]
+  31 000a FF22     		movs	r2, #255
+  32 000c 024B     		ldr	r3, .L2+4
+  33 000e 1A62     		str	r2, [r3, #32]
+  34 0010 7047     		bx	lr
+  35              	.L3:
+  36 0012 C046     		.align	2
+  37              	.L2:
+  38 0014 00000000 		.word	.LANCHOR0
+  39 0018 004000A0 		.word	-1610596352
+  41              		.align	1
+  42              		.global	clock_init
+  43              		.syntax unified
+  44              		.code	16
+  45              		.thumb_func
+  47              	clock_init:
+  48              		@ args = 0, pretend = 0, frame = 8
+  49              		@ frame_needed = 0, uses_anonymous_args = 0
+  50 001c 8E23     		movs	r3, #142
+  51 001e 73B5     		push	{r0, r1, r4, r5, r6, lr}
+  52 0020 0125     		movs	r5, #1
+  53              		@ sp needed
+  54 0022 0221     		movs	r1, #2
+  55 0024 0026     		movs	r6, #0
+  56 0026 0F4C     		ldr	r4, .L5
+  57 0028 9B00     		lsls	r3, r3, #2
+  58 002a E258     		ldr	r2, [r4, r3]
+  59 002c 6846     		mov	r0, sp
+  60 002e AA43     		bics	r2, r5
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 2
+
+
+  61 0030 E250     		str	r2, [r4, r3]
+  62 0032 E258     		ldr	r2, [r4, r3]
+  63 0034 8A43     		bics	r2, r1
+  64 0036 E250     		str	r2, [r4, r3]
+  65 0038 0B4B     		ldr	r3, .L5+4
+  66 003a 1E60     		str	r6, [r3]
+  67 003c 6B46     		mov	r3, sp
+  68 003e 1E71     		strb	r6, [r3, #4]
+  69 0040 0A4B     		ldr	r3, .L5+8
+  70 0042 0093     		str	r3, [sp]
+  71 0044 FFF7FEFF 		bl	CLOCK_InitSystemPll
+  72 0048 C020     		movs	r0, #192
+  73 004a 8000     		lsls	r0, r0, #2
+  74 004c FFF7FEFF 		bl	CLOCK_SetMainClkSrc
+  75 0050 FF22     		movs	r2, #255
+  76 0052 074B     		ldr	r3, .L5+12
+  77 0054 1E60     		str	r6, [r3]
+  78 0056 A36F     		ldr	r3, [r4, #120]
+  79 0058 9343     		bics	r3, r2
+  80 005a 1D43     		orrs	r5, r3
+  81 005c A567     		str	r5, [r4, #120]
+  82 005e FFF7FEFF 		bl	SystemCoreClockUpdate
+  83 0062 73BD     		pop	{r0, r1, r4, r5, r6, pc}
+  84              	.L6:
+  85              		.align	2
+  86              	.L5:
+  87 0064 00800440 		.word	1074036736
+  88 0068 40800440 		.word	1074036800
+  89 006c 00879303 		.word	60000000
+  90 0070 E0800440 		.word	1074036960
+  92              		.section	.text.startup,"ax",%progbits
+  93              		.align	1
+  94              		.global	main
+  95              		.syntax unified
+  96              		.code	16
+  97              		.thumb_func
+  99              	main:
+ 100              		@ args = 0, pretend = 0, frame = 8
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102 0000 A020     		movs	r0, #160
+ 103 0002 F0B5     		push	{r4, r5, r6, r7, lr}
+ 104 0004 0021     		movs	r1, #0
+ 105 0006 85B0     		sub	sp, sp, #20
+ 106 0008 0006     		lsls	r0, r0, #24
+ 107 000a FFF7FEFF 		bl	GPIO_PortInit
+ 108 000e FFF7FEFF 		bl	InitPins
+ 109 0012 FFF7FEFF 		bl	clock_init
+ 110 0016 C021     		movs	r1, #192
+ 111 0018 494A     		ldr	r2, .L9
+ 112 001a 4A4B     		ldr	r3, .L9+4
+ 113 001c 4A48     		ldr	r0, .L9+8
+ 114 001e 5360     		str	r3, [r2, #4]
+ 115 0020 036A     		ldr	r3, [r0, #32]
+ 116 0022 0906     		lsls	r1, r1, #24
+ 117 0024 1B02     		lsls	r3, r3, #8
+ 118 0026 1B0A     		lsrs	r3, r3, #8
+ 119 0028 0B43     		orrs	r3, r1
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 3
+
+
+ 120 002a 0027     		movs	r7, #0
+ 121 002c 0362     		str	r3, [r0, #32]
+ 122 002e 0723     		movs	r3, #7
+ 123 0030 9760     		str	r7, [r2, #8]
+ 124 0032 0121     		movs	r1, #1
+ 125 0034 1360     		str	r3, [r2]
+ 126 0036 4548     		ldr	r0, .L9+12
+ 127 0038 454A     		ldr	r2, .L9+16
+ 128 003a FFF7FEFF 		bl	SYSCON_AttachSignal
+ 129 003e 4548     		ldr	r0, .L9+20
+ 130 0040 FFF7FEFF 		bl	PINT_Init
+ 131 0044 0222     		movs	r2, #2
+ 132 0046 444B     		ldr	r3, .L9+24
+ 133 0048 0121     		movs	r1, #1
+ 134 004a 4248     		ldr	r0, .L9+20
+ 135 004c FFF7FEFF 		bl	PINT_PinInterruptConfig
+ 136 0050 0121     		movs	r1, #1
+ 137 0052 4048     		ldr	r0, .L9+20
+ 138 0054 FFF7FEFF 		bl	PINT_EnableCallbackByIndex
+ 139 0058 4022     		movs	r2, #64
+ 140 005a 404B     		ldr	r3, .L9+28
+ 141 005c 0320     		movs	r0, #3
+ 142 005e D96F     		ldr	r1, [r3, #124]
+ 143 0060 3F4E     		ldr	r6, .L9+32
+ 144 0062 0A43     		orrs	r2, r1
+ 145 0064 8021     		movs	r1, #128
+ 146 0066 DA67     		str	r2, [r3, #124]
+ 147 0068 DA6F     		ldr	r2, [r3, #124]
+ 148 006a C900     		lsls	r1, r1, #3
+ 149 006c 0A43     		orrs	r2, r1
+ 150 006e DA67     		str	r2, [r3, #124]
+ 151 0070 8022     		movs	r2, #128
+ 152 0072 D96F     		ldr	r1, [r3, #124]
+ 153 0074 5200     		lsls	r2, r2, #1
+ 154 0076 0A43     		orrs	r2, r1
+ 155 0078 DA67     		str	r2, [r3, #124]
+ 156 007a FFF7FEFF 		bl	CLOCK_GetFreq
+ 157 007e 394C     		ldr	r4, .L9+36
+ 158 0080 2500     		movs	r5, r4
+ 159 0082 0835     		adds	r5, r5, #8
+ 160 0084 6060     		str	r0, [r4, #4]
+ 161 0086 2800     		movs	r0, r5
+ 162 0088 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
+ 163 008c 2900     		movs	r1, r5
+ 164 008e 3000     		movs	r0, r6
+ 165 0090 FFF7FEFF 		bl	SCTIMER_Init
+ 166 0094 344B     		ldr	r3, .L9+40
+ 167 0096 2200     		movs	r2, r4
+ 168 0098 1B78     		ldrb	r3, [r3]
+ 169 009a 0125     		movs	r5, #1
+ 170 009c 6374     		strb	r3, [r4, #17]
+ 171 009e 0223     		movs	r3, #2
+ 172 00a0 A774     		strb	r7, [r4, #18]
+ 173 00a2 E774     		strb	r7, [r4, #19]
+ 174 00a4 2375     		strb	r3, [r4, #20]
+ 175 00a6 637C     		ldrb	r3, [r4, #17]
+ 176 00a8 1432     		adds	r2, r2, #20
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 4
+
+
+ 177 00aa A375     		strb	r3, [r4, #22]
+ 178 00ac 1100     		movs	r1, r2
+ 179 00ae 6368     		ldr	r3, [r4, #4]
+ 180 00b0 2E4A     		ldr	r2, .L9+44
+ 181 00b2 6575     		strb	r5, [r4, #21]
+ 182 00b4 3000     		movs	r0, r6
+ 183 00b6 0192     		str	r2, [sp, #4]
+ 184 00b8 0093     		str	r3, [sp]
+ 185 00ba 2A00     		movs	r2, r5
+ 186 00bc 2B00     		movs	r3, r5
+ 187 00be FFF7FEFF 		bl	SCTIMER_SetupPwm
+ 188 00c2 0323     		movs	r3, #3
+ 189 00c4 2200     		movs	r2, r4
+ 190 00c6 E375     		strb	r3, [r4, #23]
+ 191 00c8 A37C     		ldrb	r3, [r4, #18]
+ 192 00ca 1732     		adds	r2, r2, #23
+ 193 00cc 6376     		strb	r3, [r4, #25]
+ 194 00ce 1100     		movs	r1, r2
+ 195 00d0 6368     		ldr	r3, [r4, #4]
+ 196 00d2 264A     		ldr	r2, .L9+44
+ 197 00d4 2576     		strb	r5, [r4, #24]
+ 198 00d6 3000     		movs	r0, r6
+ 199 00d8 0192     		str	r2, [sp, #4]
+ 200 00da 0093     		str	r3, [sp]
+ 201 00dc 2A00     		movs	r2, r5
+ 202 00de 2B00     		movs	r3, r5
+ 203 00e0 FFF7FEFF 		bl	SCTIMER_SetupPwm
+ 204 00e4 0423     		movs	r3, #4
+ 205 00e6 A376     		strb	r3, [r4, #26]
+ 206 00e8 E37C     		ldrb	r3, [r4, #19]
+ 207 00ea 2048     		ldr	r0, .L9+44
+ 208 00ec 2377     		strb	r3, [r4, #28]
+ 209 00ee 6368     		ldr	r3, [r4, #4]
+ 210 00f0 E576     		strb	r5, [r4, #27]
+ 211 00f2 1A34     		adds	r4, r4, #26
+ 212 00f4 2100     		movs	r1, r4
+ 213 00f6 2A00     		movs	r2, r5
+ 214 00f8 0190     		str	r0, [sp, #4]
+ 215 00fa 0093     		str	r3, [sp]
+ 216 00fc 3000     		movs	r0, r6
+ 217 00fe 2B00     		movs	r3, r5
+ 218 0100 FFF7FEFF 		bl	SCTIMER_SetupPwm
+ 219 0104 0422     		movs	r2, #4
+ 220 0106 7368     		ldr	r3, [r6, #4]
+ 221 0108 194C     		ldr	r4, .L9+48
+ 222 010a 9343     		bics	r3, r2
+ 223 010c 2000     		movs	r0, r4
+ 224 010e 7360     		str	r3, [r6, #4]
+ 225 0110 03A9     		add	r1, sp, #12
+ 226 0112 FFF7FEFF 		bl	MRT_Init
+ 227 0116 0622     		movs	r2, #6
+ 228 0118 A368     		ldr	r3, [r4, #8]
+ 229 011a 3800     		movs	r0, r7
+ 230 011c 9343     		bics	r3, r2
+ 231 011e A360     		str	r3, [r4, #8]
+ 232 0120 FFF7FEFF 		bl	CLOCK_GetFreq
+ 233 0124 E840     		lsrs	r0, r0, r5
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 5
+
+
+ 234 0126 2060     		str	r0, [r4]
+ 235 0128 A368     		ldr	r3, [r4, #8]
+ 236 012a 1D43     		orrs	r5, r3
+ 237 012c A560     		str	r5, [r4, #8]
+ 238 012e 8021     		movs	r1, #128
+ 239 0130 104B     		ldr	r3, .L9+52
+ 240 0132 C900     		lsls	r1, r1, #3
+ 241 0134 1960     		str	r1, [r3]
+ 242 0136 A023     		movs	r3, #160
+ 243 0138 1B06     		lsls	r3, r3, #24
+ 244 013a 1F71     		strb	r7, [r3, #4]
+ 245              	.L8:
+ 246              		.syntax divided
+ 247              	@ 182 "experiment_3.c" 1
+ 248 013c 30BF     		wfi
+ 249              	@ 0 "" 2
+ 250              		.thumb
+ 251              		.syntax unified
+ 252 013e FDE7     		b	.L8
+ 253              	.L10:
+ 254              		.align	2
+ 255              	.L9:
+ 256 0140 10E000E0 		.word	-536813552
+ 257 0144 2F750000 		.word	29999
+ 258 0148 00ED00E0 		.word	-536810240
+ 259 014c 00800440 		.word	1074036736
+ 260 0150 19008017 		.word	394264601
+ 261 0154 004000A0 		.word	-1610596352
+ 262 0158 00000000 		.word	pint_intr_callback
+ 263 015c 04800440 		.word	1074036740
+ 264 0160 00400050 		.word	1342193664
+ 265 0164 00000000 		.word	.LANCHOR0
+ 266 0168 00000000 		.word	.LANCHOR1
+ 267 016c 20000000 		.word	.LANCHOR0+32
+ 268 0170 00400040 		.word	1073758208
+ 269 0174 00E100E0 		.word	-536813312
+ 271              		.text
+ 272              		.align	1
+ 273              		.global	Duty_Changee
+ 274              		.syntax unified
+ 275              		.code	16
+ 276              		.thumb_func
+ 278              	Duty_Changee:
+ 279              		@ args = 8, pretend = 0, frame = 8
+ 280              		@ frame_needed = 0, uses_anonymous_args = 0
+ 281 0074 F0B5     		push	{r4, r5, r6, r7, lr}
+ 282 0076 0426     		movs	r6, #4
+ 283 0078 144C     		ldr	r4, .L12
+ 284 007a 1D00     		movs	r5, r3
+ 285 007c 6368     		ldr	r3, [r4, #4]
+ 286 007e 85B0     		sub	sp, sp, #20
+ 287 0080 3343     		orrs	r3, r6
+ 288 0082 0392     		str	r2, [sp, #12]
+ 289 0084 0290     		str	r0, [sp, #8]
+ 290 0086 6360     		str	r3, [r4, #4]
+ 291 0088 0320     		movs	r0, #3
+ 292 008a 0F00     		movs	r7, r1
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 6
+
+
+ 293 008c FFF7FEFF 		bl	CLOCK_GetFreq
+ 294 0090 2860     		str	r0, [r5]
+ 295 0092 0A98     		ldr	r0, [sp, #40]
+ 296 0094 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
+ 297 0098 0A99     		ldr	r1, [sp, #40]
+ 298 009a 2000     		movs	r0, r4
+ 299 009c FFF7FEFF 		bl	SCTIMER_Init
+ 300 00a0 0122     		movs	r2, #1
+ 301 00a2 0B9B     		ldr	r3, [sp, #44]
+ 302 00a4 0B99     		ldr	r1, [sp, #44]
+ 303 00a6 5A70     		strb	r2, [r3, #1]
+ 304 00a8 029B     		ldr	r3, [sp, #8]
+ 305 00aa 0398     		ldr	r0, [sp, #12]
+ 306 00ac 1B78     		ldrb	r3, [r3]
+ 307 00ae 8B70     		strb	r3, [r1, #2]
+ 308 00b0 3B68     		ldr	r3, [r7]
+ 309 00b2 2968     		ldr	r1, [r5]
+ 310 00b4 0190     		str	r0, [sp, #4]
+ 311 00b6 0091     		str	r1, [sp]
+ 312 00b8 2000     		movs	r0, r4
+ 313 00ba 0B99     		ldr	r1, [sp, #44]
+ 314 00bc FFF7FEFF 		bl	SCTIMER_SetupPwm
+ 315 00c0 6368     		ldr	r3, [r4, #4]
+ 316 00c2 B343     		bics	r3, r6
+ 317 00c4 6360     		str	r3, [r4, #4]
+ 318 00c6 05B0     		add	sp, sp, #20
+ 319              		@ sp needed
+ 320 00c8 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 321              	.L13:
+ 322 00ca C046     		.align	2
+ 323              	.L12:
+ 324 00cc 00400050 		.word	1342193664
+ 326              		.align	1
+ 327              		.global	MRT0_IRQHandler
+ 328              		.syntax unified
+ 329              		.code	16
+ 330              		.thumb_func
+ 332              	MRT0_IRQHandler:
+ 333              		@ args = 0, pretend = 0, frame = 0
+ 334              		@ frame_needed = 0, uses_anonymous_args = 0
+ 335 00d0 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 336 00d2 0F4D     		ldr	r5, .L17
+ 337 00d4 0F4C     		ldr	r4, .L17+4
+ 338 00d6 EE7F     		ldrb	r6, [r5, #31]
+ 339 00d8 0F48     		ldr	r0, .L17+8
+ 340 00da B700     		lsls	r7, r6, #2
+ 341 00dc 8019     		adds	r0, r0, r6
+ 342 00de 2600     		movs	r6, r4
+ 343 00e0 1436     		adds	r6, r6, #20
+ 344 00e2 0196     		str	r6, [sp, #4]
+ 345 00e4 2600     		movs	r6, r4
+ 346 00e6 2200     		movs	r2, r4
+ 347 00e8 0C49     		ldr	r1, .L17+12
+ 348 00ea 0836     		adds	r6, r6, #8
+ 349 00ec 231D     		adds	r3, r4, #4
+ 350 00ee 2032     		adds	r2, r2, #32
+ 351 00f0 C919     		adds	r1, r1, r7
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 7
+
+
+ 352 00f2 0096     		str	r6, [sp]
+ 353 00f4 FFF7FEFF 		bl	Duty_Changee
+ 354 00f8 EB7F     		ldrb	r3, [r5, #31]
+ 355 00fa 0133     		adds	r3, r3, #1
+ 356 00fc DBB2     		uxtb	r3, r3
+ 357 00fe 032B     		cmp	r3, #3
+ 358 0100 00D9     		bls	.L15
+ 359 0102 0023     		movs	r3, #0
+ 360              	.L15:
+ 361              		@ sp needed
+ 362 0104 0122     		movs	r2, #1
+ 363 0106 0534     		adds	r4, r4, #5
+ 364 0108 E377     		strb	r3, [r4, #31]
+ 365 010a 054B     		ldr	r3, .L17+16
+ 366 010c DA60     		str	r2, [r3, #12]
+ 367 010e F7BD     		pop	{r0, r1, r2, r4, r5, r6, r7, pc}
+ 368              	.L18:
+ 369              		.align	2
+ 370              	.L17:
+ 371 0110 05000000 		.word	.LANCHOR0+5
+ 372 0114 00000000 		.word	.LANCHOR0
+ 373 0118 00000000 		.word	.LANCHOR1
+ 374 011c 04000000 		.word	.LANCHOR1+4
+ 375 0120 00400040 		.word	1073758208
+ 377              		.align	1
+ 378              		.global	SysTick_Handler
+ 379              		.syntax unified
+ 380              		.code	16
+ 381              		.thumb_func
+ 383              	SysTick_Handler:
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 387 0124 024A     		ldr	r2, .L20
+ 388              		@ sp needed
+ 389 0126 936A     		ldr	r3, [r2, #40]
+ 390 0128 0133     		adds	r3, r3, #1
+ 391 012a 9362     		str	r3, [r2, #40]
+ 392 012c 7047     		bx	lr
+ 393              	.L21:
+ 394 012e C046     		.align	2
+ 395              	.L20:
+ 396 0130 00000000 		.word	.LANCHOR0
+ 398              		.align	1
+ 399              		.global	delay_ms
+ 400              		.syntax unified
+ 401              		.code	16
+ 402              		.thumb_func
+ 404              	delay_ms:
+ 405              		@ args = 0, pretend = 0, frame = 0
+ 406              		@ frame_needed = 0, uses_anonymous_args = 0
+ 407              		@ link register save eliminated.
+ 408 0134 034A     		ldr	r2, .L25
+ 409 0136 916A     		ldr	r1, [r2, #40]
+ 410              	.L23:
+ 411 0138 936A     		ldr	r3, [r2, #40]
+ 412 013a 5B1A     		subs	r3, r3, r1
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 8
+
+
+ 413 013c 8342     		cmp	r3, r0
+ 414 013e FBD3     		bcc	.L23
+ 415              		@ sp needed
+ 416 0140 7047     		bx	lr
+ 417              	.L26:
+ 418 0142 C046     		.align	2
+ 419              	.L25:
+ 420 0144 00000000 		.word	.LANCHOR0
+ 422              		.global	freq
+ 423              		.global	brightness
+ 424              		.global	sctimerClock
+ 425              		.global	event
+ 426              		.global	sctimerConfig
+ 427              		.global	pwmParam
+ 428              		.global	Freq3
+ 429              		.global	Freq2
+ 430              		.global	Freq1
+ 431              		.global	Duty3
+ 432              		.global	Duty2
+ 433              		.global	Duty1
+ 434              		.global	millis
+ 435              		.data
+ 436              		.align	2
+ 437              		.set	.LANCHOR1,. + 0
+ 440              	brightness:
+ 441 0000 04104063 		.ascii	"\004\020@c"
+ 444              	freq:
+ 445 0004 10270000 		.word	10000
+ 446 0008 88130000 		.word	5000
+ 447 000c D0070000 		.word	2000
+ 448 0010 E8030000 		.word	1000
+ 449              		.bss
+ 450              		.align	2
+ 451              		.set	.LANCHOR0,. + 0
+ 454              	flag.1:
+ 455 0000 00       		.space	1
+ 456 0001 000000   		.space	3
+ 459              	sctimerClock:
+ 460 0004 00000000 		.space	4
+ 463              	sctimerConfig:
+ 464 0008 00000000 		.space	9
+ 464      00000000 
+ 464      00
+ 467              	Duty1:
+ 468 0011 00       		.space	1
+ 471              	Duty2:
+ 472 0012 00       		.space	1
+ 475              	Duty3:
+ 476 0013 00       		.space	1
+ 479              	pwmParam:
+ 480 0014 00000000 		.space	9
+ 480      00000000 
+ 480      00
+ 481 001d 000000   		.space	3
+ 484              	event:
+ 485 0020 00000000 		.space	4
+ 488              	i.0:
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 9
+
+
+ 489 0024 00       		.space	1
+ 490 0025 000000   		.space	3
+ 493              	millis:
+ 494 0028 00000000 		.space	4
+ 497              	Freq3:
+ 498 002c 00000000 		.space	4
+ 501              	Freq2:
+ 502 0030 00000000 		.space	4
+ 505              	Freq1:
+ 506 0034 00000000 		.space	4
+ 509              	on_off:
+ 510 0038 00       		.space	1
+ 513              	mrtIsrFlag:
+ 514 0039 00       		.space	1
+ 515              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 experiment_3.c
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:15     .text:00000000 $t
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:21     .text:00000000 pint_intr_callback
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:38     .text:00000014 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:41     .text:0000001c $t
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:47     .text:0000001c clock_init
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:87     .text:00000064 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:93     .text.startup:00000000 $t
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:99     .text.startup:00000000 main
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:256    .text.startup:00000140 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:272    .text:00000074 $t
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:278    .text:00000074 Duty_Changee
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:324    .text:000000cc $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:326    .text:000000d0 $t
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:332    .text:000000d0 MRT0_IRQHandler
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:371    .text:00000110 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:377    .text:00000124 $t
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:383    .text:00000124 SysTick_Handler
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:396    .text:00000130 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:398    .text:00000134 $t
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:404    .text:00000134 delay_ms
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:420    .text:00000144 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:444    .data:00000004 freq
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:440    .data:00000000 brightness
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:459    .bss:00000004 sctimerClock
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:484    .bss:00000020 event
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:463    .bss:00000008 sctimerConfig
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:479    .bss:00000014 pwmParam
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:497    .bss:0000002c Freq3
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:501    .bss:00000030 Freq2
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:505    .bss:00000034 Freq1
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:475    .bss:00000013 Duty3
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:471    .bss:00000012 Duty2
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:467    .bss:00000011 Duty1
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:493    .bss:00000028 millis
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:436    .data:00000000 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:450    .bss:00000000 $d
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:454    .bss:00000000 flag.1
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:488    .bss:00000024 i.0
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:509    .bss:00000038 on_off
+C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s:513    .bss:00000039 mrtIsrFlag
+
+UNDEFINED SYMBOLS
+CLOCK_InitSystemPll
+CLOCK_SetMainClkSrc
+SystemCoreClockUpdate
+GPIO_PortInit
+InitPins
+SYSCON_AttachSignal
+PINT_Init
+PINT_PinInterruptConfig
+PINT_EnableCallbackByIndex
+CLOCK_GetFreq
+SCTIMER_GetDefaultConfig
+SCTIMER_Init
+SCTIMER_SetupPwm
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccEQzhlf.s 			page 11
+
+
+MRT_Init
