@@ -2,7 +2,7 @@
 # Ahmet Onat 2023
 
 # The files that are used in the program
-TARGET = experiment_3
+TARGET = EX2_PART1
 HEX_FILE=$(TARGET).hex
 ELF_FILE=$(TARGET).elf
 BIN_FILE=$(TARGET).bin
@@ -19,7 +19,7 @@ LPC824DIR=$(LIBPATH)/devices/LPC824/
 
 
 # C sources
-C_SOURCES = experiment_3.c
+C_SOURCES = EX2_PART1.c
 C_SOURCES += pin_mux.c
 C_SOURCES += system_LPC824.c
 # drivers/
