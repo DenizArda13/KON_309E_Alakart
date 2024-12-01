@@ -111,18 +111,18 @@ void MRT0_IRQHandler(void)
     // Change the PWM duty cycle and switch LEDs
     if (counter == 0)
     {
-        Duty_Changee(&Duty1, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[0]);  // Red LED off
-        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[2]);  // Green LED on
+        Duty_Changee(&Duty1, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[1]);  // Yellow LED off
+        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[0]);  // Red LED on        
     }
     else if (counter == 50)
     {
-        Duty_Changee(&Duty1, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[2]);  // Green LED off
-        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[1]);  // Yellow LED on
+        Duty_Changee(&Duty1, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[0]);  // Red LED off
+        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[2]);  // Green LED on
     }
     else if (counter == 100)
     {
-        Duty_Changee(&Duty1, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[1]);  // Yellow LED off
-        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[0]);  // Red LED on
+        Duty_Changee(&Duty1, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[2]);  // Green LED off
+        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[1]);  // Yellow LED on
     }
     else if (counter >= 150)
     {
