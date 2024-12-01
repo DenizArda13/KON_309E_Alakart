@@ -9,14 +9,6 @@
 
 #define DESIRED_INT_FREQ 100 // Desired number of INT's per second.
 
-#define LED_PORT 0U
-#define RED_LED_PIN 13U
-#define YELLOW_LED_PIN 17U
-#define GREEN_LED_PIN 18U
-
-#define LED_ON 1U // LED will be ON when GPIO output is '1'
-#define LED_OFF 0U
-
 volatile uint32_t counter = 0; // Variable that counts to 50 in ISR
 
 // Declare variables for event handling
@@ -25,7 +17,7 @@ uint32_t sctimerClock;  // For SCTIMER clock frequency
 sctimer_config_t sctimerConfig;
 sctimer_pwm_signal_param_t pwm_signal_red, pwm_signal_yellow, pwm_signal_green;  // PWM signals for LEDs
 uint32_t pwm_frequency = 1000;  // 1 kHz PWM frequency
-volatile uint8_t Duty1 = 60, Duty2 = 0;  // Duty cycles
+volatile uint8_t Duty1 = 0, Duty2 = 60, Duty3 = 100;  // Duty cycles
 
 void MRT0_IRQHandler(void);
 void Duty_Changee(uint8_t Duty, uint32_t *Freq, uint32_t event, uint32_t sctimerClock, sctimer_config_t *sctimerConfig, sctimer_pwm_signal_param_t *pwm_signal);
@@ -36,17 +28,6 @@ int main(void)
     CLOCK_EnableClock(kCLOCK_Sct);
     CLOCK_EnableClock(kCLOCK_Mrt);
 
-    // LED struct and config
-    gpio_pin_config_t led_config = {kGPIO_DigitalOutput, 0};
-    GPIO_PinInit(GPIO, LED_PORT, GREEN_LED_PIN, &led_config);
-    GPIO_PinInit(GPIO, LED_PORT, YELLOW_LED_PIN, &led_config);
-    GPIO_PinInit(GPIO, LED_PORT, RED_LED_PIN, &led_config);
-
-    // Turning off the LEDs initially
-    GPIO_PinWrite(GPIO, LED_PORT, GREEN_LED_PIN, LED_OFF);
-    GPIO_PinWrite(GPIO, LED_PORT, YELLOW_LED_PIN, LED_OFF);
-    GPIO_PinWrite(GPIO, LED_PORT, RED_LED_PIN, LED_OFF);
-
     // Initialize SCT clock
     sctimerClock = CLOCK_GetFreq(kCLOCK_Irc);
     SCTIMER_GetDefaultConfig(&sctimerConfig);
@@ -55,19 +36,19 @@ int main(void)
 
     // Configure SCT PWM for Red LED
     pwm_signal_red.output = kSCTIMER_Out_2;
-    pwm_signal_red.dutyCyclePercent = Duty2;  // Initial duty cycle (0%)
+    pwm_signal_red.dutyCyclePercent = Duty1;  // Initial duty cycle (0%)
     pwm_signal_red.level = kSCTIMER_HighTrue;
     SCTIMER_SetupPwm(SCT0, &pwm_signal_red, kSCTIMER_EdgeAlignedPwm, pwm_frequency, sctimerClock, &event_red);
 
     // Configure SCT PWM for Yellow LED
     pwm_signal_yellow.output = kSCTIMER_Out_3;
-    pwm_signal_yellow.dutyCyclePercent = Duty2;  // Initial duty cycle (0%)
+    pwm_signal_yellow.dutyCyclePercent = Duty1;  // Initial duty cycle (0%)
     pwm_signal_yellow.level = kSCTIMER_HighTrue;
     SCTIMER_SetupPwm(SCT0, &pwm_signal_yellow, kSCTIMER_EdgeAlignedPwm, pwm_frequency, sctimerClock, &event_yellow);
 
     // Configure SCT PWM for Green LED
     pwm_signal_green.output = kSCTIMER_Out_4;
-    pwm_signal_green.dutyCyclePercent = Duty2;  // Initial duty cycle (0%)
+    pwm_signal_green.dutyCyclePercent = Duty1;  // Initial duty cycle (0%)
     pwm_signal_green.level = kSCTIMER_HighTrue;
     SCTIMER_SetupPwm(SCT0, &pwm_signal_green, kSCTIMER_EdgeAlignedPwm, pwm_frequency, sctimerClock, &event_green);
 
@@ -87,7 +68,10 @@ int main(void)
 
     while (1)
     {
-        __WFI(); // Waiting for interrupt
+        pwm_signal_red.dutyCyclePercent = Duty3;
+        SCTIMER_SetupPwm(SCT0, &pwm_signal_red, kSCTIMER_EdgeAlignedPwm, pwm_frequency, sctimerClock, &event_red);
+
+        //__WFI(); // Waiting for interrupt
     }
 }
 
@@ -98,7 +82,7 @@ int main(void)
 void MRT0_IRQHandler(void)
 {
     MRT_ClearStatusFlags(MRT0, kMRT_Channel_0, kMRT_TimerInterruptFlag);
-
+/*
     // Change the PWM duty cycle and switch LEDs
     if (counter == 0)
     {
@@ -117,6 +101,7 @@ void MRT0_IRQHandler(void)
     }
 
     counter = (counter + 1) % 150;  // Reset counter after 150 iterations
+    */
 }
 
 void Duty_Changee(uint8_t Duty, uint32_t *Freq, uint32_t event, uint32_t sctimerClock, sctimer_config_t *sctimerConfig, sctimer_pwm_signal_param_t *pwm_signal)
