@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s 			page 1
 
 
    1              		.cpu cortex-m0plus
@@ -13,311 +13,65 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s 			page 1
   10              		.eabi_attribute 30, 4
   11              		.eabi_attribute 34, 0
   12              		.eabi_attribute 18, 4
-  13              		.file	"EX2_PART2.c"
+  13              		.file	"pin_mux.c"
   14              		.text
-  15              		.global	__aeabi_uidiv
-  16              		.section	.text.startup,"ax",%progbits
-  17              		.align	1
-  18              		.global	main
-  19              		.syntax unified
-  20              		.code	16
-  21              		.thumb_func
-  23              	main:
-  24              		@ args = 0, pretend = 0, frame = 8
-  25              		@ frame_needed = 0, uses_anonymous_args = 0
-  26 0000 4022     		movs	r2, #64
-  27 0002 F0B5     		push	{r4, r5, r6, r7, lr}
-  28 0004 404B     		ldr	r3, .L3
-  29 0006 85B0     		sub	sp, sp, #20
-  30 0008 D96F     		ldr	r1, [r3, #124]
-  31 000a 0320     		movs	r0, #3
-  32 000c 0A43     		orrs	r2, r1
-  33 000e DA67     		str	r2, [r3, #124]
-  34 0010 8022     		movs	r2, #128
-  35 0012 D96F     		ldr	r1, [r3, #124]
-  36 0014 5200     		lsls	r2, r2, #1
-  37 0016 0A43     		orrs	r2, r1
-  38 0018 8021     		movs	r1, #128
-  39 001a DA67     		str	r2, [r3, #124]
-  40 001c DA6F     		ldr	r2, [r3, #124]
-  41 001e C900     		lsls	r1, r1, #3
-  42 0020 0A43     		orrs	r2, r1
-  43 0022 DA67     		str	r2, [r3, #124]
-  44 0024 FFF7FEFF 		bl	CLOCK_GetFreq
-  45 0028 384C     		ldr	r4, .L3+4
-  46 002a 394E     		ldr	r6, .L3+8
-  47 002c 2500     		movs	r5, r4
-  48 002e 01C5     		stmia	r5!, {r0}
-  49 0030 2800     		movs	r0, r5
-  50 0032 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
-  51 0036 2900     		movs	r1, r5
-  52 0038 3000     		movs	r0, r6
-  53 003a FFF7FEFF 		bl	SCTIMER_Init
-  54 003e 0422     		movs	r2, #4
-  55 0040 7368     		ldr	r3, [r6, #4]
-  56 0042 0125     		movs	r5, #1
-  57 0044 9343     		bics	r3, r2
-  58 0046 7360     		str	r3, [r6, #4]
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s 			page 2
+  15              		.align	1
+  16              		.global	InitPins
+  17              		.syntax unified
+  18              		.code	16
+  19              		.thumb_func
+  21              	InitPins:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24 0000 8022     		movs	r2, #128
+  25 0002 104B     		ldr	r3, .L2
+  26 0004 D202     		lsls	r2, r2, #11
+  27 0006 D96F     		ldr	r1, [r3, #124]
+  28 0008 70B5     		push	{r4, r5, r6, lr}
+  29 000a 0A43     		orrs	r2, r1
+  30 000c DA67     		str	r2, [r3, #124]
+  31 000e 8022     		movs	r2, #128
+  32              		@ sp needed
+  33 0010 3026     		movs	r6, #48
+  34 0012 D96F     		ldr	r1, [r3, #124]
+  35 0014 0C4D     		ldr	r5, .L2+4
+  36 0016 0D4C     		ldr	r4, .L2+8
+  37 0018 0A43     		orrs	r2, r1
+  38 001a DA67     		str	r2, [r3, #124]
+  39 001c 2000     		movs	r0, r4
+  40 001e 6E60     		str	r6, [r5, #4]
+  41 0020 0D22     		movs	r2, #13
+  42 0022 2121     		movs	r1, #33
+  43 0024 FFF7FEFF 		bl	SWM_SetMovablePinSelect
+  44 0028 2E60     		str	r6, [r5]
+  45 002a 2000     		movs	r0, r4
+  46 002c 1122     		movs	r2, #17
+  47 002e 2221     		movs	r1, #34
+  48 0030 FFF7FEFF 		bl	SWM_SetMovablePinSelect
+  49 0034 AE67     		str	r6, [r5, #120]
+  50 0036 1222     		movs	r2, #18
+  51 0038 2321     		movs	r1, #35
+  52 003a 2000     		movs	r0, r4
+  53 003c FFF7FEFF 		bl	SWM_SetMovablePinSelect
+  54 0040 70BD     		pop	{r4, r5, r6, pc}
+  55              	.L3:
+  56 0042 C046     		.align	2
+  57              	.L2:
+  58 0044 04800440 		.word	1074036740
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s 			page 2
 
 
-  59 0048 2300     		movs	r3, r4
-  60 004a 0D33     		adds	r3, r3, #13
-  61 004c 1900     		movs	r1, r3
-  62 004e 0223     		movs	r3, #2
-  63 0050 6373     		strb	r3, [r4, #13]
-  64 0052 237C     		ldrb	r3, [r4, #16]
-  65 0054 4D70     		strb	r5, [r1, #1]
-  66 0056 8B70     		strb	r3, [r1, #2]
-  67 0058 2300     		movs	r3, r4
-  68 005a 1433     		adds	r3, r3, #20
-  69 005c 0193     		str	r3, [sp, #4]
-  70 005e 2368     		ldr	r3, [r4]
-  71 0060 2C4F     		ldr	r7, .L3+12
-  72 0062 0093     		str	r3, [sp]
-  73 0064 3B68     		ldr	r3, [r7]
-  74 0066 0022     		movs	r2, #0
-  75 0068 3000     		movs	r0, r6
-  76 006a FFF7FEFF 		bl	SCTIMER_SetupPwm
-  77 006e 0323     		movs	r3, #3
-  78 0070 2376     		strb	r3, [r4, #24]
-  79 0072 237C     		ldrb	r3, [r4, #16]
-  80 0074 6576     		strb	r5, [r4, #25]
-  81 0076 A376     		strb	r3, [r4, #26]
-  82 0078 2300     		movs	r3, r4
-  83 007a 1833     		adds	r3, r3, #24
-  84 007c 1900     		movs	r1, r3
-  85 007e 2300     		movs	r3, r4
-  86 0080 1C33     		adds	r3, r3, #28
-  87 0082 0193     		str	r3, [sp, #4]
-  88 0084 2368     		ldr	r3, [r4]
-  89 0086 0022     		movs	r2, #0
-  90 0088 0093     		str	r3, [sp]
-  91 008a 3B68     		ldr	r3, [r7]
-  92 008c 3000     		movs	r0, r6
-  93 008e FFF7FEFF 		bl	SCTIMER_SetupPwm
-  94 0092 0422     		movs	r2, #4
-  95 0094 6319     		adds	r3, r4, r5
-  96 0096 DA77     		strb	r2, [r3, #31]
-  97 0098 5B19     		adds	r3, r3, r5
-  98 009a DD77     		strb	r5, [r3, #31]
-  99 009c 2300     		movs	r3, r4
- 100 009e 217C     		ldrb	r1, [r4, #16]
- 101 00a0 E21C     		adds	r2, r4, #3
- 102 00a2 2033     		adds	r3, r3, #32
- 103 00a4 D177     		strb	r1, [r2, #31]
- 104 00a6 1900     		movs	r1, r3
- 105 00a8 2300     		movs	r3, r4
- 106 00aa 2433     		adds	r3, r3, #36
- 107 00ac 0193     		str	r3, [sp, #4]
- 108 00ae 2368     		ldr	r3, [r4]
- 109 00b0 3000     		movs	r0, r6
- 110 00b2 0093     		str	r3, [sp]
- 111 00b4 184E     		ldr	r6, .L3+16
- 112 00b6 3B68     		ldr	r3, [r7]
- 113 00b8 0022     		movs	r2, #0
- 114 00ba FFF7FEFF 		bl	SCTIMER_SetupPwm
- 115 00be 03A9     		add	r1, sp, #12
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s 			page 3
-
-
- 116 00c0 3000     		movs	r0, r6
- 117 00c2 FFF7FEFF 		bl	MRT_Init
- 118 00c6 0622     		movs	r2, #6
- 119 00c8 B368     		ldr	r3, [r6, #8]
- 120 00ca 0020     		movs	r0, #0
- 121 00cc 9343     		bics	r3, r2
- 122 00ce B360     		str	r3, [r6, #8]
- 123 00d0 FFF7FEFF 		bl	CLOCK_GetFreq
- 124 00d4 6421     		movs	r1, #100
- 125 00d6 FFF7FEFF 		bl	__aeabi_uidiv
- 126 00da 3060     		str	r0, [r6]
- 127 00dc B368     		ldr	r3, [r6, #8]
- 128 00de 1D43     		orrs	r5, r3
- 129 00e0 B560     		str	r5, [r6, #8]
- 130 00e2 8021     		movs	r1, #128
- 131 00e4 0D4B     		ldr	r3, .L3+20
- 132 00e6 C900     		lsls	r1, r1, #3
- 133 00e8 1960     		str	r1, [r3]
- 134              	.L2:
- 135 00ea 2100     		movs	r1, r4
- 136 00ec 3B79     		ldrb	r3, [r7, #4]
- 137 00ee 0D31     		adds	r1, r1, #13
- 138 00f0 8B70     		strb	r3, [r1, #2]
- 139 00f2 2300     		movs	r3, r4
- 140 00f4 1433     		adds	r3, r3, #20
- 141 00f6 0193     		str	r3, [sp, #4]
- 142 00f8 2368     		ldr	r3, [r4]
- 143 00fa 0022     		movs	r2, #0
- 144 00fc 0093     		str	r3, [sp]
- 145 00fe 3B68     		ldr	r3, [r7]
- 146 0100 0348     		ldr	r0, .L3+8
- 147 0102 FFF7FEFF 		bl	SCTIMER_SetupPwm
- 148 0106 F0E7     		b	.L2
- 149              	.L4:
- 150              		.align	2
- 151              	.L3:
- 152 0108 04800440 		.word	1074036740
- 153 010c 00000000 		.word	.LANCHOR0
- 154 0110 00400050 		.word	1342193664
- 155 0114 00000000 		.word	.LANCHOR1
- 156 0118 00400040 		.word	1073758208
- 157 011c 00E100E0 		.word	-536813312
- 159              		.text
- 160              		.align	1
- 161              		.global	MRT0_IRQHandler
- 162              		.syntax unified
- 163              		.code	16
- 164              		.thumb_func
- 166              	MRT0_IRQHandler:
- 167              		@ args = 0, pretend = 0, frame = 0
- 168              		@ frame_needed = 0, uses_anonymous_args = 0
- 169              		@ link register save eliminated.
- 170 0000 0122     		movs	r2, #1
- 171              		@ sp needed
- 172 0002 014B     		ldr	r3, .L6
- 173 0004 DA60     		str	r2, [r3, #12]
- 174 0006 7047     		bx	lr
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s 			page 4
-
-
- 175              	.L7:
- 176              		.align	2
- 177              	.L6:
- 178 0008 00400040 		.word	1073758208
- 180              		.align	1
- 181              		.global	Duty_Changee
- 182              		.syntax unified
- 183              		.code	16
- 184              		.thumb_func
- 186              	Duty_Changee:
- 187              		@ args = 8, pretend = 0, frame = 8
- 188              		@ frame_needed = 0, uses_anonymous_args = 0
- 189 000c F0B5     		push	{r4, r5, r6, r7, lr}
- 190 000e 0427     		movs	r7, #4
- 191 0010 0600     		movs	r6, r0
- 192 0012 0D00     		movs	r5, r1
- 193 0014 85B0     		sub	sp, sp, #20
- 194 0016 0F4C     		ldr	r4, .L9
- 195 0018 0392     		str	r2, [sp, #12]
- 196 001a 0293     		str	r3, [sp, #8]
- 197 001c 6368     		ldr	r3, [r4, #4]
- 198 001e 0A98     		ldr	r0, [sp, #40]
- 199 0020 3B43     		orrs	r3, r7
- 200 0022 6360     		str	r3, [r4, #4]
- 201 0024 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
- 202 0028 0A99     		ldr	r1, [sp, #40]
- 203 002a 2000     		movs	r0, r4
- 204 002c FFF7FEFF 		bl	SCTIMER_Init
- 205 0030 0B9B     		ldr	r3, [sp, #44]
- 206 0032 0022     		movs	r2, #0
- 207 0034 9E70     		strb	r6, [r3, #2]
- 208 0036 03AB     		add	r3, sp, #12
- 209 0038 0193     		str	r3, [sp, #4]
- 210 003a 029B     		ldr	r3, [sp, #8]
- 211 003c 2000     		movs	r0, r4
- 212 003e 0093     		str	r3, [sp]
- 213 0040 2B68     		ldr	r3, [r5]
- 214 0042 0B99     		ldr	r1, [sp, #44]
- 215 0044 FFF7FEFF 		bl	SCTIMER_SetupPwm
- 216 0048 6368     		ldr	r3, [r4, #4]
- 217 004a BB43     		bics	r3, r7
- 218 004c 6360     		str	r3, [r4, #4]
- 219 004e 05B0     		add	sp, sp, #20
- 220              		@ sp needed
- 221 0050 F0BD     		pop	{r4, r5, r6, r7, pc}
- 222              	.L10:
- 223 0052 C046     		.align	2
- 224              	.L9:
- 225 0054 00400050 		.word	1342193664
- 227              		.global	Duty3
- 228              		.global	Duty2
- 229              		.global	Duty1
- 230              		.global	pwm_frequency
- 231              		.global	pwm_signal_green
- 232              		.global	pwm_signal_yellow
- 233              		.global	pwm_signal_red
- 234              		.global	sctimerConfig
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s 			page 5
-
-
- 235              		.global	sctimerClock
- 236              		.global	event_green
- 237              		.global	event_yellow
- 238              		.global	event_red
- 239              		.global	counter
- 240              		.data
- 241              		.align	2
- 242              		.set	.LANCHOR1,. + 0
- 245              	pwm_frequency:
- 246 0000 E8030000 		.word	1000
- 249              	Duty3:
- 250 0004 64       		.byte	100
- 253              	Duty2:
- 254 0005 3C       		.byte	60
- 255              		.bss
- 256              		.align	2
- 257              		.set	.LANCHOR0,. + 0
- 260              	sctimerClock:
- 261 0000 00000000 		.space	4
- 264              	sctimerConfig:
- 265 0004 00000000 		.space	9
- 265      00000000 
- 265      00
- 268              	pwm_signal_red:
- 269 000d 000000   		.space	3
- 272              	Duty1:
- 273 0010 00       		.space	1
- 274 0011 000000   		.space	3
- 277              	event_red:
- 278 0014 00000000 		.space	4
- 281              	pwm_signal_yellow:
- 282 0018 000000   		.space	3
- 283 001b 00       		.space	1
- 286              	event_yellow:
- 287 001c 00000000 		.space	4
- 290              	pwm_signal_green:
- 291 0020 000000   		.space	3
- 292 0023 00       		.space	1
- 295              	event_green:
- 296 0024 00000000 		.space	4
- 299              	counter:
- 300 0028 00000000 		.space	4
- 301              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s 			page 6
+  59 0048 00400440 		.word	1074020352
+  60 004c 00C00040 		.word	1073790976
+  62              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s 			page 3
 
 
 DEFINED SYMBOLS
-                            *ABS*:00000000 EX2_PART2.c
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:17     .text.startup:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:23     .text.startup:00000000 main
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:152    .text.startup:00000108 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:160    .text:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:166    .text:00000000 MRT0_IRQHandler
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:178    .text:00000008 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:180    .text:0000000c $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:186    .text:0000000c Duty_Changee
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:225    .text:00000054 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:249    .data:00000004 Duty3
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:253    .data:00000005 Duty2
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:272    .bss:00000010 Duty1
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:245    .data:00000000 pwm_frequency
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:290    .bss:00000020 pwm_signal_green
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:281    .bss:00000018 pwm_signal_yellow
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:268    .bss:0000000d pwm_signal_red
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:264    .bss:00000004 sctimerConfig
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:260    .bss:00000000 sctimerClock
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:295    .bss:00000024 event_green
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:286    .bss:0000001c event_yellow
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:277    .bss:00000014 event_red
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:299    .bss:00000028 counter
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:241    .data:00000000 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccfFpdog.s:256    .bss:00000000 $d
+                            *ABS*:00000000 pin_mux.c
+C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s:15     .text:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s:21     .text:00000000 InitPins
+C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s:58     .text:00000044 $d
 
 UNDEFINED SYMBOLS
-__aeabi_uidiv
-CLOCK_GetFreq
-SCTIMER_GetDefaultConfig
-SCTIMER_Init
-SCTIMER_SetupPwm
-MRT_Init
+SWM_SetMovablePinSelect

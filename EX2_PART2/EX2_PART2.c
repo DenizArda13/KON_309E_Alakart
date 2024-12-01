@@ -17,7 +17,7 @@ uint32_t sctimerClock;  // For SCTIMER clock frequency
 sctimer_config_t sctimerConfig;
 sctimer_pwm_signal_param_t pwm_signal_red, pwm_signal_yellow, pwm_signal_green;  // PWM signals for LEDs
 uint32_t pwm_frequency = 1000;  // 1 kHz PWM frequency
-volatile uint8_t Duty1 = 0, Duty2 = 60, Duty3 = 100;  // Duty cycles
+uint8_t Duty1 = 0, Duty2 = 60, Duty3 = 100;  // Duty cycles
 
 void MRT0_IRQHandler(void);
 void Duty_Changee(uint8_t Duty, uint32_t *Freq, uint32_t event, uint32_t sctimerClock, sctimer_config_t *sctimerConfig, sctimer_pwm_signal_param_t *pwm_signal);
@@ -68,10 +68,7 @@ int main(void)
 
     while (1)
     {
-        pwm_signal_red.dutyCyclePercent = Duty3;
-        SCTIMER_SetupPwm(SCT0, &pwm_signal_red, kSCTIMER_EdgeAlignedPwm, pwm_frequency, sctimerClock, &event_red);
-
-        //__WFI(); // Waiting for interrupt
+        __WFI(); // Waiting for interrupt
     }
 }
 
@@ -82,26 +79,29 @@ int main(void)
 void MRT0_IRQHandler(void)
 {
     MRT_ClearStatusFlags(MRT0, kMRT_Channel_0, kMRT_TimerInterruptFlag);
-/*
+
     // Change the PWM duty cycle and switch LEDs
     if (counter == 0)
     {
-        Duty_Changee(Duty2, &pwm_frequency, event_red, sctimerClock, &sctimerConfig, &pwm_signal_red);  // Red LED off
-        Duty_Changee(Duty1, &pwm_frequency, event_green, sctimerClock, &sctimerConfig, &pwm_signal_green);  // Green LED on
+        Duty_Changee(Duty1, &pwm_frequency, event_red, sctimerClock, &sctimerConfig, &pwm_signal_red);  // Red LED off
+        Duty_Changee(Duty2, &pwm_frequency, event_green, sctimerClock, &sctimerConfig, &pwm_signal_green);  // Green LED on
     }
     else if (counter == 50)
     {
-        Duty_Changee(Duty2, &pwm_frequency, event_green, sctimerClock, &sctimerConfig, &pwm_signal_green);  // Green LED off
-        Duty_Changee(Duty1, &pwm_frequency, event_yellow, sctimerClock, &sctimerConfig, &pwm_signal_yellow);  // Yellow LED on
+        Duty_Changee(Duty1, &pwm_frequency, event_green, sctimerClock, &sctimerConfig, &pwm_signal_green);  // Green LED off
+        Duty_Changee(Duty2, &pwm_frequency, event_yellow, sctimerClock, &sctimerConfig, &pwm_signal_yellow);  // Yellow LED on
     }
     else if (counter == 100)
     {
-        Duty_Changee(Duty2, &pwm_frequency, event_yellow, sctimerClock, &sctimerConfig, &pwm_signal_yellow);  // Yellow LED off
-        Duty_Changee(Duty1, &pwm_frequency, event_red, sctimerClock, &sctimerConfig, &pwm_signal_red);  // Red LED on
+        Duty_Changee(Duty1, &pwm_frequency, event_yellow, sctimerClock, &sctimerConfig, &pwm_signal_yellow);  // Yellow LED off
+        Duty_Changee(Duty2, &pwm_frequency, event_red, sctimerClock, &sctimerConfig, &pwm_signal_red);  // Red LED on
     }
-
-    counter = (counter + 1) % 150;  // Reset counter after 150 iterations
-    */
+    else if (counter >= 150)
+    {
+        counter = -1;
+    }
+    counter++;
+    
 }
 
 void Duty_Changee(uint8_t Duty, uint32_t *Freq, uint32_t event, uint32_t sctimerClock, sctimer_config_t *sctimerConfig, sctimer_pwm_signal_param_t *pwm_signal)
