@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
 
 
    1              		.cpu cortex-m0plus
@@ -13,65 +13,521 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s 			page 1
   10              		.eabi_attribute 30, 4
   11              		.eabi_attribute 34, 0
   12              		.eabi_attribute 18, 4
-  13              		.file	"pin_mux.c"
+  13              		.file	"EX2_PART2.c"
   14              		.text
   15              		.align	1
-  16              		.global	InitPins
+  16              		.global	Duty_Changee
   17              		.syntax unified
   18              		.code	16
   19              		.thumb_func
-  21              	InitPins:
-  22              		@ args = 0, pretend = 0, frame = 0
+  21              	Duty_Changee:
+  22              		@ args = 8, pretend = 0, frame = 8
   23              		@ frame_needed = 0, uses_anonymous_args = 0
-  24 0000 8022     		movs	r2, #128
-  25 0002 104B     		ldr	r3, .L2
-  26 0004 D202     		lsls	r2, r2, #11
-  27 0006 D96F     		ldr	r1, [r3, #124]
-  28 0008 70B5     		push	{r4, r5, r6, lr}
-  29 000a 0A43     		orrs	r2, r1
-  30 000c DA67     		str	r2, [r3, #124]
-  31 000e 8022     		movs	r2, #128
-  32              		@ sp needed
-  33 0010 3026     		movs	r6, #48
-  34 0012 D96F     		ldr	r1, [r3, #124]
-  35 0014 0C4D     		ldr	r5, .L2+4
-  36 0016 0D4C     		ldr	r4, .L2+8
-  37 0018 0A43     		orrs	r2, r1
-  38 001a DA67     		str	r2, [r3, #124]
-  39 001c 2000     		movs	r0, r4
-  40 001e 6E60     		str	r6, [r5, #4]
-  41 0020 0D22     		movs	r2, #13
-  42 0022 2121     		movs	r1, #33
-  43 0024 FFF7FEFF 		bl	SWM_SetMovablePinSelect
-  44 0028 2E60     		str	r6, [r5]
-  45 002a 2000     		movs	r0, r4
-  46 002c 1122     		movs	r2, #17
-  47 002e 2221     		movs	r1, #34
-  48 0030 FFF7FEFF 		bl	SWM_SetMovablePinSelect
-  49 0034 AE67     		str	r6, [r5, #120]
-  50 0036 1222     		movs	r2, #18
-  51 0038 2321     		movs	r1, #35
-  52 003a 2000     		movs	r0, r4
-  53 003c FFF7FEFF 		bl	SWM_SetMovablePinSelect
-  54 0040 70BD     		pop	{r4, r5, r6, pc}
-  55              	.L3:
-  56 0042 C046     		.align	2
-  57              	.L2:
-  58 0044 04800440 		.word	1074036740
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s 			page 2
+  24 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  25 0002 0427     		movs	r7, #4
+  26 0004 134C     		ldr	r4, .L2
+  27 0006 1D00     		movs	r5, r3
+  28 0008 6368     		ldr	r3, [r4, #4]
+  29 000a 85B0     		sub	sp, sp, #20
+  30 000c 3B43     		orrs	r3, r7
+  31 000e 0392     		str	r2, [sp, #12]
+  32 0010 0290     		str	r0, [sp, #8]
+  33 0012 6360     		str	r3, [r4, #4]
+  34 0014 0320     		movs	r0, #3
+  35 0016 0E00     		movs	r6, r1
+  36 0018 FFF7FEFF 		bl	CLOCK_GetFreq
+  37 001c 2860     		str	r0, [r5]
+  38 001e 0A98     		ldr	r0, [sp, #40]
+  39 0020 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
+  40 0024 0A99     		ldr	r1, [sp, #40]
+  41 0026 2000     		movs	r0, r4
+  42 0028 FFF7FEFF 		bl	SCTIMER_Init
+  43 002c 029B     		ldr	r3, [sp, #8]
+  44 002e 0B9A     		ldr	r2, [sp, #44]
+  45 0030 1B78     		ldrb	r3, [r3]
+  46 0032 2000     		movs	r0, r4
+  47 0034 9370     		strb	r3, [r2, #2]
+  48 0036 2B68     		ldr	r3, [r5]
+  49 0038 039A     		ldr	r2, [sp, #12]
+  50 003a 0093     		str	r3, [sp]
+  51 003c 0192     		str	r2, [sp, #4]
+  52 003e 3368     		ldr	r3, [r6]
+  53 0040 0122     		movs	r2, #1
+  54 0042 0B99     		ldr	r1, [sp, #44]
+  55 0044 FFF7FEFF 		bl	SCTIMER_SetupPwm
+  56 0048 6368     		ldr	r3, [r4, #4]
+  57 004a BB43     		bics	r3, r7
+  58 004c 6360     		str	r3, [r4, #4]
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 2
 
 
-  59 0048 00400440 		.word	1074020352
-  60 004c 00C00040 		.word	1073790976
-  62              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s 			page 3
+  59 004e 05B0     		add	sp, sp, #20
+  60              		@ sp needed
+  61 0050 F0BD     		pop	{r4, r5, r6, r7, pc}
+  62              	.L3:
+  63 0052 C046     		.align	2
+  64              	.L2:
+  65 0054 00400050 		.word	1342193664
+  67              		.align	1
+  68              		.global	MRT0_IRQHandler
+  69              		.syntax unified
+  70              		.code	16
+  71              		.thumb_func
+  73              	MRT0_IRQHandler:
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76 0058 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+  77 005a 0122     		movs	r2, #1
+  78 005c 2C4B     		ldr	r3, .L11
+  79 005e 2D4C     		ldr	r4, .L11+4
+  80 0060 DA60     		str	r2, [r3, #12]
+  81 0062 2368     		ldr	r3, [r4]
+  82 0064 002B     		cmp	r3, #0
+  83 0066 1CD1     		bne	.L5
+  84 0068 2300     		movs	r3, r4
+  85 006a 2700     		movs	r7, r4
+  86 006c 2000     		movs	r0, r4
+  87 006e 2A4D     		ldr	r5, .L11+8
+  88 0070 261D     		adds	r6, r4, #4
+  89 0072 0D33     		adds	r3, r3, #13
+  90 0074 1637     		adds	r7, r7, #22
+  91 0076 0C30     		adds	r0, r0, #12
+  92 0078 0193     		str	r3, [sp, #4]
+  93 007a 2900     		movs	r1, r5
+  94 007c 3300     		movs	r3, r6
+  95 007e 274A     		ldr	r2, .L11+12
+  96 0080 0097     		str	r7, [sp]
+  97 0082 FFF7FEFF 		bl	Duty_Changee
+  98 0086 1334     		adds	r4, r4, #19
+  99 0088 281D     		adds	r0, r5, #4
+ 100              	.L9:
+ 101 008a 3300     		movs	r3, r6
+ 102 008c 234A     		ldr	r2, .L11+12
+ 103 008e 0194     		str	r4, [sp, #4]
+ 104 0090 0097     		str	r7, [sp]
+ 105              	.L10:
+ 106 0092 2900     		movs	r1, r5
+ 107 0094 FFF7FEFF 		bl	Duty_Changee
+ 108              	.L6:
+ 109              		@ sp needed
+ 110 0098 1E4A     		ldr	r2, .L11+4
+ 111 009a 1368     		ldr	r3, [r2]
+ 112 009c 0133     		adds	r3, r3, #1
+ 113 009e 1360     		str	r3, [r2]
+ 114 00a0 F7BD     		pop	{r0, r1, r2, r4, r5, r6, r7, pc}
+ 115              	.L5:
+ 116 00a2 2368     		ldr	r3, [r4]
+ 117 00a4 322B     		cmp	r3, #50
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 3
+
+
+ 118 00a6 11D1     		bne	.L7
+ 119 00a8 2300     		movs	r3, r4
+ 120 00aa 2700     		movs	r7, r4
+ 121 00ac 2000     		movs	r0, r4
+ 122 00ae 1A4D     		ldr	r5, .L11+8
+ 123 00b0 261D     		adds	r6, r4, #4
+ 124 00b2 1333     		adds	r3, r3, #19
+ 125 00b4 1637     		adds	r7, r7, #22
+ 126 00b6 0C30     		adds	r0, r0, #12
+ 127 00b8 0193     		str	r3, [sp, #4]
+ 128 00ba 2900     		movs	r1, r5
+ 129 00bc 3300     		movs	r3, r6
+ 130 00be 174A     		ldr	r2, .L11+12
+ 131 00c0 0097     		str	r7, [sp]
+ 132 00c2 FFF7FEFF 		bl	Duty_Changee
+ 133 00c6 1034     		adds	r4, r4, #16
+ 134 00c8 281D     		adds	r0, r5, #4
+ 135 00ca DEE7     		b	.L9
+ 136              	.L7:
+ 137 00cc 2368     		ldr	r3, [r4]
+ 138 00ce 642B     		cmp	r3, #100
+ 139 00d0 16D1     		bne	.L8
+ 140 00d2 2600     		movs	r6, r4
+ 141 00d4 2300     		movs	r3, r4
+ 142 00d6 2000     		movs	r0, r4
+ 143 00d8 0F4D     		ldr	r5, .L11+8
+ 144 00da 271D     		adds	r7, r4, #4
+ 145 00dc 0836     		adds	r6, r6, #8
+ 146 00de 1033     		adds	r3, r3, #16
+ 147 00e0 1634     		adds	r4, r4, #22
+ 148 00e2 3200     		movs	r2, r6
+ 149 00e4 0C30     		adds	r0, r0, #12
+ 150 00e6 0193     		str	r3, [sp, #4]
+ 151 00e8 2900     		movs	r1, r5
+ 152 00ea 3B00     		movs	r3, r7
+ 153 00ec 0094     		str	r4, [sp]
+ 154 00ee FFF7FEFF 		bl	Duty_Changee
+ 155 00f2 0B4B     		ldr	r3, .L11+16
+ 156 00f4 3200     		movs	r2, r6
+ 157 00f6 0193     		str	r3, [sp, #4]
+ 158 00f8 281D     		adds	r0, r5, #4
+ 159 00fa 3B00     		movs	r3, r7
+ 160 00fc 0094     		str	r4, [sp]
+ 161 00fe C8E7     		b	.L10
+ 162              	.L8:
+ 163 0100 2368     		ldr	r3, [r4]
+ 164 0102 952B     		cmp	r3, #149
+ 165 0104 C8D9     		bls	.L6
+ 166 0106 0123     		movs	r3, #1
+ 167 0108 5B42     		rsbs	r3, r3, #0
+ 168 010a 2360     		str	r3, [r4]
+ 169 010c C4E7     		b	.L6
+ 170              	.L12:
+ 171 010e C046     		.align	2
+ 172              	.L11:
+ 173 0110 00400040 		.word	1073758208
+ 174 0114 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 4
+
+
+ 175 0118 00000000 		.word	.LANCHOR1
+ 176 011c 08000000 		.word	.LANCHOR0+8
+ 177 0120 0D000000 		.word	.LANCHOR0+13
+ 179              		.align	1
+ 180              		.global	clock_init
+ 181              		.syntax unified
+ 182              		.code	16
+ 183              		.thumb_func
+ 185              	clock_init:
+ 186              		@ args = 0, pretend = 0, frame = 8
+ 187              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188 0124 8E23     		movs	r3, #142
+ 189 0126 73B5     		push	{r0, r1, r4, r5, r6, lr}
+ 190 0128 0125     		movs	r5, #1
+ 191              		@ sp needed
+ 192 012a 0221     		movs	r1, #2
+ 193 012c 0026     		movs	r6, #0
+ 194 012e 0F4C     		ldr	r4, .L14
+ 195 0130 9B00     		lsls	r3, r3, #2
+ 196 0132 E258     		ldr	r2, [r4, r3]
+ 197 0134 6846     		mov	r0, sp
+ 198 0136 AA43     		bics	r2, r5
+ 199 0138 E250     		str	r2, [r4, r3]
+ 200 013a E258     		ldr	r2, [r4, r3]
+ 201 013c 8A43     		bics	r2, r1
+ 202 013e E250     		str	r2, [r4, r3]
+ 203 0140 0B4B     		ldr	r3, .L14+4
+ 204 0142 1E60     		str	r6, [r3]
+ 205 0144 6B46     		mov	r3, sp
+ 206 0146 1E71     		strb	r6, [r3, #4]
+ 207 0148 0A4B     		ldr	r3, .L14+8
+ 208 014a 0093     		str	r3, [sp]
+ 209 014c FFF7FEFF 		bl	CLOCK_InitSystemPll
+ 210 0150 C020     		movs	r0, #192
+ 211 0152 8000     		lsls	r0, r0, #2
+ 212 0154 FFF7FEFF 		bl	CLOCK_SetMainClkSrc
+ 213 0158 FF22     		movs	r2, #255
+ 214 015a 074B     		ldr	r3, .L14+12
+ 215 015c 1E60     		str	r6, [r3]
+ 216 015e A36F     		ldr	r3, [r4, #120]
+ 217 0160 9343     		bics	r3, r2
+ 218 0162 1D43     		orrs	r5, r3
+ 219 0164 A567     		str	r5, [r4, #120]
+ 220 0166 FFF7FEFF 		bl	SystemCoreClockUpdate
+ 221 016a 73BD     		pop	{r0, r1, r4, r5, r6, pc}
+ 222              	.L15:
+ 223              		.align	2
+ 224              	.L14:
+ 225 016c 00800440 		.word	1074036736
+ 226 0170 40800440 		.word	1074036800
+ 227 0174 00879303 		.word	60000000
+ 228 0178 E0800440 		.word	1074036960
+ 230              		.global	__aeabi_uidiv
+ 231              		.section	.text.startup,"ax",%progbits
+ 232              		.align	1
+ 233              		.global	main
+ 234              		.syntax unified
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 5
+
+
+ 235              		.code	16
+ 236              		.thumb_func
+ 238              	main:
+ 239              		@ args = 0, pretend = 0, frame = 8
+ 240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 241 0000 A020     		movs	r0, #160
+ 242 0002 F0B5     		push	{r4, r5, r6, r7, lr}
+ 243 0004 0021     		movs	r1, #0
+ 244 0006 85B0     		sub	sp, sp, #20
+ 245 0008 0006     		lsls	r0, r0, #24
+ 246 000a FFF7FEFF 		bl	GPIO_PortInit
+ 247 000e FFF7FEFF 		bl	InitPins
+ 248 0012 FFF7FEFF 		bl	clock_init
+ 249 0016 C021     		movs	r1, #192
+ 250 0018 3F4A     		ldr	r2, .L18
+ 251 001a 404B     		ldr	r3, .L18+4
+ 252 001c 4048     		ldr	r0, .L18+8
+ 253 001e 5360     		str	r3, [r2, #4]
+ 254 0020 036A     		ldr	r3, [r0, #32]
+ 255 0022 0906     		lsls	r1, r1, #24
+ 256 0024 1B02     		lsls	r3, r3, #8
+ 257 0026 1B0A     		lsrs	r3, r3, #8
+ 258 0028 0B43     		orrs	r3, r1
+ 259 002a 0362     		str	r3, [r0, #32]
+ 260 002c 0023     		movs	r3, #0
+ 261 002e 9360     		str	r3, [r2, #8]
+ 262 0030 0733     		adds	r3, r3, #7
+ 263 0032 1360     		str	r3, [r2]
+ 264 0034 4022     		movs	r2, #64
+ 265 0036 3B4B     		ldr	r3, .L18+12
+ 266 0038 0320     		movs	r0, #3
+ 267 003a D96F     		ldr	r1, [r3, #124]
+ 268 003c 3A4E     		ldr	r6, .L18+16
+ 269 003e 0A43     		orrs	r2, r1
+ 270 0040 DA67     		str	r2, [r3, #124]
+ 271 0042 8022     		movs	r2, #128
+ 272 0044 D96F     		ldr	r1, [r3, #124]
+ 273 0046 5200     		lsls	r2, r2, #1
+ 274 0048 0A43     		orrs	r2, r1
+ 275 004a 8021     		movs	r1, #128
+ 276 004c DA67     		str	r2, [r3, #124]
+ 277 004e DA6F     		ldr	r2, [r3, #124]
+ 278 0050 C900     		lsls	r1, r1, #3
+ 279 0052 0A43     		orrs	r2, r1
+ 280 0054 DA67     		str	r2, [r3, #124]
+ 281 0056 FFF7FEFF 		bl	CLOCK_GetFreq
+ 282 005a 344C     		ldr	r4, .L18+20
+ 283 005c 0127     		movs	r7, #1
+ 284 005e 2500     		movs	r5, r4
+ 285 0060 1635     		adds	r5, r5, #22
+ 286 0062 6060     		str	r0, [r4, #4]
+ 287 0064 2800     		movs	r0, r5
+ 288 0066 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
+ 289 006a 2900     		movs	r1, r5
+ 290 006c 3000     		movs	r0, r6
+ 291 006e FFF7FEFF 		bl	SCTIMER_Init
+ 292 0072 0223     		movs	r3, #2
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 6
+
+
+ 293 0074 6373     		strb	r3, [r4, #13]
+ 294 0076 237B     		ldrb	r3, [r4, #12]
+ 295 0078 2500     		movs	r5, r4
+ 296 007a E373     		strb	r3, [r4, #15]
+ 297 007c 6368     		ldr	r3, [r4, #4]
+ 298 007e A773     		strb	r7, [r4, #14]
+ 299 0080 0093     		str	r3, [sp]
+ 300 0082 FA23     		movs	r3, #250
+ 301 0084 2A4A     		ldr	r2, .L18+24
+ 302 0086 0D35     		adds	r5, r5, #13
+ 303 0088 2900     		movs	r1, r5
+ 304 008a 0192     		str	r2, [sp, #4]
+ 305 008c 3000     		movs	r0, r6
+ 306 008e 3A00     		movs	r2, r7
+ 307 0090 9B00     		lsls	r3, r3, #2
+ 308 0092 FFF7FEFF 		bl	SCTIMER_SetupPwm
+ 309 0096 0323     		movs	r3, #3
+ 310 0098 EB70     		strb	r3, [r5, #3]
+ 311 009a 237B     		ldrb	r3, [r4, #12]
+ 312 009c 2200     		movs	r2, r4
+ 313 009e 6B71     		strb	r3, [r5, #5]
+ 314 00a0 6368     		ldr	r3, [r4, #4]
+ 315 00a2 2F71     		strb	r7, [r5, #4]
+ 316 00a4 0093     		str	r3, [sp]
+ 317 00a6 FA23     		movs	r3, #250
+ 318 00a8 1032     		adds	r2, r2, #16
+ 319 00aa 1100     		movs	r1, r2
+ 320 00ac 204A     		ldr	r2, .L18+24
+ 321 00ae 3000     		movs	r0, r6
+ 322 00b0 0192     		str	r2, [sp, #4]
+ 323 00b2 9B00     		lsls	r3, r3, #2
+ 324 00b4 3A00     		movs	r2, r7
+ 325 00b6 FFF7FEFF 		bl	SCTIMER_SetupPwm
+ 326 00ba 0423     		movs	r3, #4
+ 327 00bc AB71     		strb	r3, [r5, #6]
+ 328 00be 237B     		ldrb	r3, [r4, #12]
+ 329 00c0 EF71     		strb	r7, [r5, #7]
+ 330 00c2 2B72     		strb	r3, [r5, #8]
+ 331 00c4 6368     		ldr	r3, [r4, #4]
+ 332 00c6 1A48     		ldr	r0, .L18+24
+ 333 00c8 0093     		str	r3, [sp]
+ 334 00ca FA23     		movs	r3, #250
+ 335 00cc 1334     		adds	r4, r4, #19
+ 336 00ce 2100     		movs	r1, r4
+ 337 00d0 3A00     		movs	r2, r7
+ 338 00d2 0190     		str	r0, [sp, #4]
+ 339 00d4 9B00     		lsls	r3, r3, #2
+ 340 00d6 3000     		movs	r0, r6
+ 341 00d8 FFF7FEFF 		bl	SCTIMER_SetupPwm
+ 342 00dc 0422     		movs	r2, #4
+ 343 00de 7368     		ldr	r3, [r6, #4]
+ 344 00e0 144C     		ldr	r4, .L18+28
+ 345 00e2 9343     		bics	r3, r2
+ 346 00e4 03A9     		add	r1, sp, #12
+ 347 00e6 2000     		movs	r0, r4
+ 348 00e8 7360     		str	r3, [r6, #4]
+ 349 00ea FFF7FEFF 		bl	MRT_Init
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 7
+
+
+ 350 00ee 0622     		movs	r2, #6
+ 351 00f0 A368     		ldr	r3, [r4, #8]
+ 352 00f2 0020     		movs	r0, #0
+ 353 00f4 9343     		bics	r3, r2
+ 354 00f6 A360     		str	r3, [r4, #8]
+ 355 00f8 FFF7FEFF 		bl	CLOCK_GetFreq
+ 356 00fc 6421     		movs	r1, #100
+ 357 00fe FFF7FEFF 		bl	__aeabi_uidiv
+ 358 0102 2060     		str	r0, [r4]
+ 359 0104 A368     		ldr	r3, [r4, #8]
+ 360 0106 3B43     		orrs	r3, r7
+ 361 0108 A360     		str	r3, [r4, #8]
+ 362 010a 8021     		movs	r1, #128
+ 363 010c 0A4B     		ldr	r3, .L18+32
+ 364 010e C900     		lsls	r1, r1, #3
+ 365 0110 1960     		str	r1, [r3]
+ 366              	.L17:
+ 367              		.syntax divided
+ 368              	@ 99 "EX2_PART2.c" 1
+ 369 0112 30BF     		wfi
+ 370              	@ 0 "" 2
+ 371              		.thumb
+ 372              		.syntax unified
+ 373 0114 FDE7     		b	.L17
+ 374              	.L19:
+ 375 0116 C046     		.align	2
+ 376              	.L18:
+ 377 0118 10E000E0 		.word	-536813552
+ 378 011c 2F750000 		.word	29999
+ 379 0120 00ED00E0 		.word	-536810240
+ 380 0124 04800440 		.word	1074036740
+ 381 0128 00400050 		.word	1342193664
+ 382 012c 00000000 		.word	.LANCHOR0
+ 383 0130 08000000 		.word	.LANCHOR0+8
+ 384 0134 00400040 		.word	1073758208
+ 385 0138 00E100E0 		.word	-536813312
+ 387              		.text
+ 388              		.align	1
+ 389              		.global	SysTick_Handler
+ 390              		.syntax unified
+ 391              		.code	16
+ 392              		.thumb_func
+ 394              	SysTick_Handler:
+ 395              		@ args = 0, pretend = 0, frame = 0
+ 396              		@ frame_needed = 0, uses_anonymous_args = 0
+ 397              		@ link register save eliminated.
+ 398 017c 024A     		ldr	r2, .L21
+ 399              		@ sp needed
+ 400 017e 136A     		ldr	r3, [r2, #32]
+ 401 0180 0133     		adds	r3, r3, #1
+ 402 0182 1362     		str	r3, [r2, #32]
+ 403 0184 7047     		bx	lr
+ 404              	.L22:
+ 405 0186 C046     		.align	2
+ 406              	.L21:
+ 407 0188 00000000 		.word	.LANCHOR0
+ 409              		.align	1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 8
+
+
+ 410              		.global	delay_ms
+ 411              		.syntax unified
+ 412              		.code	16
+ 413              		.thumb_func
+ 415              	delay_ms:
+ 416              		@ args = 0, pretend = 0, frame = 0
+ 417              		@ frame_needed = 0, uses_anonymous_args = 0
+ 418              		@ link register save eliminated.
+ 419 018c 034A     		ldr	r2, .L26
+ 420 018e 116A     		ldr	r1, [r2, #32]
+ 421              	.L24:
+ 422 0190 136A     		ldr	r3, [r2, #32]
+ 423 0192 5B1A     		subs	r3, r3, r1
+ 424 0194 8342     		cmp	r3, r0
+ 425 0196 FBD3     		bcc	.L24
+ 426              		@ sp needed
+ 427 0198 7047     		bx	lr
+ 428              	.L27:
+ 429 019a C046     		.align	2
+ 430              	.L26:
+ 431 019c 00000000 		.word	.LANCHOR0
+ 433              		.global	Duty2
+ 434              		.global	Duty1
+ 435              		.global	pwm_frequency
+ 436              		.global	pwmParam
+ 437              		.global	sctimerConfig
+ 438              		.global	sctimerClock
+ 439              		.global	event
+ 440              		.global	millis
+ 441              		.global	counter
+ 442              		.data
+ 443              		.align	2
+ 444              		.set	.LANCHOR1,. + 0
+ 447              	pwm_frequency:
+ 448 0000 E8030000 		.word	1000
+ 451              	Duty2:
+ 452 0004 60       		.byte	96
+ 453              		.bss
+ 454              		.align	2
+ 455              		.set	.LANCHOR0,. + 0
+ 458              	counter:
+ 459 0000 00000000 		.space	4
+ 462              	sctimerClock:
+ 463 0004 00000000 		.space	4
+ 466              	event:
+ 467 0008 00000000 		.space	4
+ 470              	Duty1:
+ 471 000c 00       		.space	1
+ 474              	pwmParam:
+ 475 000d 00000000 		.space	9
+ 475      00000000 
+ 475      00
+ 478              	sctimerConfig:
+ 479 0016 00000000 		.space	9
+ 479      00000000 
+ 479      00
+ 480 001f 00       		.space	1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 9
+
+
+ 483              	millis:
+ 484 0020 00000000 		.space	4
+ 485              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 10
 
 
 DEFINED SYMBOLS
-                            *ABS*:00000000 pin_mux.c
-C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s:15     .text:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s:21     .text:00000000 InitPins
-C:\Users\DENIZA~1\AppData\Local\Temp\cc2ILq5s.s:58     .text:00000044 $d
+                            *ABS*:00000000 EX2_PART2.c
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:15     .text:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:21     .text:00000000 Duty_Changee
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:65     .text:00000054 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:67     .text:00000058 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:73     .text:00000058 MRT0_IRQHandler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:173    .text:00000110 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:179    .text:00000124 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:185    .text:00000124 clock_init
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:225    .text:0000016c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:232    .text.startup:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:238    .text.startup:00000000 main
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:377    .text.startup:00000118 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:388    .text:0000017c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:394    .text:0000017c SysTick_Handler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:407    .text:00000188 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:409    .text:0000018c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:415    .text:0000018c delay_ms
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:431    .text:0000019c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:451    .data:00000004 Duty2
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:470    .bss:0000000c Duty1
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:447    .data:00000000 pwm_frequency
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:474    .bss:0000000d pwmParam
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:478    .bss:00000016 sctimerConfig
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:462    .bss:00000004 sctimerClock
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:466    .bss:00000008 event
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:483    .bss:00000020 millis
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:458    .bss:00000000 counter
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:443    .data:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:454    .bss:00000000 $d
 
 UNDEFINED SYMBOLS
-SWM_SetMovablePinSelect
+CLOCK_GetFreq
+SCTIMER_GetDefaultConfig
+SCTIMER_Init
+SCTIMER_SetupPwm
+CLOCK_InitSystemPll
+CLOCK_SetMainClkSrc
+SystemCoreClockUpdate
+__aeabi_uidiv
+GPIO_PortInit
+InitPins
+MRT_Init

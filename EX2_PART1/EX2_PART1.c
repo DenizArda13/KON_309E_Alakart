@@ -10,9 +10,9 @@
 #define DESIRED_INT_FREQ 100 // Desired number of INT's per second.
 
 #define LED_PORT 0U
-#define RED_LED_PIN 13U
-#define YELLOW_LED_PIN 17U
-#define GREEN_LED_PIN 18U
+#define RED_LED_PIN 18U
+#define YELLOW_LED_PIN 19U
+#define GREEN_LED_PIN 20U
 
 #define LED_ON 1U // LED will be ON when GPIO output is '1'
 #define LED_OFF 0U
