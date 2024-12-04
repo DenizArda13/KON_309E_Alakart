@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
 
 
    1              		.cpu cortex-m0plus
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
   56 0048 6368     		ldr	r3, [r4, #4]
   57 004a BB43     		bics	r3, r7
   58 004c 6360     		str	r3, [r4, #4]
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 2
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 2
 
 
   59 004e 05B0     		add	sp, sp, #20
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  115              	.L5:
  116 00a2 2368     		ldr	r3, [r4]
  117 00a4 322B     		cmp	r3, #50
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 3
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 3
 
 
  118 00a6 11D1     		bne	.L7
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  172              	.L11:
  173 0110 00400040 		.word	1073758208
  174 0114 00000000 		.word	.LANCHOR0
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 4
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 4
 
 
  175 0118 00000000 		.word	.LANCHOR1
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  232              		.align	1
  233              		.global	main
  234              		.syntax unified
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 5
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 5
 
 
  235              		.code	16
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  290 006c 3000     		movs	r0, r6
  291 006e FFF7FEFF 		bl	SCTIMER_Init
  292 0072 0223     		movs	r3, #2
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 6
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 6
 
 
  293 0074 6373     		strb	r3, [r4, #13]
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  347 00e6 2000     		movs	r0, r4
  348 00e8 7360     		str	r3, [r6, #4]
  349 00ea FFF7FEFF 		bl	MRT_Init
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 7
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 7
 
 
  350 00ee 0622     		movs	r2, #6
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  406              	.L21:
  407 0188 00000000 		.word	.LANCHOR0
  409              		.align	1
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 8
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 8
 
 
  410              		.global	delay_ms
@@ -457,7 +457,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  447              	pwm_frequency:
  448 0000 E8030000 		.word	1000
  451              	Duty2:
- 452 0004 60       		.byte	96
+ 452 0004 3C       		.byte	60
  453              		.bss
  454              		.align	2
  455              		.set	.LANCHOR0,. + 0
@@ -478,46 +478,46 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 1
  479      00000000 
  479      00
  480 001f 00       		.space	1
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 9
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 9
 
 
  483              	millis:
  484 0020 00000000 		.space	4
  485              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s 			page 10
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 EX2_PART2.c
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:15     .text:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:21     .text:00000000 Duty_Changee
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:65     .text:00000054 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:67     .text:00000058 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:73     .text:00000058 MRT0_IRQHandler
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:173    .text:00000110 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:179    .text:00000124 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:185    .text:00000124 clock_init
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:225    .text:0000016c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:232    .text.startup:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:238    .text.startup:00000000 main
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:377    .text.startup:00000118 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:388    .text:0000017c $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:394    .text:0000017c SysTick_Handler
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:407    .text:00000188 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:409    .text:0000018c $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:415    .text:0000018c delay_ms
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:431    .text:0000019c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:451    .data:00000004 Duty2
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:470    .bss:0000000c Duty1
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:447    .data:00000000 pwm_frequency
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:474    .bss:0000000d pwmParam
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:478    .bss:00000016 sctimerConfig
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:462    .bss:00000004 sctimerClock
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:466    .bss:00000008 event
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:483    .bss:00000020 millis
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:458    .bss:00000000 counter
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:443    .data:00000000 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccwNXQbT.s:454    .bss:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:15     .text:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:21     .text:00000000 Duty_Changee
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:65     .text:00000054 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:67     .text:00000058 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:73     .text:00000058 MRT0_IRQHandler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:173    .text:00000110 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:179    .text:00000124 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:185    .text:00000124 clock_init
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:225    .text:0000016c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:232    .text.startup:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:238    .text.startup:00000000 main
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:377    .text.startup:00000118 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:388    .text:0000017c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:394    .text:0000017c SysTick_Handler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:407    .text:00000188 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:409    .text:0000018c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:415    .text:0000018c delay_ms
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:431    .text:0000019c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:451    .data:00000004 Duty2
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:470    .bss:0000000c Duty1
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:447    .data:00000000 pwm_frequency
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:474    .bss:0000000d pwmParam
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:478    .bss:00000016 sctimerConfig
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:462    .bss:00000004 sctimerClock
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:466    .bss:00000008 event
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:483    .bss:00000020 millis
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:458    .bss:00000000 counter
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:443    .data:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:454    .bss:00000000 $d
 
 UNDEFINED SYMBOLS
 CLOCK_GetFreq

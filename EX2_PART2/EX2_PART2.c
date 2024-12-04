@@ -33,7 +33,7 @@ volatile uint32_t sctimerClock;  // For SCTIMER clock frequency
 sctimer_config_t sctimerConfig;
 sctimer_pwm_signal_param_t pwmParam[3];  // PWM signals for LEDs
 uint32_t pwm_frequency = 1000U;  // 1 kHz PWM frequency
-volatile uint8_t Duty1 = 0x00, Duty2 = 0x60;  // Duty cycles
+volatile uint8_t Duty1 = 0x00, Duty2 = 0x3C;  // Duty cycles
 
 void clock_init(void);
 void SysTick_Handler(void);   // our systick interrupt handler
@@ -110,9 +110,9 @@ void MRT0_IRQHandler(void)
 
     // Change the PWM duty cycle and switch LEDs
     if (counter == 0)
-    {
+    {       
         Duty_Changee(&Duty1, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[1]);  // Yellow LED off
-        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[0]);  // Red LED on        
+        Duty_Changee(&Duty2, &pwm_frequency, &event, &sctimerClock, &sctimerConfig, &pwmParam[0]);  // Red LED on
     }
     else if (counter == 50)
     {
