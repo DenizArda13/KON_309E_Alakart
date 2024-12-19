@@ -1,10 +1,3 @@
-// This is an example program where the timer is used to directly initiate an
-// ADC conversion sequence.
-// At the end of the sequence, the ADC triggers the
-// "ADC0 Sequence A conversion complete interrupt" and the corresponding ISR
-// prints out the conversion result to the terminal.
-
-// Modified from AO 2023
 
 #include "fsl_device_registers.h"
 #include "fsl_debug_console.h"
@@ -31,7 +24,6 @@
 
 // The pointer and flag are global so that ISR can manipulate them:
 volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (and pointer as well) for 2 ADC channels
-volatile bool gAdcConversionDone = false; // Flag to indicate ADC conversion done
 volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
 void uart_init(void);
 void ADC_Configuration(void);
@@ -64,8 +56,6 @@ int main(void)
   // ADC interrupt
   ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); 
   NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           
-
-  xprintf("Configuration Done.\r\n");
 
   while (1){
 
@@ -177,16 +167,11 @@ void SCT_Configuration(void)
   sctimerConfig.enableCounterUnify = false; // Use as two 16 bit timers.
 
   sctimerConfig.clockMode = kSCTIMER_System_ClockMode; // Use system clock as SCT input
-// ayarlanıp ayarlanmadığını hocaya sor
-  matchValueL = 48000U; // This is in: 16.6.20 SCT match registers 0 to 7
-                       ////////// This value is incorrect
-  ////////// You must calculate your match value for 500ms interupt you may use the previous versions
-  /////////// where we calculated 1ms counter for 60mhz so calculate for 24mhz /////////////
-  ////////// You must adjust prescaler and match value accordingly
+  matchValueL = 1U; // This is in: 16.6.20 SCT match registers 0 to 7
   sctimerConfig.enableBidirection_l = false; // Use as single directional register.
   // Prescaler is 8 bit, in: CTRL. See: 16.6.3 SCT control register
-  // sctimerConfig.prescale_l = 249U; // For this value +1 is used.
-  sctimerConfig.prescale_l = 249U;
+  // sctimerConfig.prescale_l = 11999999U; // For this value +1 is used.
+  sctimerConfig.prescale_l = 11999999U;
   SCTIMER_Init(SCT0, &sctimerConfig); // Initialize SCTimer module
 
   // Configure the low side counter.
@@ -234,15 +219,15 @@ void config_uart0 (void){
   // See Sec. 13.7.1.1 and 13.6.9 in User Manual.
   // Obtain a preliminary clock by first dividing the processor main clock
   // Processor main clock is 24MHz. (24,000,000)
-  // Divide by 16 to obtain 3,000,000 Hz. intermediate clock.
+  // Divide by 16 to obtain 1,500,000 Hz. intermediate clock.
   SYSCON_UARTCLKDIV=16; // USART clock div register.
  
   // Baud rate generator value is calculated from:
-  // Intermediate clock /16 (always divided) = 468750Hz
-  // To obtain 115200 baud transmission speed, we must divide further:
-  // 3,000,000/18500=4.8 ~= 5
+  // Intermediate clock /16 (always divided) = 1,500,000
+  // To obtain 38400 baud transmission speed, we must divide further:
+  // 1,500,000/38400=39 
   // Baud rate generator should be set to one less than this value.
-  USART0_BRG=4;  //(4-1)  Baud rate generator register value.
+  USART0_BRG=38;  //(39-1)  Baud rate generator register value.
 
   // 3. Enable USART & configure byte format for 8 bit, no parity, 1 stop bit:
   // (See 13.6.1 USART Configuration register)

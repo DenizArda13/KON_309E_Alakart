@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 1
 
 
    1              		.cpu cortex-m0plus
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 1
   58 0028 0021     		movs	r1, #0
   59 002a 2200     		movs	r2, r4
   60 002c 2800     		movs	r0, r5
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 2
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 2
 
 
   61 002e FFF7FEFF 		bl	ADC_GetChannelConversionResult
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 1
  117 008c 07B0     		add	sp, sp, #28
  118              		@ sp needed
  119 008e 30BD     		pop	{r4, r5, pc}
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 3
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 3
 
 
  120              	.L16:
@@ -178,13 +178,13 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 1
  178 00dc 70B5     		push	{r4, r5, r6, lr}
  179 00de 86B0     		sub	sp, sp, #24
  180 00e0 03AD     		add	r5, sp, #12
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 4
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 4
 
 
  181 00e2 2800     		movs	r0, r5
  182 00e4 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
  183 00e8 0026     		movs	r6, #0
- 184 00ea F923     		movs	r3, #249
+ 184 00ea FF23     		movs	r3, #255
  185 00ec 154C     		ldr	r4, .L21
  186 00ee 2900     		movs	r1, r5
  187 00f0 2000     		movs	r0, r4
@@ -195,11 +195,11 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 1
  192 00fc 0125     		movs	r5, #1
  193 00fe 8021     		movs	r1, #128
  194 0100 02AB     		add	r3, sp, #8
- 195 0102 0193     		str	r3, [sp, #4]
- 196 0104 0095     		str	r5, [sp]
- 197 0106 3300     		movs	r3, r6
- 198 0108 2000     		movs	r0, r4
- 199 010a 0F4A     		ldr	r2, .L21+4
+ 195 0102 2A00     		movs	r2, r5
+ 196 0104 0193     		str	r3, [sp, #4]
+ 197 0106 0095     		str	r5, [sp]
+ 198 0108 3300     		movs	r3, r6
+ 199 010a 2000     		movs	r0, r4
  200 010c 4901     		lsls	r1, r1, #5
  201 010e FFF7FEFF 		bl	SCTIMER_CreateAndScheduleEvent
  202 0112 2000     		movs	r0, r4
@@ -217,7 +217,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 1
  214 012c 1B19     		adds	r3, r3, r4
  215 012e 8900     		lsls	r1, r1, #2
  216 0130 5A58     		ldr	r2, [r3, r1]
- 217 0132 0648     		ldr	r0, .L21+8
+ 217 0132 0548     		ldr	r0, .L21+4
  218 0134 0240     		ands	r2, r0
  219 0136 5A50     		str	r2, [r3, r1]
  220 0138 0422     		movs	r2, #4
@@ -231,245 +231,240 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 1
  228              		.align	2
  229              	.L21:
  230 0144 00400050 		.word	1342193664
- 231 0148 80BB0000 		.word	48000
- 232 014c FFFF9FFF 		.word	-6291457
- 234              		.section	.rodata.str1.1,"aMS",%progbits,1
- 235              	.LC5:
- 236 0000 41444320 		.ascii	"ADC Calibration Done.\015\012\000"
- 236      43616C69 
- 236      62726174 
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 5
+ 231 0148 FFFF9FFF 		.word	-6291457
+ 233              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 234              	.LC5:
+ 235 0000 41444320 		.ascii	"ADC Calibration Done.\015\012\000"
+ 235      43616C69 
+ 235      62726174 
+ 235      696F6E20 
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 5
 
 
- 236      696F6E20 
- 236      446F6E65 
- 237              	.LC7:
- 238 0018 41444320 		.ascii	"ADC Calibration Failed.\015\012\000"
- 238      43616C69 
- 238      62726174 
- 238      696F6E20 
- 238      4661696C 
- 239              	.LC9:
- 240 0032 436F6E66 		.ascii	"Configuration Done.\015\012\000"
- 240      69677572 
- 240      6174696F 
- 240      6E20446F 
- 240      6E652E0D 
- 241              	.LC11:
- 242 0048 50726573 		.ascii	"Press a key to start conversion.\015\012\000"
- 242      73206120 
- 242      6B657920 
- 242      746F2073 
- 242      74617274 
- 243              		.global	__aeabi_uidiv
- 244              	.LC14:
- 245 006b 41444330 		.ascii	"ADC0=%d mV, ADC1=%d mV\015\012\000"
- 245      3D256420 
- 245      6D562C20 
- 245      41444331 
- 245      3D256420 
- 246              		.section	.text.startup,"ax",%progbits
- 247              		.align	1
- 248              		.global	main
- 249              		.syntax unified
- 250              		.code	16
- 251              		.thumb_func
- 253              	main:
- 254              		@ args = 0, pretend = 0, frame = 8
- 255              		@ frame_needed = 0, uses_anonymous_args = 0
- 256 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
- 257 0002 FFF7FEFF 		bl	BOARD_InitPins
- 258 0006 FFF7FEFF 		bl	BOARD_InitBootClocks
- 259 000a FFF7FEFF 		bl	uart_init
- 260 000e 2C4B     		ldr	r3, .L31
- 261 0010 2C4A     		ldr	r2, .L31+4
- 262 0012 2D4C     		ldr	r4, .L31+8
- 263 0014 1A60     		str	r2, [r3]
- 264 0016 8023     		movs	r3, #128
- 265 0018 E26F     		ldr	r2, [r4, #124]
- 266 001a 5B00     		lsls	r3, r3, #1
- 267 001c 1343     		orrs	r3, r2
- 268 001e E367     		str	r3, [r4, #124]
- 269 0020 FFF7FEFF 		bl	SCT_Configuration
- 270 0024 8023     		movs	r3, #128
- 271 0026 E26F     		ldr	r2, [r4, #124]
- 272 0028 5B04     		lsls	r3, r3, #17
- 273 002a 1343     		orrs	r3, r2
- 274 002c 8E22     		movs	r2, #142
- 275 002e 1021     		movs	r1, #16
- 276 0030 264D     		ldr	r5, .L31+12
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 6
+ 235      446F6E65 
+ 236              	.LC7:
+ 237 0018 41444320 		.ascii	"ADC Calibration Failed.\015\012\000"
+ 237      43616C69 
+ 237      62726174 
+ 237      696F6E20 
+ 237      4661696C 
+ 238              	.LC9:
+ 239 0032 436F6E66 		.ascii	"Configuration Done.\015\012\000"
+ 239      69677572 
+ 239      6174696F 
+ 239      6E20446F 
+ 239      6E652E0D 
+ 240              	.LC11:
+ 241 0048 50726573 		.ascii	"Press a key to start conversion.\015\012\000"
+ 241      73206120 
+ 241      6B657920 
+ 241      746F2073 
+ 241      74617274 
+ 242              		.global	__aeabi_uidiv
+ 243              	.LC14:
+ 244 006b 41444330 		.ascii	"ADC0=%d mV, ADC1=%d mV\015\012\000"
+ 244      3D256420 
+ 244      6D562C20 
+ 244      41444331 
+ 244      3D256420 
+ 245              		.section	.text.startup,"ax",%progbits
+ 246              		.align	1
+ 247              		.global	main
+ 248              		.syntax unified
+ 249              		.code	16
+ 250              		.thumb_func
+ 252              	main:
+ 253              		@ args = 0, pretend = 0, frame = 8
+ 254              		@ frame_needed = 0, uses_anonymous_args = 0
+ 255 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 256 0002 FFF7FEFF 		bl	BOARD_InitPins
+ 257 0006 FFF7FEFF 		bl	BOARD_InitBootClocks
+ 258 000a FFF7FEFF 		bl	uart_init
+ 259 000e 2C4B     		ldr	r3, .L31
+ 260 0010 2C4A     		ldr	r2, .L31+4
+ 261 0012 2D4C     		ldr	r4, .L31+8
+ 262 0014 1A60     		str	r2, [r3]
+ 263 0016 8023     		movs	r3, #128
+ 264 0018 E26F     		ldr	r2, [r4, #124]
+ 265 001a 5B00     		lsls	r3, r3, #1
+ 266 001c 1343     		orrs	r3, r2
+ 267 001e E367     		str	r3, [r4, #124]
+ 268 0020 FFF7FEFF 		bl	SCT_Configuration
+ 269 0024 8023     		movs	r3, #128
+ 270 0026 E26F     		ldr	r2, [r4, #124]
+ 271 0028 5B04     		lsls	r3, r3, #17
+ 272 002a 1343     		orrs	r3, r2
+ 273 002c 8E22     		movs	r2, #142
+ 274 002e 1021     		movs	r1, #16
+ 275 0030 264D     		ldr	r5, .L31+12
+ 276 0032 E367     		str	r3, [r4, #124]
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 6
 
 
- 277 0032 E367     		str	r3, [r4, #124]
- 278 0034 9200     		lsls	r2, r2, #2
- 279 0036 AB58     		ldr	r3, [r5, r2]
- 280 0038 0320     		movs	r0, #3
- 281 003a 8B43     		bics	r3, r1
- 282 003c AB50     		str	r3, [r5, r2]
- 283 003e FFF7FEFF 		bl	CLOCK_GetFreq
- 284 0042 0100     		movs	r1, r0
- 285 0044 2248     		ldr	r0, .L31+16
- 286 0046 FFF7FEFF 		bl	ADC_DoSelfCalibration
- 287 004a 0028     		cmp	r0, #0
- 288 004c 35D0     		beq	.L24
- 289 004e 2148     		ldr	r0, .L31+20
- 290              	.L30:
- 291 0050 FFF7FEFF 		bl	xprintf
- 292 0054 FFF7FEFF 		bl	ADC_Configuration
- 293 0058 0123     		movs	r3, #1
- 294 005a 1D4D     		ldr	r5, .L31+16
- 295 005c 6A6E     		ldr	r2, [r5, #100]
- 296 005e 1343     		orrs	r3, r2
- 297 0060 6B66     		str	r3, [r5, #100]
- 298 0062 8022     		movs	r2, #128
- 299 0064 1C4B     		ldr	r3, .L31+24
- 300 0066 5202     		lsls	r2, r2, #9
- 301 0068 1A60     		str	r2, [r3]
- 302 006a 8027     		movs	r7, #128
- 303 006c 1B48     		ldr	r0, .L31+28
- 304 006e FFF7FEFF 		bl	xprintf
- 305 0072 FF04     		lsls	r7, r7, #19
- 306              	.L27:
- 307 0074 1A48     		ldr	r0, .L31+32
- 308 0076 FFF7FEFF 		bl	xprintf
- 309 007a FFF7FEFF 		bl	DbgConsole_Getchar
- 310 007e AB68     		ldr	r3, [r5, #8]
- 311 0080 184A     		ldr	r2, .L31+36
- 312 0082 3B43     		orrs	r3, r7
- 313 0084 AB60     		str	r3, [r5, #8]
- 314 0086 184B     		ldr	r3, .L31+40
- 315              	.L26:
- 316 0088 D17F     		ldrb	r1, [r2, #31]
- 317 008a 0029     		cmp	r1, #0
- 318 008c FCD0     		beq	.L26
- 319 008e 0021     		movs	r1, #0
- 320 0090 D177     		strb	r1, [r2, #31]
- 321 0092 1E68     		ldr	r6, [r3]
- 322 0094 154C     		ldr	r4, .L31+44
- 323 0096 1869     		ldr	r0, [r3, #16]
- 324 0098 1549     		ldr	r1, .L31+48
- 325 009a 6043     		muls	r0, r4
- 326 009c FFF7FEFF 		bl	__aeabi_uidiv
- 327 00a0 03B2     		sxth	r3, r0
- 328 00a2 2000     		movs	r0, r4
- 329 00a4 1249     		ldr	r1, .L31+48
- 330 00a6 7043     		muls	r0, r6
- 331 00a8 0193     		str	r3, [sp, #4]
- 332 00aa FFF7FEFF 		bl	__aeabi_uidiv
- 333 00ae 019A     		ldr	r2, [sp, #4]
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 7
+ 277 0034 9200     		lsls	r2, r2, #2
+ 278 0036 AB58     		ldr	r3, [r5, r2]
+ 279 0038 0320     		movs	r0, #3
+ 280 003a 8B43     		bics	r3, r1
+ 281 003c AB50     		str	r3, [r5, r2]
+ 282 003e FFF7FEFF 		bl	CLOCK_GetFreq
+ 283 0042 0100     		movs	r1, r0
+ 284 0044 2248     		ldr	r0, .L31+16
+ 285 0046 FFF7FEFF 		bl	ADC_DoSelfCalibration
+ 286 004a 0028     		cmp	r0, #0
+ 287 004c 35D0     		beq	.L24
+ 288 004e 2148     		ldr	r0, .L31+20
+ 289              	.L30:
+ 290 0050 FFF7FEFF 		bl	xprintf
+ 291 0054 FFF7FEFF 		bl	ADC_Configuration
+ 292 0058 0123     		movs	r3, #1
+ 293 005a 1D4D     		ldr	r5, .L31+16
+ 294 005c 6A6E     		ldr	r2, [r5, #100]
+ 295 005e 1343     		orrs	r3, r2
+ 296 0060 6B66     		str	r3, [r5, #100]
+ 297 0062 8022     		movs	r2, #128
+ 298 0064 1C4B     		ldr	r3, .L31+24
+ 299 0066 5202     		lsls	r2, r2, #9
+ 300 0068 1A60     		str	r2, [r3]
+ 301 006a 8027     		movs	r7, #128
+ 302 006c 1B48     		ldr	r0, .L31+28
+ 303 006e FFF7FEFF 		bl	xprintf
+ 304 0072 FF04     		lsls	r7, r7, #19
+ 305              	.L27:
+ 306 0074 1A48     		ldr	r0, .L31+32
+ 307 0076 FFF7FEFF 		bl	xprintf
+ 308 007a FFF7FEFF 		bl	DbgConsole_Getchar
+ 309 007e AB68     		ldr	r3, [r5, #8]
+ 310 0080 184A     		ldr	r2, .L31+36
+ 311 0082 3B43     		orrs	r3, r7
+ 312 0084 AB60     		str	r3, [r5, #8]
+ 313 0086 184B     		ldr	r3, .L31+40
+ 314              	.L26:
+ 315 0088 D17F     		ldrb	r1, [r2, #31]
+ 316 008a 0029     		cmp	r1, #0
+ 317 008c FCD0     		beq	.L26
+ 318 008e 0021     		movs	r1, #0
+ 319 0090 D177     		strb	r1, [r2, #31]
+ 320 0092 1E68     		ldr	r6, [r3]
+ 321 0094 154C     		ldr	r4, .L31+44
+ 322 0096 1869     		ldr	r0, [r3, #16]
+ 323 0098 1549     		ldr	r1, .L31+48
+ 324 009a 6043     		muls	r0, r4
+ 325 009c FFF7FEFF 		bl	__aeabi_uidiv
+ 326 00a0 03B2     		sxth	r3, r0
+ 327 00a2 2000     		movs	r0, r4
+ 328 00a4 1249     		ldr	r1, .L31+48
+ 329 00a6 7043     		muls	r0, r6
+ 330 00a8 0193     		str	r3, [sp, #4]
+ 331 00aa FFF7FEFF 		bl	__aeabi_uidiv
+ 332 00ae 019A     		ldr	r2, [sp, #4]
+ 333 00b0 01B2     		sxth	r1, r0
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 7
 
 
- 334 00b0 01B2     		sxth	r1, r0
- 335 00b2 1048     		ldr	r0, .L31+52
- 336 00b4 FFF7FEFF 		bl	xprintf
- 337 00b8 DCE7     		b	.L27
- 338              	.L24:
- 339 00ba 0F48     		ldr	r0, .L31+56
- 340 00bc C8E7     		b	.L30
- 341              	.L32:
- 342 00be C046     		.align	2
- 343              	.L31:
- 344 00c0 00000000 		.word	xfunc_output
- 345 00c4 00000000 		.word	uart_putch
- 346 00c8 04800440 		.word	1074036740
- 347 00cc 00800440 		.word	1074036736
- 348 00d0 00C00140 		.word	1073856512
- 349 00d4 00000000 		.word	.LC5
- 350 00d8 00E100E0 		.word	-536813312
- 351 00dc 32000000 		.word	.LC9
- 352 00e0 48000000 		.word	.LC11
- 353 00e4 01000000 		.word	.LANCHOR0+1
- 354 00e8 00000000 		.word	.LANCHOR0
- 355 00ec E40C0000 		.word	3300
- 356 00f0 FF0F0000 		.word	4095
- 357 00f4 6B000000 		.word	.LC14
- 358 00f8 18000000 		.word	.LC7
- 360              		.text
- 361              		.align	1
- 362              		.global	config_uart0
- 363              		.syntax unified
- 364              		.code	16
- 365              		.thumb_func
- 367              	config_uart0:
- 368              		@ args = 0, pretend = 0, frame = 0
- 369              		@ frame_needed = 0, uses_anonymous_args = 0
- 370              		@ link register save eliminated.
- 371 0150 8023     		movs	r3, #128
- 372              		@ sp needed
- 373 0152 074A     		ldr	r2, .L34
- 374 0154 DB01     		lsls	r3, r3, #7
- 375 0156 1168     		ldr	r1, [r2]
- 376 0158 0B43     		orrs	r3, r1
- 377 015a 1360     		str	r3, [r2]
- 378 015c 1022     		movs	r2, #16
- 379 015e 054B     		ldr	r3, .L34+4
- 380 0160 1A60     		str	r2, [r3]
- 381 0162 054B     		ldr	r3, .L34+8
- 382 0164 0C3A     		subs	r2, r2, #12
- 383 0166 1A60     		str	r2, [r3]
- 384 0168 044B     		ldr	r3, .L34+12
- 385 016a 0132     		adds	r2, r2, #1
- 386 016c 1A60     		str	r2, [r3]
- 387 016e 7047     		bx	lr
- 388              	.L35:
- 389              		.align	2
- 390              	.L34:
- 391 0170 80800440 		.word	1074036864
- 392 0174 94800440 		.word	1074036884
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 8
+ 334 00b2 1048     		ldr	r0, .L31+52
+ 335 00b4 FFF7FEFF 		bl	xprintf
+ 336 00b8 DCE7     		b	.L27
+ 337              	.L24:
+ 338 00ba 0F48     		ldr	r0, .L31+56
+ 339 00bc C8E7     		b	.L30
+ 340              	.L32:
+ 341 00be C046     		.align	2
+ 342              	.L31:
+ 343 00c0 00000000 		.word	xfunc_output
+ 344 00c4 00000000 		.word	uart_putch
+ 345 00c8 04800440 		.word	1074036740
+ 346 00cc 00800440 		.word	1074036736
+ 347 00d0 00C00140 		.word	1073856512
+ 348 00d4 00000000 		.word	.LC5
+ 349 00d8 00E100E0 		.word	-536813312
+ 350 00dc 32000000 		.word	.LC9
+ 351 00e0 48000000 		.word	.LC11
+ 352 00e4 01000000 		.word	.LANCHOR0+1
+ 353 00e8 00000000 		.word	.LANCHOR0
+ 354 00ec E40C0000 		.word	3300
+ 355 00f0 FF0F0000 		.word	4095
+ 356 00f4 6B000000 		.word	.LC14
+ 357 00f8 18000000 		.word	.LC7
+ 359              		.text
+ 360              		.align	1
+ 361              		.global	config_uart0
+ 362              		.syntax unified
+ 363              		.code	16
+ 364              		.thumb_func
+ 366              	config_uart0:
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369              		@ link register save eliminated.
+ 370 014c 8023     		movs	r3, #128
+ 371              		@ sp needed
+ 372 014e 074A     		ldr	r2, .L34
+ 373 0150 DB01     		lsls	r3, r3, #7
+ 374 0152 1168     		ldr	r1, [r2]
+ 375 0154 0B43     		orrs	r3, r1
+ 376 0156 1360     		str	r3, [r2]
+ 377 0158 1022     		movs	r2, #16
+ 378 015a 054B     		ldr	r3, .L34+4
+ 379 015c 1A60     		str	r2, [r3]
+ 380 015e 054B     		ldr	r3, .L34+8
+ 381 0160 1632     		adds	r2, r2, #22
+ 382 0162 1A60     		str	r2, [r3]
+ 383 0164 044B     		ldr	r3, .L34+12
+ 384 0166 213A     		subs	r2, r2, #33
+ 385 0168 1A60     		str	r2, [r3]
+ 386 016a 7047     		bx	lr
+ 387              	.L35:
+ 388              		.align	2
+ 389              	.L34:
+ 390 016c 80800440 		.word	1074036864
+ 391 0170 94800440 		.word	1074036884
+ 392 0174 20400640 		.word	1074151456
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 8
 
 
- 393 0178 20400640 		.word	1074151456
- 394 017c 00400640 		.word	1074151424
- 396              		.global	adc_conversion_done
- 397              		.global	gAdcConversionDone
- 398              		.global	ADCResultStruct
- 399              		.bss
- 400              		.align	2
- 401              		.set	.LANCHOR0,. + 0
- 404              	ADCResultStruct:
- 405 0000 00000000 		.space	32
- 405      00000000 
- 405      00000000 
- 405      00000000 
- 405      00000000 
- 408              	adc_conversion_done:
- 409 0020 00       		.space	1
- 412              	gAdcConversionDone:
- 413 0021 00       		.space	1
- 414              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s 			page 9
+ 393 0178 00400640 		.word	1074151424
+ 395              		.global	adc_conversion_done
+ 396              		.global	ADCResultStruct
+ 397              		.bss
+ 398              		.align	2
+ 399              		.set	.LANCHOR0,. + 0
+ 402              	ADCResultStruct:
+ 403 0000 00000000 		.space	32
+ 403      00000000 
+ 403      00000000 
+ 403      00000000 
+ 403      00000000 
+ 406              	adc_conversion_done:
+ 407 0020 00       		.space	1
+ 408              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 EX3_PART1.c
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:15     .text:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:21     .text:00000000 uart_putch
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:38     .text:00000010 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:41     .text:00000018 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:47     .text:00000018 ADC0_SEQA_IRQHandler
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:77     .text:00000048 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:80     .text:00000050 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:86     .text:00000050 ADC_Configuration
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:123    .text:00000090 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:126    .text:00000098 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:132    .text:00000098 uart_init
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:165    .text:000000d0 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:169    .text:000000dc $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:175    .text:000000dc SCT_Configuration
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:230    .text:00000144 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:247    .text.startup:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:253    .text.startup:00000000 main
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:344    .text.startup:000000c0 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:361    .text:00000150 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:367    .text:00000150 config_uart0
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:391    .text:00000170 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:408    .bss:00000020 adc_conversion_done
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:412    .bss:00000021 gAdcConversionDone
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:404    .bss:00000000 ADCResultStruct
-C:\Users\DENIZA~1\AppData\Local\Temp\cczAucgd.s:400    .bss:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:15     .text:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:21     .text:00000000 uart_putch
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:38     .text:00000010 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:41     .text:00000018 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:47     .text:00000018 ADC0_SEQA_IRQHandler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:77     .text:00000048 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:80     .text:00000050 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:86     .text:00000050 ADC_Configuration
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:123    .text:00000090 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:126    .text:00000098 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:132    .text:00000098 uart_init
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:165    .text:000000d0 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:169    .text:000000dc $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:175    .text:000000dc SCT_Configuration
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:230    .text:00000144 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:246    .text.startup:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:252    .text.startup:00000000 main
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:343    .text.startup:000000c0 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:360    .text:0000014c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:366    .text:0000014c config_uart0
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:390    .text:0000016c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:406    .bss:00000020 adc_conversion_done
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:402    .bss:00000000 ADCResultStruct
+C:\Users\DENIZA~1\AppData\Local\Temp\ccZyavNs.s:398    .bss:00000000 $d
 
 UNDEFINED SYMBOLS
 ADC_GetChannelConversionResult
