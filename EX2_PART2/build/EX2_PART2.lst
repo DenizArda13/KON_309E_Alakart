@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 1
 
 
    1              		.cpu cortex-m0plus
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
   56 0048 6368     		ldr	r3, [r4, #4]
   57 004a BB43     		bics	r3, r7
   58 004c 6360     		str	r3, [r4, #4]
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 2
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 2
 
 
   59 004e 05B0     		add	sp, sp, #20
@@ -83,107 +83,107 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
   80 0060 DA60     		str	r2, [r3, #12]
   81 0062 2368     		ldr	r3, [r4]
   82 0064 002B     		cmp	r3, #0
-  83 0066 1CD1     		bne	.L5
-  84 0068 2300     		movs	r3, r4
-  85 006a 2700     		movs	r7, r4
+  83 0066 1DD1     		bne	.L5
+  84 0068 2600     		movs	r6, r4
+  85 006a 2300     		movs	r3, r4
   86 006c 2000     		movs	r0, r4
   87 006e 2A4D     		ldr	r5, .L11+8
-  88 0070 261D     		adds	r6, r4, #4
-  89 0072 0D33     		adds	r3, r3, #13
-  90 0074 1637     		adds	r7, r7, #22
-  91 0076 0C30     		adds	r0, r0, #12
-  92 0078 0193     		str	r3, [sp, #4]
-  93 007a 2900     		movs	r1, r5
-  94 007c 3300     		movs	r3, r6
-  95 007e 274A     		ldr	r2, .L11+12
-  96 0080 0097     		str	r7, [sp]
-  97 0082 FFF7FEFF 		bl	Duty_Changee
-  98 0086 1334     		adds	r4, r4, #19
-  99 0088 281D     		adds	r0, r5, #4
- 100              	.L9:
- 101 008a 3300     		movs	r3, r6
- 102 008c 234A     		ldr	r2, .L11+12
- 103 008e 0194     		str	r4, [sp, #4]
- 104 0090 0097     		str	r7, [sp]
- 105              	.L10:
- 106 0092 2900     		movs	r1, r5
- 107 0094 FFF7FEFF 		bl	Duty_Changee
+  88 0070 271D     		adds	r7, r4, #4
+  89 0072 0836     		adds	r6, r6, #8
+  90 0074 1033     		adds	r3, r3, #16
+  91 0076 1634     		adds	r4, r4, #22
+  92 0078 3200     		movs	r2, r6
+  93 007a 0C30     		adds	r0, r0, #12
+  94 007c 0193     		str	r3, [sp, #4]
+  95 007e 2900     		movs	r1, r5
+  96 0080 3B00     		movs	r3, r7
+  97 0082 0094     		str	r4, [sp]
+  98 0084 FFF7FEFF 		bl	Duty_Changee
+  99 0088 244B     		ldr	r3, .L11+12
+ 100 008a 3200     		movs	r2, r6
+ 101 008c 0193     		str	r3, [sp, #4]
+ 102 008e 3B00     		movs	r3, r7
+ 103 0090 281D     		adds	r0, r5, #4
+ 104 0092 0094     		str	r4, [sp]
+ 105              	.L9:
+ 106 0094 2900     		movs	r1, r5
+ 107 0096 FFF7FEFF 		bl	Duty_Changee
  108              	.L6:
  109              		@ sp needed
- 110 0098 1E4A     		ldr	r2, .L11+4
- 111 009a 1368     		ldr	r3, [r2]
- 112 009c 0133     		adds	r3, r3, #1
- 113 009e 1360     		str	r3, [r2]
- 114 00a0 F7BD     		pop	{r0, r1, r2, r4, r5, r6, r7, pc}
+ 110 009a 1E4A     		ldr	r2, .L11+4
+ 111 009c 1368     		ldr	r3, [r2]
+ 112 009e 0133     		adds	r3, r3, #1
+ 113 00a0 1360     		str	r3, [r2]
+ 114 00a2 F7BD     		pop	{r0, r1, r2, r4, r5, r6, r7, pc}
  115              	.L5:
- 116 00a2 2368     		ldr	r3, [r4]
- 117 00a4 322B     		cmp	r3, #50
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 3
+ 116 00a4 2368     		ldr	r3, [r4]
+ 117 00a6 322B     		cmp	r3, #50
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 3
 
 
- 118 00a6 11D1     		bne	.L7
- 119 00a8 2300     		movs	r3, r4
- 120 00aa 2700     		movs	r7, r4
- 121 00ac 2000     		movs	r0, r4
- 122 00ae 1A4D     		ldr	r5, .L11+8
- 123 00b0 261D     		adds	r6, r4, #4
- 124 00b2 1333     		adds	r3, r3, #19
- 125 00b4 1637     		adds	r7, r7, #22
- 126 00b6 0C30     		adds	r0, r0, #12
- 127 00b8 0193     		str	r3, [sp, #4]
- 128 00ba 2900     		movs	r1, r5
- 129 00bc 3300     		movs	r3, r6
- 130 00be 174A     		ldr	r2, .L11+12
- 131 00c0 0097     		str	r7, [sp]
- 132 00c2 FFF7FEFF 		bl	Duty_Changee
- 133 00c6 1034     		adds	r4, r4, #16
- 134 00c8 281D     		adds	r0, r5, #4
- 135 00ca DEE7     		b	.L9
- 136              	.L7:
- 137 00cc 2368     		ldr	r3, [r4]
- 138 00ce 642B     		cmp	r3, #100
- 139 00d0 16D1     		bne	.L8
- 140 00d2 2600     		movs	r6, r4
- 141 00d4 2300     		movs	r3, r4
- 142 00d6 2000     		movs	r0, r4
- 143 00d8 0F4D     		ldr	r5, .L11+8
- 144 00da 271D     		adds	r7, r4, #4
- 145 00dc 0836     		adds	r6, r6, #8
- 146 00de 1033     		adds	r3, r3, #16
- 147 00e0 1634     		adds	r4, r4, #22
- 148 00e2 3200     		movs	r2, r6
- 149 00e4 0C30     		adds	r0, r0, #12
- 150 00e6 0193     		str	r3, [sp, #4]
- 151 00e8 2900     		movs	r1, r5
- 152 00ea 3B00     		movs	r3, r7
- 153 00ec 0094     		str	r4, [sp]
- 154 00ee FFF7FEFF 		bl	Duty_Changee
- 155 00f2 0B4B     		ldr	r3, .L11+16
- 156 00f4 3200     		movs	r2, r6
- 157 00f6 0193     		str	r3, [sp, #4]
- 158 00f8 281D     		adds	r0, r5, #4
- 159 00fa 3B00     		movs	r3, r7
- 160 00fc 0094     		str	r4, [sp]
- 161 00fe C8E7     		b	.L10
+ 118 00a8 15D1     		bne	.L7
+ 119 00aa 2300     		movs	r3, r4
+ 120 00ac 2700     		movs	r7, r4
+ 121 00ae 2000     		movs	r0, r4
+ 122 00b0 194D     		ldr	r5, .L11+8
+ 123 00b2 261D     		adds	r6, r4, #4
+ 124 00b4 0D33     		adds	r3, r3, #13
+ 125 00b6 1637     		adds	r7, r7, #22
+ 126 00b8 0C30     		adds	r0, r0, #12
+ 127 00ba 0193     		str	r3, [sp, #4]
+ 128 00bc 2900     		movs	r1, r5
+ 129 00be 3300     		movs	r3, r6
+ 130 00c0 174A     		ldr	r2, .L11+16
+ 131 00c2 0097     		str	r7, [sp]
+ 132 00c4 FFF7FEFF 		bl	Duty_Changee
+ 133 00c8 1334     		adds	r4, r4, #19
+ 134 00ca 281D     		adds	r0, r5, #4
+ 135              	.L10:
+ 136 00cc 3300     		movs	r3, r6
+ 137 00ce 144A     		ldr	r2, .L11+16
+ 138 00d0 0194     		str	r4, [sp, #4]
+ 139 00d2 0097     		str	r7, [sp]
+ 140 00d4 DEE7     		b	.L9
+ 141              	.L7:
+ 142 00d6 2368     		ldr	r3, [r4]
+ 143 00d8 642B     		cmp	r3, #100
+ 144 00da 11D1     		bne	.L8
+ 145 00dc 2300     		movs	r3, r4
+ 146 00de 2700     		movs	r7, r4
+ 147 00e0 2000     		movs	r0, r4
+ 148 00e2 0D4D     		ldr	r5, .L11+8
+ 149 00e4 261D     		adds	r6, r4, #4
+ 150 00e6 1333     		adds	r3, r3, #19
+ 151 00e8 1637     		adds	r7, r7, #22
+ 152 00ea 0C30     		adds	r0, r0, #12
+ 153 00ec 0193     		str	r3, [sp, #4]
+ 154 00ee 2900     		movs	r1, r5
+ 155 00f0 3300     		movs	r3, r6
+ 156 00f2 0B4A     		ldr	r2, .L11+16
+ 157 00f4 0097     		str	r7, [sp]
+ 158 00f6 FFF7FEFF 		bl	Duty_Changee
+ 159 00fa 1034     		adds	r4, r4, #16
+ 160 00fc 281D     		adds	r0, r5, #4
+ 161 00fe E5E7     		b	.L10
  162              	.L8:
  163 0100 2368     		ldr	r3, [r4]
  164 0102 952B     		cmp	r3, #149
- 165 0104 C8D9     		bls	.L6
+ 165 0104 C9D9     		bls	.L6
  166 0106 0123     		movs	r3, #1
  167 0108 5B42     		rsbs	r3, r3, #0
  168 010a 2360     		str	r3, [r4]
- 169 010c C4E7     		b	.L6
+ 169 010c C5E7     		b	.L6
  170              	.L12:
  171 010e C046     		.align	2
  172              	.L11:
  173 0110 00400040 		.word	1073758208
  174 0114 00000000 		.word	.LANCHOR0
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 4
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 4
 
 
  175 0118 00000000 		.word	.LANCHOR1
- 176 011c 08000000 		.word	.LANCHOR0+8
- 177 0120 0D000000 		.word	.LANCHOR0+13
+ 176 011c 0D000000 		.word	.LANCHOR0+13
+ 177 0120 08000000 		.word	.LANCHOR0+8
  179              		.align	1
  180              		.global	clock_init
  181              		.syntax unified
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
  232              		.align	1
  233              		.global	main
  234              		.syntax unified
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 5
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 5
 
 
  235              		.code	16
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
  290 006c 3000     		movs	r0, r6
  291 006e FFF7FEFF 		bl	SCTIMER_Init
  292 0072 0223     		movs	r3, #2
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 6
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 6
 
 
  293 0074 6373     		strb	r3, [r4, #13]
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
  347 00e6 2000     		movs	r0, r4
  348 00e8 7360     		str	r3, [r6, #4]
  349 00ea FFF7FEFF 		bl	MRT_Init
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 7
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 7
 
 
  350 00ee 0622     		movs	r2, #6
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
  406              	.L21:
  407 0188 00000000 		.word	.LANCHOR0
  409              		.align	1
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 8
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 8
 
 
  410              		.global	delay_ms
@@ -478,46 +478,46 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 1
  479      00000000 
  479      00
  480 001f 00       		.space	1
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 9
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 9
 
 
  483              	millis:
  484 0020 00000000 		.space	4
  485              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s 			page 10
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 EX2_PART2.c
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:15     .text:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:21     .text:00000000 Duty_Changee
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:65     .text:00000054 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:67     .text:00000058 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:73     .text:00000058 MRT0_IRQHandler
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:173    .text:00000110 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:179    .text:00000124 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:185    .text:00000124 clock_init
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:225    .text:0000016c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:232    .text.startup:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:238    .text.startup:00000000 main
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:377    .text.startup:00000118 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:388    .text:0000017c $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:394    .text:0000017c SysTick_Handler
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:407    .text:00000188 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:409    .text:0000018c $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:415    .text:0000018c delay_ms
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:431    .text:0000019c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:451    .data:00000004 Duty2
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:470    .bss:0000000c Duty1
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:447    .data:00000000 pwm_frequency
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:474    .bss:0000000d pwmParam
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:478    .bss:00000016 sctimerConfig
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:462    .bss:00000004 sctimerClock
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:466    .bss:00000008 event
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:483    .bss:00000020 millis
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:458    .bss:00000000 counter
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:443    .data:00000000 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccK9xlT4.s:454    .bss:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:15     .text:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:21     .text:00000000 Duty_Changee
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:65     .text:00000054 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:67     .text:00000058 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:73     .text:00000058 MRT0_IRQHandler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:173    .text:00000110 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:179    .text:00000124 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:185    .text:00000124 clock_init
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:225    .text:0000016c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:232    .text.startup:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:238    .text.startup:00000000 main
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:377    .text.startup:00000118 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:388    .text:0000017c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:394    .text:0000017c SysTick_Handler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:407    .text:00000188 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:409    .text:0000018c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:415    .text:0000018c delay_ms
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:431    .text:0000019c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:451    .data:00000004 Duty2
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:470    .bss:0000000c Duty1
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:447    .data:00000000 pwm_frequency
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:474    .bss:0000000d pwmParam
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:478    .bss:00000016 sctimerConfig
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:462    .bss:00000004 sctimerClock
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:466    .bss:00000008 event
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:483    .bss:00000020 millis
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:458    .bss:00000000 counter
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:443    .data:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccc5Tb4c.s:454    .bss:00000000 $d
 
 UNDEFINED SYMBOLS
 CLOCK_GetFreq
