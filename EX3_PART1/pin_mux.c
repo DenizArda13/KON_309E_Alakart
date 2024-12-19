@@ -57,7 +57,7 @@ void BOARD_InitPins(void) {
 		  IOCON_PIO_OD_DI |       // Disable open-drain
 		  IOCON_PIO_SMODE_BYPASS |// Bypass input filter
 		  IOCON_PIO_CLKDIV0);     // IOCONCLKDIV0
-  // Configure PIO0_6 (pin no 23)  with these properties.
+  // Configure PIO0_6  with these properties.
   IOCON_PinMuxSet(IOCON, IOCON_INDEX_PIO0_6, IOCON_config);
   
   // Connect ADC_CHN1 to PIO0_6:
@@ -69,23 +69,9 @@ void BOARD_InitPins(void) {
 		  IOCON_PIO_OD_DI |       // Disable open-drain
 		  IOCON_PIO_SMODE_BYPASS |// Bypass input filter
 		  IOCON_PIO_CLKDIV0);     // IOCONCLKDIV0
-  // Configure PIO0_7 (pin no 22)  with these properties.
+  // Configure PIO0_7 with these properties.
   IOCON_PinMuxSet(IOCON, IOCON_INDEX_PIO0_7, IOCON_config);
   
   SWM_SetFixedPinSelect(SWM0, kSWM_ADC_CHN0, true);
   
-      IOCON_PIO_config =(IOCON_PIO_MODE_PULLUP |  // Select pull-up function
-                       IOCON_PIO_HYS_EN |       // Enable hysteresis
-                       IOCON_PIO_INV_DI |       // Do not invert input
-                       IOCON_PIO_OD_DI |        // Disable open-drain function
-                       IOCON_PIO_SMODE_BYPASS | // Bypass the input filter
-                       IOCON_PIO_CLKDIV0);      // IOCONCLKDIV = 0
-
-    IOCON_PinMuxSet(IOCON, IOCON_INDEX_PIO0_19, IOCON_PIO_config);
-
-    // Connect SCT_OUT3 to P0_19 using the multiplexer:
-    // SCT_OUT3 is a moveable pin.
-    SWM_SetMovablePinSelect(SWM0, kSWM_SCT_OUT3, kSWM_PortPin_P0_19);
-  // Disable SWM clock since configuration is complete
-  CLOCK_DisableClock(kCLOCK_Swm);
 }

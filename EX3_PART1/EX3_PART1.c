@@ -42,26 +42,30 @@ int main(void)
 
   CLOCK_EnableClock(kCLOCK_Sct);      
   SCT_Configuration();                
-  CLOCK_EnableClock(kCLOCK_Adc);      
-  POWER_DisablePD(kPDRUNCFG_PD_ADC0); 
+  CLOCK_EnableClock(kCLOCK_Adc);      // Enable ADC clock 
+  POWER_DisablePD(kPDRUNCFG_PD_ADC0); // Power on ADC0
 
+  // Hardware calibration is required after each chip reset.
+  // See: Sec. 21.3.4 Hardware self-calibration
   frequency = CLOCK_GetFreq(kCLOCK_Irc);
+
   if (true == ADC_DoSelfCalibration(ADC0, frequency)){
     xprintf("ADC Calibration Done.\r\n");}
   else{
     xprintf("ADC Calibration Failed.\r\n");}
 
-  ADC_Configuration(); // starting ADC 
+  ADC_Configuration(); // Configure ADC and operation mode.
 
-  // ADC interrupt
-  ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); 
-  NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           
+  // Enable the interrupt the for Sequence A Conversion Complete:
+  ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); // Within ADC0
+  NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC  
+
+  xprintf("Configuration Done.\n");
 
   while (1){
-
+    GETCHAR(); 
     xprintf("Press a key to start conversion.\r\n");
-    GETCHAR(); // Kullanıcıdan giriş al
-    ADC_DoSoftwareTriggerConvSeqA(ADC0); // ADC Sequence A başlat
+    ADC_DoSoftwareTriggerConvSeqA(ADC0); 
 
     while (!adc_conversion_done)
     {
@@ -75,7 +79,7 @@ int main(void)
     int16_t voltage_ch1 = (ADCResultStruct[1].result * REF_VOLTAGE_MV) / 4095;
 
     // Print results
-    xprintf("ADC0=%d mV, ADC1=%d mV\r\n", voltage_ch0, voltage_ch1);
+    xprintf("ADC0(Pin 7)=%d mV, ADC1(Pin 6)=%d mV\r\n", voltage_ch0, voltage_ch1);
   }
     
 } // END: main()
@@ -112,7 +116,7 @@ void ADC_Configuration(void)
   ADC_Init(ADC0, &adcConfigStruct); // Initialize ADC0 with this structure.
 
   adcConvSeqConfigStruct.channelMask = 3U; // Mask the least significant bit0 and bit1 for ADC channel0 and channel1 respectively;
-  adcConvSeqConfigStruct.triggerMask = 1U;//Trigger with interrupt
+  adcConvSeqConfigStruct.triggerMask = 1U;//Trigger with interrupt so i have changed 3U with 1U
   adcConvSeqConfigStruct.triggerPolarity = kADC_TriggerPolarityPositiveEdge;
   adcConvSeqConfigStruct.enableSingleStep = false;
   adcConvSeqConfigStruct.enableSyncBypass = false;
@@ -138,12 +142,12 @@ void uart_init(void)
   // See Sec. 13.7.1.1 and 13.6.9 in User Manual.
   // Obtain a preliminary clock by first dividing the processor main clock
   // Processor main clock is 24MHz. (240000000)
-  // Divide by x to obtain 24000000/x Hz. intermediate clock.
-  CLOCK_SetClkDivider(kCLOCK_DivUsartClk, 13U); // USART clock div register.
+  // Divide by 39 to obtain 24000000/39 Hz. intermediate clock.
+  CLOCK_SetClkDivider(kCLOCK_DivUsartClk, 39U); // USART clock div register.
 
   // Baud rate generator value is calculated from:
   // Intermediate clock /16 (always divided) = 24000000/(16*divisor)Hz
-  // To obtain 115200 baud transmission speed 24000000/(16*divisor) must be closer to 115200
+  // To obtain 38400 baud transmission speed 24000000/(16*39) is closer to 38400
   // This applies to other baud rates as well
   USART0->BRG = 1;
   USART_GetDefaultConfig(&config);
@@ -204,40 +208,4 @@ void uart_putch(uint8_t character)
   while ((USART0_STAT & 0b0100) == 0)
     ;
   USART0_TXDAT = character;
-}
-void config_uart0 (void){
-
-
-  // The following steps set up the serial port USART0:
-   // See User Manual
-  // 13.3 Basic Configuration (USART)
-
-  // 1. Turn the peripheral on:
-  SYSCON_SYSAHBCLKCTRL |= 0x4000; // Enable clock for USART0.
-
-  // 2. Set speed (baud rate) to 38500bps:
-  // See Sec. 13.7.1.1 and 13.6.9 in User Manual.
-  // Obtain a preliminary clock by first dividing the processor main clock
-  // Processor main clock is 24MHz. (24,000,000)
-  // Divide by 16 to obtain 1,500,000 Hz. intermediate clock.
-  SYSCON_UARTCLKDIV=16; // USART clock div register.
- 
-  // Baud rate generator value is calculated from:
-  // Intermediate clock /16 (always divided) = 1,500,000
-  // To obtain 38400 baud transmission speed, we must divide further:
-  // 1,500,000/38400=39 
-  // Baud rate generator should be set to one less than this value.
-  USART0_BRG=38;  //(39-1)  Baud rate generator register value.
-
-  // 3. Enable USART & configure byte format for 8 bit, no parity, 1 stop bit:
-  // (See 13.6.1 USART Configuration register)
-  // (Bit 0) Enable USART 
-  // (Bit 1) not used.
-  // (Bit 2:3) Data Length 00 => 8 bits.
-  // (Bit 4:5) Parity 00 => No parity (default)
-  // (Bit 6) Stop bit  0 => 1:  (default)
-  // (Bit 7) Reserved
-  // The remaining bits are left at default values.
-  USART0_CFG=0b00000101;
-
 }
