@@ -42,53 +42,33 @@ int main(void)
 
   BOARD_InitPins();
   BOARD_InitBootClocks();
-  // clock_init();
-  uart_init();
-  xdev_out(uart_putch);
-  xprintf("ADC interrupt example.\r\n");
+  uart_init(); 
+  xdev_out(uart_putch); 
 
-  CLOCK_EnableClock(kCLOCK_Sct);      // Enable clock of SCT.
-  SCT_Configuration();                // Configure SCT
-  CLOCK_EnableClock(kCLOCK_Adc);      // Enable ADC clock
-  POWER_DisablePD(kPDRUNCFG_PD_ADC0); // Power on ADC0
+  CLOCK_EnableClock(kCLOCK_Sct);      
+  SCT_Configuration();                
+  CLOCK_EnableClock(kCLOCK_Adc);      
+  POWER_DisablePD(kPDRUNCFG_PD_ADC0); 
 
-  // Hardware calibration is required after each chip reset.
-  // See: Sec. 21.3.4 Hardware self-calibration
   frequency = CLOCK_GetFreq(kCLOCK_Irc);
-
   if (true == ADC_DoSelfCalibration(ADC0, frequency))
     xprintf("ADC Calibration Done.\r\n");
   else
     xprintf("ADC Calibration Failed.\r\n");
 
-  ADC_Configuration(); // Configure ADC and operation mode.
+  ADC_Configuration(); // starting ADC 
 
-  // Enable the interrupt the for Sequence A Conversion Complete:
-  ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); // Within ADC0
-  NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC
+  // ADC interrupt
+  ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); 
+  NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           
 
-  xprintf("Configuration Done.\n");
-
-  /*
-   * The main loop is completely empty.
-   * All ADC conversion is handled by the hardware.
-   *
-   * ADC0 conversion is triggered by the hardware: SCT OUTPUT 3 event
-   * When SCT OUTPUT3 changes, the conversion of Sequence A starts.
-   *
-   * When the conversion is complete,
-   *   SEQA_INT (Sequence A conversion complete INT) is triggered.
-   * This calls ADC0_SEQA_IRQHandler function which finally prints out
-   *  the conversion result to the serial port (and to the terminal screen.)
-   *
-   * This has two advantages:
-   * 1. The main loop is free to do other tasks.
-   * 2. The sampling time of the analog channels is precise.
-   *
-   */
+  xprintf("Configuration Done.\r\n");
 
   while (1)
   {
+    xprintf("Press a key to start conversion.\r\n");
+    GETCHAR(); // Kullanıcıdan giriş al
+    ADC_DoSoftwareTriggerConvSeqA(ADC0); // ADC Sequence A başlat
   }
 
 } // END: main()
@@ -96,18 +76,22 @@ int main(void)
 // ISR for ADC conversion sequence A done.
 void ADC0_SEQA_IRQHandler(void)
 {
-  if (kADC_ConvSeqAInterruptFlag & ADC_GetStatusFlags(ADC0))
-  {
-    ADC_GetConvSeqAGlobalConversionResult(ADC0, ADCResultStruct);
-    while (!ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_0, ADCResultStruct))
-    {
+    if (kADC_ConvSeqAInterruptFlag & ADC_GetStatusFlags(ADC0)) {
+        // Kanal 0 ve 1 dönüşüm sonuçlarını oku
+        ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_0, &ADCResultStruct[0]);
+        ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_1, &ADCResultStruct[1]);
+
+        // Sonuçları terminale yazdır
+        xprintf("ADC Channel 0: %d, Channel 1: %d\n", ADCResultStruct[0].result, ADCResultStruct[1].result);
+
+        // LED'i toggle et
+        GPIO_TogglePinsOutput(GPIO, BOARD_LED_GPIO_PORT, 1U << BOARD_LED_GPIO_PIN);
+
+        // Interrupt bayrağını temizle
+        ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
     }
-    xprintf("Adc Sonuc \n");
-    ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
-    // You must print out the both channels which is told you in class
-    // Also that is the part where toggle the led while the adc process is ongoing
-  }
 }
+
 
 // Usage of long functions in an ISR:
 // Note that in general an ISR must be written to complete and exit
@@ -137,7 +121,7 @@ void ADC_Configuration(void)
   adcConvSeqConfigStruct.channelMask = 3U; // Mask the least significant bit0 and bit1 for ADC channel0 and channel1 respectively;
 
   // Triggered by SCT OUT3 event. See Table 277. "ADC hardware trigger inputs":
-  adcConvSeqConfigStruct.triggerMask = 3U;
+  adcConvSeqConfigStruct.triggerMask = 1U;//Trigger with interrupt
   adcConvSeqConfigStruct.triggerPolarity = kADC_TriggerPolarityPositiveEdge;
   adcConvSeqConfigStruct.enableSingleStep = false;
   adcConvSeqConfigStruct.enableSyncBypass = false;
@@ -206,7 +190,7 @@ void SCT_Configuration(void)
   sctimerConfig.enableCounterUnify = false; // Use as two 16 bit timers.
 
   sctimerConfig.clockMode = kSCTIMER_System_ClockMode; // Use system clock as SCT input
-
+// ayarlanıp ayarlanmadığını hocaya sor
   matchValueL = 1000U; // This is in: 16.6.20 SCT match registers 0 to 7
                        ////////// This value is incorrect
   ////////// You must calculate your match value for 500ms interupt you may use the previous versions
@@ -262,14 +246,14 @@ void config_uart0 (void){
   // 2. Set speed (baud rate) to 38500bps:
   // See Sec. 13.7.1.1 and 13.6.9 in User Manual.
   // Obtain a preliminary clock by first dividing the processor main clock
-  // Processor main clock is 24MHz. (60000000)
-  // Divide by 8 to obtain 7,500,000 Hz. intermediate clock.
+  // Processor main clock is 24MHz. (24,000,000)
+  // Divide by 16 to obtain 3,000,000 Hz. intermediate clock.
   SYSCON_UARTCLKDIV=16; // USART clock div register.
  
   // Baud rate generator value is calculated from:
   // Intermediate clock /16 (always divided) = 468750Hz
   // To obtain 115200 baud transmission speed, we must divide further:
-  // 468750/115200=4.069 ~= 4
+  // 3,000,000/18500=4.8 ~= 5
   // Baud rate generator should be set to one less than this value.
   USART0_BRG=4;  //(4-1)  Baud rate generator register value.
 

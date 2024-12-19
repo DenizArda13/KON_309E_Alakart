@@ -1,671 +1,455 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 1
 
 
-   1              	# 0 "startup_LPC824.S"
-   2              	# 0 "<built-in>"
-   3              	# 0 "<command-line>"
-   4              	# 1 "startup_LPC824.S"
-   1              	/* --------------------------------------------------------------------------*/
-   2              	/* @file:    startup_LPC824.S                                                */
-   3              	/* @purpose: CMSIS Cortex-M0+ Core Device Startup File                       */
-   4              	/*           LPC824                                                          */
-   5              	/* @version: 1.1                                                      */
-   6              	/* @date:    2018-2-25                                                         */
-   7              	/* --------------------------------------------------------------------------*/
-   8              	/*                                                                           */
-   9              	/* Copyright 1997-2016 Freescale Semiconductor, Inc.                         */
-  10              	/* Copyright 2016-2020 NXP                                                   */
-  11              	/* All rights reserved.                                                      */
-  12              	/*                                                                           */
-  13              	/* SPDX-License-Identifier: BSD-3-Clause                                     */
-  14              	/*****************************************************************************/
-  15              	/* Version: GCC for ARM Embedded Processors                                  */
-  16              	/*****************************************************************************/
-  17              	
-  18              	
-  19              	    .syntax unified
-  20              	    .arch armv6-m
-  21              	
-  22              	    .section .isr_vector, "a"
-  23              	    .align 2
-  24              	    .globl __Vectors
-  25              	__Vectors:
-  26 0000 00000000 	    .long   __StackTop                    /* Top of Stack       */
-  27 0004 00000000 	    .long   Reset_Handler                 /* Reset Handler      */
-  28 0008 00000000 	    .long   NMI_Handler                   /* NMI Handler        */
-  29 000c 00000000 	    .long   HardFault_Handler             /* Hard Fault Handler */
-  30 0010 00000000 	    .long   0                             /* Reserved           */
-  31 0014 00000000 	    .long   0                             /* Reserved           */
-  32 0018 00000000 	    .long   0                             /* Reserved           */
-  33 001c 00000000 	    .long   0                             /* Reserved           */
-  34 0020 00000000 	    .long   0                             /* Reserved           */
-  35 0024 00000000 	    .long   0                             /* Reserved           */
-  36 0028 00000000 	    .long   0                             /* Reserved           */
-  37 002c 00000000 	    .long   SVC_Handler                   /* SVCall Handler     */
-  38 0030 00000000 	    .long   0                             /* Reserved           */
-  39 0034 00000000 	    .long   0                             /* Reserved           */
-  40 0038 00000000 	    .long   PendSV_Handler                /* PendSV Handler     */
-  41 003c 00000000 	    .long   SysTick_Handler               /* SysTick Handler    */
-  42              	
-  43              	    /* External Interrupts */
-  44 0040 00000000 	    .long   SPI0_IRQHandler               /* SPI0 interrupt */
-  45 0044 00000000 	    .long   SPI1_IRQHandler               /* SPI1 interrupt */
-  46 0048 00000000 	    .long   Reserved18_IRQHandler         /* Reserved interrupt */
-  47 004c 00000000 	    .long   USART0_IRQHandler             /* USART0 interrupt */
-  48 0050 00000000 	    .long   USART1_IRQHandler             /* USART1 interrupt */
-  49 0054 00000000 	    .long   USART2_IRQHandler             /* USART2 interrupt */
-  50 0058 00000000 	    .long   Reserved22_IRQHandler         /* Reserved interrupt */
-  51 005c 00000000 	    .long   I2C1_IRQHandler               /* I2C1 interrupt */
-  52 0060 00000000 	    .long   I2C0_IRQHandler               /* I2C0 interrupt */
-  53 0064 00000000 	    .long   SCT0_IRQHandler               /* State configurable timer interrupt */
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 2
+   1              		.cpu cortex-m0plus
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"EX3_PART1.c"
+  14              		.text
+  15              		.align	1
+  16              		.global	uart_putch
+  17              		.syntax unified
+  18              		.code	16
+  19              		.thumb_func
+  21              	uart_putch:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 0423     		movs	r3, #4
+  26 0002 0349     		ldr	r1, .L5
+  27              	.L2:
+  28 0004 0A68     		ldr	r2, [r1]
+  29 0006 1A42     		tst	r2, r3
+  30 0008 FCD0     		beq	.L2
+  31              		@ sp needed
+  32 000a 024B     		ldr	r3, .L5+4
+  33 000c 1860     		str	r0, [r3]
+  34 000e 7047     		bx	lr
+  35              	.L6:
+  36              		.align	2
+  37              	.L5:
+  38 0010 08400640 		.word	1074151432
+  39 0014 1C400640 		.word	1074151452
+  41              		.section	.rodata.str1.1,"aMS",%progbits,1
+  42              	.LC1:
+  43 0000 41646320 		.ascii	"Adc Sonuc \012\000"
+  43      536F6E75 
+  43      63200A00 
+  44              		.text
+  45              		.align	1
+  46              		.global	ADC0_SEQA_IRQHandler
+  47              		.syntax unified
+  48              		.code	16
+  49              		.thumb_func
+  51              	ADC0_SEQA_IRQHandler:
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54 0018 70B5     		push	{r4, r5, r6, lr}
+  55 001a 0B4C     		ldr	r4, .L16
+  56 001c A36E     		ldr	r3, [r4, #104]
+  57 001e DB00     		lsls	r3, r3, #3
+  58 0020 11D5     		bpl	.L7
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 2
 
 
-  54 0068 00000000 	    .long   MRT0_IRQHandler               /* Multi-rate timer interrupt */
-  55 006c 00000000 	    .long   CMP_IRQHandler                /* Analog comparator interrupt */
-  56 0070 00000000 	    .long   WDT_IRQHandler                /* Windowed watchdog timer interrupt */
-  57 0074 00000000 	    .long   BOD_IRQHandler                /* BOD interrupts */
-  58 0078 00000000 	    .long   FLASH_IRQHandler              /* flash interrupt */
-  59 007c 00000000 	    .long   WKT_IRQHandler                /* Self-wake-up timer interrupt */
-  60 0080 00000000 	    .long   ADC0_SEQA_IRQHandler          /* ADC0 sequence A completion. */
-  61 0084 00000000 	    .long   ADC0_SEQB_IRQHandler          /* ADC0 sequence B completion. */
-  62 0088 00000000 	    .long   ADC0_THCMP_IRQHandler         /* ADC0 threshold compare and error. */
-  63 008c 00000000 	    .long   ADC0_OVR_IRQHandler           /* ADC0 overrun */
-  64 0090 00000000 	    .long   DMA0_IRQHandler               /* DMA0 interrupt */
-  65 0094 00000000 	    .long   I2C2_IRQHandler               /* I2C2 interrupt */
-  66 0098 00000000 	    .long   I2C3_IRQHandler               /* I2C3 interrupt */
-  67 009c 00000000 	    .long   Reserved39_IRQHandler         /* Reserved interrupt */
-  68 00a0 00000000 	    .long   PIN_INT0_IRQHandler           /* Pin interrupt 0 or pattern match engine slice 0 interr
-  69 00a4 00000000 	    .long   PIN_INT1_IRQHandler           /* Pin interrupt 1 or pattern match engine slice 1 interr
-  70 00a8 00000000 	    .long   PIN_INT2_IRQHandler           /* Pin interrupt 2 or pattern match engine slice 2 interr
-  71 00ac 00000000 	    .long   PIN_INT3_IRQHandler           /* Pin interrupt 3 or pattern match engine slice 3 interr
-  72 00b0 00000000 	    .long   PIN_INT4_IRQHandler           /* Pin interrupt 4 or pattern match engine slice 4 interr
-  73 00b4 00000000 	    .long   PIN_INT5_IRQHandler           /* Pin interrupt 5 or pattern match engine slice 5 interr
-  74 00b8 00000000 	    .long   PIN_INT6_IRQHandler           /* Pin interrupt 6 or pattern match engine slice 6 interr
-  75 00bc 00000000 	    .long   PIN_INT7_IRQHandler           /* Pin interrupt 7 or pattern match engine slice 7 interr
-  76              	
-  78              	
-  79              	/*  Variable to store CRP value in. No code read protection enabled by default
-  80              	 *  Code Read Protection level (CRP)
-  81              	 *    CRP_Level:
-  82              	 *      <0xFFFFFFFF=> Disabled
-  83              	 *      <0x4E697370=> NO_ISP
-  84              	 *      <0x12345678=> CRP1
-  85              	 *      <0x87654321=> CRP2
-  86              	 *      <0x43218765=> CRP3
-  87              	 */
-  88              	    #ifndef NO_CRP
-  89              	      .section .crp, "a"
-  90 0000 FFFFFFFF 	      .long 0xFFFFFFFF
-  91              	    #endif
-  92              	
-  93              	   .text
-  94              	    .thumb
-  95              	
-  96              	/* Reset Handler */
-  97              	    .thumb_func
-  98              	    .align 2
-  99              	    .globl   Reset_Handler
- 100              	    .weak    Reset_Handler
- 102              	Reset_Handler:
- 103 0000 72B6     	    cpsid   i               /* Mask interrupts */
- 104              	
- 105              	#ifndef __NO_SYSTEM_INIT
- 106 0002 0748     	    ldr   r0,=SystemInit
- 107 0004 8047     	    blx   r0
- 108              	#endif
- 109              	/*     Loop to copy data from read only memory to RAM. The ranges
- 110              	 *      of copy from/to are specified by following symbols evaluated in
- 111              	 *      linker script.
- 112              	 *      __etext: End of code section, i.e., begin of data sections to copy from.
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 3
+  59 0022 0A4D     		ldr	r5, .L16+4
+  60 0024 2000     		movs	r0, r4
+  61 0026 2900     		movs	r1, r5
+  62 0028 FFF7FEFF 		bl	ADC_GetConvSeqAGlobalConversionResult
+  63              	.L9:
+  64 002c 2A00     		movs	r2, r5
+  65 002e 0021     		movs	r1, #0
+  66 0030 0548     		ldr	r0, .L16
+  67 0032 FFF7FEFF 		bl	ADC_GetChannelConversionResult
+  68 0036 0028     		cmp	r0, #0
+  69 0038 F8D0     		beq	.L9
+  70 003a 0548     		ldr	r0, .L16+8
+  71 003c FFF7FEFF 		bl	xprintf
+  72 0040 8023     		movs	r3, #128
+  73 0042 5B05     		lsls	r3, r3, #21
+  74 0044 A366     		str	r3, [r4, #104]
+  75              	.L7:
+  76              		@ sp needed
+  77 0046 70BD     		pop	{r4, r5, r6, pc}
+  78              	.L17:
+  79              		.align	2
+  80              	.L16:
+  81 0048 00C00140 		.word	1073856512
+  82 004c 00000000 		.word	.LANCHOR0
+  83 0050 00000000 		.word	.LC1
+  85              		.align	1
+  86              		.global	ADC_Configuration
+  87              		.syntax unified
+  88              		.code	16
+  89              		.thumb_func
+  91              	ADC_Configuration:
+  92              		@ args = 0, pretend = 0, frame = 24
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94 0054 30B5     		push	{r4, r5, lr}
+  95 0056 0023     		movs	r3, #0
+  96 0058 0125     		movs	r5, #1
+  97 005a 0E4C     		ldr	r4, .L19
+  98 005c 87B0     		sub	sp, sp, #28
+  99 005e 01A9     		add	r1, sp, #4
+ 100 0060 2000     		movs	r0, r4
+ 101 0062 8B80     		strh	r3, [r1, #4]
+ 102 0064 0195     		str	r5, [sp, #4]
+ 103 0066 FFF7FEFF 		bl	ADC_Init
+ 104 006a 0323     		movs	r3, #3
+ 105 006c 0393     		str	r3, [sp, #12]
+ 106 006e 0A4B     		ldr	r3, .L19+4
+ 107 0070 2000     		movs	r0, r4
+ 108 0072 03A9     		add	r1, sp, #12
+ 109 0074 0593     		str	r3, [sp, #20]
+ 110 0076 0495     		str	r5, [sp, #16]
+ 111 0078 FFF7FEFF 		bl	ADC_SetConvSeqAConfig
+ 112 007c 8023     		movs	r3, #128
+ 113 007e A268     		ldr	r2, [r4, #8]
+ 114 0080 1B06     		lsls	r3, r3, #24
+ 115 0082 1343     		orrs	r3, r2
+ 116 0084 A360     		str	r3, [r4, #8]
+ 117 0086 8023     		movs	r3, #128
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 3
 
 
- 113              	 *      __data_start__/__data_end__: RAM address range that data should be
- 114              	 *      copied to. Both must be aligned to 4 bytes boundary.  */
- 115              	
- 116 0006 0749     	    ldr    r1, =__etext
- 117 0008 074A     	    ldr    r2, =__data_start__
- 118 000a 084B     	    ldr    r3, =__data_end__
- 119              	
- 120 000c 9B1A     	    subs    r3, r2
- 121 000e 03DD     	    ble     .LC0
- 122              	
- 123              	.LC1:
- 124 0010 043B     	    subs    r3, 4
- 125 0012 C858     	    ldr    r0, [r1,r3]
- 126 0014 D050     	    str    r0, [r2,r3]
- 127 0016 FBDC     	    bgt    .LC1
- 128              	.LC0:
- 129              	
- 130              	#ifdef __STARTUP_CLEAR_BSS
- 131              	/*     This part of work usually is done in C library startup code. Otherwise,
- 132              	 *     define this macro to enable it in this startup.
- 133              	 *
- 134              	 *     Loop to zero out BSS section, which uses following symbols
- 135              	 *     in linker script:
- 136              	 *      __bss_start__: start of BSS section. Must align to 4
- 137              	 *      __bss_end__: end of BSS section. Must align to 4
- 138              	 */
- 139              	    ldr r1, =__bss_start__
- 140              	    ldr r2, =__bss_end__
- 141              	
- 142              	    subs    r2, r1
- 143              	    ble .LC3
- 144              	
- 145              	    movs    r0, 0
- 146              	.LC2:
- 147              	    str r0, [r1, r2]
- 148              	    subs    r2, 4
- 149              	    bge .LC2
- 150              	.LC3:
- 151              	#endif
- 152 0018 62B6     	    cpsie   i               /* Unmask interrupts */
- 153              	
- 154              	#ifndef __START
- 155              	#define __START _start
- 156              	#endif
- 157              	#ifndef __ATOLLIC__
- 158 001a 0548     	    ldr   r0,=__START
- 159 001c 8047     	    blx   r0
- 160              	#else
- 161              	    ldr   r0,=__libc_init_array
- 162              	    blx   r0
- 163              	    ldr   r0,=main
- 164              	    bx    r0
- 165              	#endif
- 166 001e 00000000 	    .pool
- 166      00000000 
- 166      00000000 
- 166      00000000 
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 4
+ 118 0088 A268     		ldr	r2, [r4, #8]
+ 119 008a DB04     		lsls	r3, r3, #19
+ 120 008c 1343     		orrs	r3, r2
+ 121 008e A360     		str	r3, [r4, #8]
+ 122 0090 07B0     		add	sp, sp, #28
+ 123              		@ sp needed
+ 124 0092 30BD     		pop	{r4, r5, pc}
+ 125              	.L20:
+ 126              		.align	2
+ 127              	.L19:
+ 128 0094 00C00140 		.word	1073856512
+ 129 0098 01000001 		.word	16777217
+ 131              		.align	1
+ 132              		.global	uart_init
+ 133              		.syntax unified
+ 134              		.code	16
+ 135              		.thumb_func
+ 137              	uart_init:
+ 138              		@ args = 0, pretend = 0, frame = 16
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140 009c 1FB5     		push	{r0, r1, r2, r3, r4, lr}
+ 141 009e 8023     		movs	r3, #128
+ 142              		@ sp needed
+ 143 00a0 0C4A     		ldr	r2, .L22
+ 144 00a2 DB01     		lsls	r3, r3, #7
+ 145 00a4 D16F     		ldr	r1, [r2, #124]
+ 146 00a6 0C4C     		ldr	r4, .L22+4
+ 147 00a8 0B43     		orrs	r3, r1
+ 148 00aa D367     		str	r3, [r2, #124]
+ 149 00ac 0D22     		movs	r2, #13
+ 150 00ae 0B4B     		ldr	r3, .L22+8
+ 151 00b0 6846     		mov	r0, sp
+ 152 00b2 1A60     		str	r2, [r3]
+ 153 00b4 0123     		movs	r3, #1
+ 154 00b6 2362     		str	r3, [r4, #32]
+ 155 00b8 FFF7FEFF 		bl	USART_GetDefaultConfig
+ 156 00bc 0223     		movs	r3, #2
+ 157 00be 6A46     		mov	r2, sp
+ 158 00c0 FF33     		adds	r3, r3, #255
+ 159 00c2 9380     		strh	r3, [r2, #4]
+ 160 00c4 6946     		mov	r1, sp
+ 161 00c6 0022     		movs	r2, #0
+ 162 00c8 2000     		movs	r0, r4
+ 163 00ca FFF7FEFF 		bl	USART_Init
+ 164 00ce 0523     		movs	r3, #5
+ 165 00d0 2360     		str	r3, [r4]
+ 166 00d2 1FBD     		pop	{r0, r1, r2, r3, r4, pc}
+ 167              	.L23:
+ 168              		.align	2
+ 169              	.L22:
+ 170 00d4 04800440 		.word	1074036740
+ 171 00d8 00400640 		.word	1074151424
+ 172 00dc 94800440 		.word	1074036884
+ 174              		.align	1
+ 175              		.global	SCT_Configuration
+ 176              		.syntax unified
+ 177              		.code	16
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 4
 
 
- 166      00000000 
- 168              	
- 169              	    .align  1
- 170              	    .thumb_func
- 171              	    .weak DefaultISR
- 173              	DefaultISR:
- 174 0034 2548     	    ldr r0, =DefaultISR
- 175 0036 0047     	    bx r0
- 177              	
- 178              	    .align 1
- 179              	    .thumb_func
- 180              	    .weak NMI_Handler
- 182              	NMI_Handler:
- 183 0038 2548     	    ldr   r0,=NMI_Handler
- 184 003a 0047     	    bx    r0
- 186              	
- 187              	    .align 1
- 188              	    .thumb_func
- 189              	    .weak HardFault_Handler
- 191              	HardFault_Handler:
- 192 003c 2548     	    ldr   r0,=HardFault_Handler
- 193 003e 0047     	    bx    r0
- 195              	
- 196              	    .align 1
- 197              	    .thumb_func
- 198              	    .weak SVC_Handler
- 200              	SVC_Handler:
- 201 0040 2548     	    ldr   r0,=SVC_Handler
- 202 0042 0047     	    bx    r0
- 204              	
- 205              	    .align 1
- 206              	    .thumb_func
- 207              	    .weak PendSV_Handler
- 209              	PendSV_Handler:
- 210 0044 2548     	    ldr   r0,=PendSV_Handler
- 211 0046 0047     	    bx    r0
- 213              	
- 214              	    .align 1
- 215              	    .thumb_func
- 216              	    .weak SysTick_Handler
- 218              	SysTick_Handler:
- 219 0048 2548     	    ldr   r0,=SysTick_Handler
- 220 004a 0047     	    bx    r0
- 222              	
- 223              	    .align 1
- 224              	    .thumb_func
- 225              	    .weak SPI0_IRQHandler
- 227              	SPI0_IRQHandler:
- 228 004c 2548     	    ldr   r0,=SPI0_DriverIRQHandler
- 229 004e 0047     	    bx    r0
- 231              	
- 232              	    .align 1
- 233              	    .thumb_func
- 234              	    .weak SPI1_IRQHandler
- 236              	SPI1_IRQHandler:
- 237 0050 2548     	    ldr   r0,=SPI1_DriverIRQHandler
- 238 0052 0047     	    bx    r0
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 5
+ 178              		.thumb_func
+ 180              	SCT_Configuration:
+ 181              		@ args = 0, pretend = 0, frame = 16
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183 00e0 70B5     		push	{r4, r5, r6, lr}
+ 184 00e2 86B0     		sub	sp, sp, #24
+ 185 00e4 03AD     		add	r5, sp, #12
+ 186 00e6 2800     		movs	r0, r5
+ 187 00e8 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
+ 188 00ec 0026     		movs	r6, #0
+ 189 00ee F923     		movs	r3, #249
+ 190 00f0 164C     		ldr	r4, .L25
+ 191 00f2 2900     		movs	r1, r5
+ 192 00f4 2000     		movs	r0, r4
+ 193 00f6 2E80     		strh	r6, [r5]
+ 194 00f8 EE70     		strb	r6, [r5, #3]
+ 195 00fa 6B71     		strb	r3, [r5, #5]
+ 196 00fc FFF7FEFF 		bl	SCTIMER_Init
+ 197 0100 0125     		movs	r5, #1
+ 198 0102 FA22     		movs	r2, #250
+ 199 0104 8021     		movs	r1, #128
+ 200 0106 02AB     		add	r3, sp, #8
+ 201 0108 0193     		str	r3, [sp, #4]
+ 202 010a 0095     		str	r5, [sp]
+ 203 010c 3300     		movs	r3, r6
+ 204 010e 2000     		movs	r0, r4
+ 205 0110 9200     		lsls	r2, r2, #2
+ 206 0112 4901     		lsls	r1, r1, #5
+ 207 0114 FFF7FEFF 		bl	SCTIMER_CreateAndScheduleEvent
+ 208 0118 2000     		movs	r0, r4
+ 209 011a 029A     		ldr	r2, [sp, #8]
+ 210 011c 0321     		movs	r1, #3
+ 211 011e FFF7FEFF 		bl	SCTIMER_SetupOutputToggleAction
+ 212 0122 029B     		ldr	r3, [sp, #8]
+ 213 0124 C121     		movs	r1, #193
+ 214 0126 9D40     		lsls	r5, r5, r3
+ 215 0128 2289     		ldrh	r2, [r4, #8]
+ 216 012a DB00     		lsls	r3, r3, #3
+ 217 012c 2A43     		orrs	r2, r5
+ 218 012e 92B2     		uxth	r2, r2
+ 219 0130 2281     		strh	r2, [r4, #8]
+ 220 0132 1B19     		adds	r3, r3, r4
+ 221 0134 8900     		lsls	r1, r1, #2
+ 222 0136 5A58     		ldr	r2, [r3, r1]
+ 223 0138 0548     		ldr	r0, .L25+4
+ 224 013a 0240     		ands	r2, r0
+ 225 013c 5A50     		str	r2, [r3, r1]
+ 226 013e 0422     		movs	r2, #4
+ 227 0140 A388     		ldrh	r3, [r4, #4]
+ 228 0142 9343     		bics	r3, r2
+ 229 0144 A380     		strh	r3, [r4, #4]
+ 230 0146 06B0     		add	sp, sp, #24
+ 231              		@ sp needed
+ 232 0148 70BD     		pop	{r4, r5, r6, pc}
+ 233              	.L26:
+ 234 014a C046     		.align	2
+ 235              	.L25:
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 5
 
 
- 240              	
- 241              	    .align 1
- 242              	    .thumb_func
- 243              	    .weak Reserved18_IRQHandler
- 245              	Reserved18_IRQHandler:
- 246 0054 2548     	    ldr   r0,=Reserved18_DriverIRQHandler
- 247 0056 0047     	    bx    r0
- 249              	
- 250              	    .align 1
- 251              	    .thumb_func
- 252              	    .weak USART0_IRQHandler
- 254              	USART0_IRQHandler:
- 255 0058 2548     	    ldr   r0,=USART0_DriverIRQHandler
- 256 005a 0047     	    bx    r0
- 258              	
- 259              	    .align 1
- 260              	    .thumb_func
- 261              	    .weak USART1_IRQHandler
- 263              	USART1_IRQHandler:
- 264 005c 2548     	    ldr   r0,=USART1_DriverIRQHandler
- 265 005e 0047     	    bx    r0
- 267              	
- 268              	    .align 1
- 269              	    .thumb_func
- 270              	    .weak USART2_IRQHandler
- 272              	USART2_IRQHandler:
- 273 0060 2548     	    ldr   r0,=USART2_DriverIRQHandler
- 274 0062 0047     	    bx    r0
- 276              	
- 277              	    .align 1
- 278              	    .thumb_func
- 279              	    .weak Reserved22_IRQHandler
- 281              	Reserved22_IRQHandler:
- 282 0064 2548     	    ldr   r0,=Reserved22_DriverIRQHandler
- 283 0066 0047     	    bx    r0
- 285              	
- 286              	    .align 1
- 287              	    .thumb_func
- 288              	    .weak I2C1_IRQHandler
- 290              	I2C1_IRQHandler:
- 291 0068 2548     	    ldr   r0,=I2C1_DriverIRQHandler
- 292 006a 0047     	    bx    r0
- 294              	
- 295              	    .align 1
- 296              	    .thumb_func
- 297              	    .weak I2C0_IRQHandler
- 299              	I2C0_IRQHandler:
- 300 006c 2548     	    ldr   r0,=I2C0_DriverIRQHandler
- 301 006e 0047     	    bx    r0
- 303              	
- 304              	    .align 1
- 305              	    .thumb_func
- 306              	    .weak SCT0_IRQHandler
- 308              	SCT0_IRQHandler:
- 309 0070 2548     	    ldr   r0,=SCT0_DriverIRQHandler
- 310 0072 0047     	    bx    r0
- 312              	
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 6
+ 236 014c 00400050 		.word	1342193664
+ 237 0150 FFFF9FFF 		.word	-6291457
+ 239              		.section	.rodata.str1.1
+ 240              	.LC5:
+ 241 000c 41444320 		.ascii	"ADC interrupt example.\015\012\000"
+ 241      696E7465 
+ 241      72727570 
+ 241      74206578 
+ 241      616D706C 
+ 242              	.LC7:
+ 243 0025 50726573 		.ascii	"Press a key to start conversion.\015\012\000"
+ 243      73206120 
+ 243      6B657920 
+ 243      746F2073 
+ 243      74617274 
+ 244              	.LC9:
+ 245 0048 41444320 		.ascii	"ADC Calibration Done.\015\012\000"
+ 245      43616C69 
+ 245      62726174 
+ 245      696F6E20 
+ 245      446F6E65 
+ 246              	.LC11:
+ 247 0060 41444320 		.ascii	"ADC Calibration Failed.\015\012\000"
+ 247      43616C69 
+ 247      62726174 
+ 247      696F6E20 
+ 247      4661696C 
+ 248              	.LC13:
+ 249 007a 436F6E66 		.ascii	"Configuration Done.\015\012\000"
+ 249      69677572 
+ 249      6174696F 
+ 249      6E20446F 
+ 249      6E652E0D 
+ 250              		.section	.text.startup,"ax",%progbits
+ 251              		.align	1
+ 252              		.global	main
+ 253              		.syntax unified
+ 254              		.code	16
+ 255              		.thumb_func
+ 257              	main:
+ 258              		@ args = 0, pretend = 0, frame = 0
+ 259              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260 0000 70B5     		push	{r4, r5, r6, lr}
+ 261 0002 FFF7FEFF 		bl	BOARD_InitPins
+ 262 0006 FFF7FEFF 		bl	BOARD_InitBootClocks
+ 263 000a FFF7FEFF 		bl	uart_init
+ 264 000e 1E4B     		ldr	r3, .L32
+ 265 0010 1E4A     		ldr	r2, .L32+4
+ 266 0012 1F48     		ldr	r0, .L32+8
+ 267 0014 1A60     		str	r2, [r3]
+ 268 0016 FFF7FEFF 		bl	xprintf
+ 269 001a 1E48     		ldr	r0, .L32+12
+ 270 001c FFF7FEFF 		bl	xprintf
+ 271 0020 8023     		movs	r3, #128
+ 272 0022 1D4C     		ldr	r4, .L32+16
+ 273 0024 5B00     		lsls	r3, r3, #1
+ 274 0026 E26F     		ldr	r2, [r4, #124]
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 6
 
 
- 313              	    .align 1
- 314              	    .thumb_func
- 315              	    .weak MRT0_IRQHandler
- 317              	MRT0_IRQHandler:
- 318 0074 2548     	    ldr   r0,=MRT0_DriverIRQHandler
- 319 0076 0047     	    bx    r0
- 321              	
- 322              	    .align 1
- 323              	    .thumb_func
- 324              	    .weak CMP_IRQHandler
- 326              	CMP_IRQHandler:
- 327 0078 2548     	    ldr   r0,=CMP_DriverIRQHandler
- 328 007a 0047     	    bx    r0
- 330              	
- 331              	    .align 1
- 332              	    .thumb_func
- 333              	    .weak WDT_IRQHandler
- 335              	WDT_IRQHandler:
- 336 007c 2548     	    ldr   r0,=WDT_DriverIRQHandler
- 337 007e 0047     	    bx    r0
- 339              	
- 340              	    .align 1
- 341              	    .thumb_func
- 342              	    .weak BOD_IRQHandler
- 344              	BOD_IRQHandler:
- 345 0080 2548     	    ldr   r0,=BOD_DriverIRQHandler
- 346 0082 0047     	    bx    r0
- 348              	
- 349              	    .align 1
- 350              	    .thumb_func
- 351              	    .weak FLASH_IRQHandler
- 353              	FLASH_IRQHandler:
- 354 0084 2548     	    ldr   r0,=FLASH_DriverIRQHandler
- 355 0086 0047     	    bx    r0
- 357              	
- 358              	    .align 1
- 359              	    .thumb_func
- 360              	    .weak WKT_IRQHandler
- 362              	WKT_IRQHandler:
- 363 0088 2548     	    ldr   r0,=WKT_DriverIRQHandler
- 364 008a 0047     	    bx    r0
- 366              	
- 367              	    .align 1
- 368              	    .thumb_func
- 369              	    .weak ADC0_SEQA_IRQHandler
- 371              	ADC0_SEQA_IRQHandler:
- 372 008c 2548     	    ldr   r0,=ADC0_SEQA_DriverIRQHandler
- 373 008e 0047     	    bx    r0
- 375              	
- 376              	    .align 1
- 377              	    .thumb_func
- 378              	    .weak ADC0_SEQB_IRQHandler
- 380              	ADC0_SEQB_IRQHandler:
- 381 0090 2548     	    ldr   r0,=ADC0_SEQB_DriverIRQHandler
- 382 0092 0047     	    bx    r0
- 384              	
- 385              	    .align 1
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 7
+ 275 0028 1C4D     		ldr	r5, .L32+20
+ 276 002a 1343     		orrs	r3, r2
+ 277 002c E367     		str	r3, [r4, #124]
+ 278 002e FFF7FEFF 		bl	SCT_Configuration
+ 279 0032 8023     		movs	r3, #128
+ 280 0034 E26F     		ldr	r2, [r4, #124]
+ 281 0036 5B04     		lsls	r3, r3, #17
+ 282 0038 1343     		orrs	r3, r2
+ 283 003a 8E22     		movs	r2, #142
+ 284 003c 1021     		movs	r1, #16
+ 285 003e E367     		str	r3, [r4, #124]
+ 286 0040 9200     		lsls	r2, r2, #2
+ 287 0042 AB58     		ldr	r3, [r5, r2]
+ 288 0044 0320     		movs	r0, #3
+ 289 0046 8B43     		bics	r3, r1
+ 290 0048 AB50     		str	r3, [r5, r2]
+ 291 004a FFF7FEFF 		bl	CLOCK_GetFreq
+ 292 004e 0100     		movs	r1, r0
+ 293 0050 1348     		ldr	r0, .L32+24
+ 294 0052 FFF7FEFF 		bl	ADC_DoSelfCalibration
+ 295 0056 0028     		cmp	r0, #0
+ 296 0058 13D0     		beq	.L28
+ 297 005a 1248     		ldr	r0, .L32+28
+ 298              	.L31:
+ 299 005c FFF7FEFF 		bl	xprintf
+ 300 0060 FFF7FEFF 		bl	ADC_Configuration
+ 301 0064 0123     		movs	r3, #1
+ 302 0066 0E4A     		ldr	r2, .L32+24
+ 303 0068 516E     		ldr	r1, [r2, #100]
+ 304 006a 0B43     		orrs	r3, r1
+ 305 006c 5366     		str	r3, [r2, #100]
+ 306 006e 8022     		movs	r2, #128
+ 307 0070 0D4B     		ldr	r3, .L32+32
+ 308 0072 5202     		lsls	r2, r2, #9
+ 309 0074 1A60     		str	r2, [r3]
+ 310 0076 0D48     		ldr	r0, .L32+36
+ 311 0078 FFF7FEFF 		bl	xprintf
+ 312              	.L30:
+ 313 007c FFF7FEFF 		bl	DbgConsole_Getchar
+ 314 0080 FCE7     		b	.L30
+ 315              	.L28:
+ 316 0082 0B48     		ldr	r0, .L32+40
+ 317 0084 EAE7     		b	.L31
+ 318              	.L33:
+ 319 0086 C046     		.align	2
+ 320              	.L32:
+ 321 0088 00000000 		.word	xfunc_output
+ 322 008c 00000000 		.word	uart_putch
+ 323 0090 0C000000 		.word	.LC5
+ 324 0094 25000000 		.word	.LC7
+ 325 0098 04800440 		.word	1074036740
+ 326 009c 00800440 		.word	1074036736
+ 327 00a0 00C00140 		.word	1073856512
+ 328 00a4 48000000 		.word	.LC9
+ 329 00a8 00E100E0 		.word	-536813312
+ 330 00ac 7A000000 		.word	.LC13
+ 331 00b0 60000000 		.word	.LC11
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 7
 
 
- 386              	    .thumb_func
- 387              	    .weak ADC0_THCMP_IRQHandler
- 389              	ADC0_THCMP_IRQHandler:
- 390 0094 2548     	    ldr   r0,=ADC0_THCMP_DriverIRQHandler
- 391 0096 0047     	    bx    r0
- 393              	
- 394              	    .align 1
- 395              	    .thumb_func
- 396              	    .weak ADC0_OVR_IRQHandler
- 398              	ADC0_OVR_IRQHandler:
- 399 0098 2548     	    ldr   r0,=ADC0_OVR_DriverIRQHandler
- 400 009a 0047     	    bx    r0
- 402              	
- 403              	    .align 1
- 404              	    .thumb_func
- 405              	    .weak DMA0_IRQHandler
- 407              	DMA0_IRQHandler:
- 408 009c 2548     	    ldr   r0,=DMA0_DriverIRQHandler
- 409 009e 0047     	    bx    r0
- 411              	
- 412              	    .align 1
- 413              	    .thumb_func
- 414              	    .weak I2C2_IRQHandler
- 416              	I2C2_IRQHandler:
- 417 00a0 2548     	    ldr   r0,=I2C2_DriverIRQHandler
- 418 00a2 0047     	    bx    r0
- 420              	
- 421              	    .align 1
- 422              	    .thumb_func
- 423              	    .weak I2C3_IRQHandler
- 425              	I2C3_IRQHandler:
- 426 00a4 2548     	    ldr   r0,=I2C3_DriverIRQHandler
- 427 00a6 0047     	    bx    r0
- 429              	
- 430              	    .align 1
- 431              	    .thumb_func
- 432              	    .weak Reserved39_IRQHandler
- 434              	Reserved39_IRQHandler:
- 435 00a8 2548     	    ldr   r0,=Reserved39_DriverIRQHandler
- 436 00aa 0047     	    bx    r0
- 438              	
- 439              	    .align 1
- 440              	    .thumb_func
- 441              	    .weak PIN_INT0_IRQHandler
- 443              	PIN_INT0_IRQHandler:
- 444 00ac 2548     	    ldr   r0,=PIN_INT0_DriverIRQHandler
- 445 00ae 0047     	    bx    r0
- 447              	
- 448              	    .align 1
- 449              	    .thumb_func
- 450              	    .weak PIN_INT1_IRQHandler
- 452              	PIN_INT1_IRQHandler:
- 453 00b0 2548     	    ldr   r0,=PIN_INT1_DriverIRQHandler
- 454 00b2 0047     	    bx    r0
- 456              	
- 457              	    .align 1
- 458              	    .thumb_func
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 8
-
-
- 459              	    .weak PIN_INT2_IRQHandler
- 461              	PIN_INT2_IRQHandler:
- 462 00b4 2548     	    ldr   r0,=PIN_INT2_DriverIRQHandler
- 463 00b6 0047     	    bx    r0
- 465              	
- 466              	    .align 1
- 467              	    .thumb_func
- 468              	    .weak PIN_INT3_IRQHandler
- 470              	PIN_INT3_IRQHandler:
- 471 00b8 2548     	    ldr   r0,=PIN_INT3_DriverIRQHandler
- 472 00ba 0047     	    bx    r0
- 474              	
- 475              	    .align 1
- 476              	    .thumb_func
- 477              	    .weak PIN_INT4_IRQHandler
- 479              	PIN_INT4_IRQHandler:
- 480 00bc 2548     	    ldr   r0,=PIN_INT4_DriverIRQHandler
- 481 00be 0047     	    bx    r0
- 483              	
- 484              	    .align 1
- 485              	    .thumb_func
- 486              	    .weak PIN_INT5_IRQHandler
- 488              	PIN_INT5_IRQHandler:
- 489 00c0 2548     	    ldr   r0,=PIN_INT5_DriverIRQHandler
- 490 00c2 0047     	    bx    r0
- 492              	
- 493              	    .align 1
- 494              	    .thumb_func
- 495              	    .weak PIN_INT6_IRQHandler
- 497              	PIN_INT6_IRQHandler:
- 498 00c4 2548     	    ldr   r0,=PIN_INT6_DriverIRQHandler
- 499 00c6 0047     	    bx    r0
- 501              	
- 502              	    .align 1
- 503              	    .thumb_func
- 504              	    .weak PIN_INT7_IRQHandler
- 506              	PIN_INT7_IRQHandler:
- 507 00c8 2548     	    ldr   r0,=PIN_INT7_DriverIRQHandler
- 508 00ca 0047     	    bx    r0
- 510              	
- 511              	/*    Macro to define default handlers. Default handler
- 512              	 *    will be weak symbol and just dead loops. They can be
- 513              	 *    overwritten by other handlers */
- 514              	    .macro def_irq_handler  handler_name
- 515              	    .weak \handler_name
- 516              	    .set  \handler_name, DefaultISR
- 517              	    .endm
- 518              	    def_irq_handler    SPI0_DriverIRQHandler
- 518              	>  .weak SPI0_DriverIRQHandler
- 518              	>  .set SPI0_DriverIRQHandler,DefaultISR
- 519              	    def_irq_handler    SPI1_DriverIRQHandler
- 519              	>  .weak SPI1_DriverIRQHandler
- 519              	>  .set SPI1_DriverIRQHandler,DefaultISR
- 520              	    def_irq_handler    Reserved18_DriverIRQHandler
- 520              	>  .weak Reserved18_DriverIRQHandler
- 520              	>  .set Reserved18_DriverIRQHandler,DefaultISR
- 521              	    def_irq_handler    USART0_DriverIRQHandler
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 9
-
-
- 521              	>  .weak USART0_DriverIRQHandler
- 521              	>  .set USART0_DriverIRQHandler,DefaultISR
- 522              	    def_irq_handler    USART1_DriverIRQHandler
- 522              	>  .weak USART1_DriverIRQHandler
- 522              	>  .set USART1_DriverIRQHandler,DefaultISR
- 523              	    def_irq_handler    USART2_DriverIRQHandler
- 523              	>  .weak USART2_DriverIRQHandler
- 523              	>  .set USART2_DriverIRQHandler,DefaultISR
- 524              	    def_irq_handler    Reserved22_DriverIRQHandler
- 524              	>  .weak Reserved22_DriverIRQHandler
- 524              	>  .set Reserved22_DriverIRQHandler,DefaultISR
- 525              	    def_irq_handler    I2C1_DriverIRQHandler
- 525              	>  .weak I2C1_DriverIRQHandler
- 525              	>  .set I2C1_DriverIRQHandler,DefaultISR
- 526              	    def_irq_handler    I2C0_DriverIRQHandler
- 526              	>  .weak I2C0_DriverIRQHandler
- 526              	>  .set I2C0_DriverIRQHandler,DefaultISR
- 527              	    def_irq_handler    SCT0_DriverIRQHandler
- 527              	>  .weak SCT0_DriverIRQHandler
- 527              	>  .set SCT0_DriverIRQHandler,DefaultISR
- 528              	    def_irq_handler    MRT0_DriverIRQHandler
- 528              	>  .weak MRT0_DriverIRQHandler
- 528              	>  .set MRT0_DriverIRQHandler,DefaultISR
- 529              	    def_irq_handler    CMP_DriverIRQHandler
- 529              	>  .weak CMP_DriverIRQHandler
- 529              	>  .set CMP_DriverIRQHandler,DefaultISR
- 530              	    def_irq_handler    WDT_DriverIRQHandler
- 530              	>  .weak WDT_DriverIRQHandler
- 530              	>  .set WDT_DriverIRQHandler,DefaultISR
- 531              	    def_irq_handler    BOD_DriverIRQHandler
- 531              	>  .weak BOD_DriverIRQHandler
- 531              	>  .set BOD_DriverIRQHandler,DefaultISR
- 532              	    def_irq_handler    FLASH_DriverIRQHandler
- 532              	>  .weak FLASH_DriverIRQHandler
- 532              	>  .set FLASH_DriverIRQHandler,DefaultISR
- 533              	    def_irq_handler    WKT_DriverIRQHandler
- 533              	>  .weak WKT_DriverIRQHandler
- 533              	>  .set WKT_DriverIRQHandler,DefaultISR
- 534              	    def_irq_handler    ADC0_SEQA_DriverIRQHandler
- 534              	>  .weak ADC0_SEQA_DriverIRQHandler
- 534              	>  .set ADC0_SEQA_DriverIRQHandler,DefaultISR
- 535              	    def_irq_handler    ADC0_SEQB_DriverIRQHandler
- 535              	>  .weak ADC0_SEQB_DriverIRQHandler
- 535              	>  .set ADC0_SEQB_DriverIRQHandler,DefaultISR
- 536              	    def_irq_handler    ADC0_THCMP_DriverIRQHandler
- 536              	>  .weak ADC0_THCMP_DriverIRQHandler
- 536              	>  .set ADC0_THCMP_DriverIRQHandler,DefaultISR
- 537              	    def_irq_handler    ADC0_OVR_DriverIRQHandler
- 537              	>  .weak ADC0_OVR_DriverIRQHandler
- 537              	>  .set ADC0_OVR_DriverIRQHandler,DefaultISR
- 538              	    def_irq_handler    DMA0_DriverIRQHandler
- 538              	>  .weak DMA0_DriverIRQHandler
- 538              	>  .set DMA0_DriverIRQHandler,DefaultISR
- 539              	    def_irq_handler    I2C2_DriverIRQHandler
- 539              	>  .weak I2C2_DriverIRQHandler
- 539              	>  .set I2C2_DriverIRQHandler,DefaultISR
- 540              	    def_irq_handler    I2C3_DriverIRQHandler
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 10
-
-
- 540              	>  .weak I2C3_DriverIRQHandler
- 540              	>  .set I2C3_DriverIRQHandler,DefaultISR
- 541              	    def_irq_handler    Reserved39_DriverIRQHandler
- 541              	>  .weak Reserved39_DriverIRQHandler
- 541              	>  .set Reserved39_DriverIRQHandler,DefaultISR
- 542              	    def_irq_handler    PIN_INT0_DriverIRQHandler
- 542              	>  .weak PIN_INT0_DriverIRQHandler
- 542              	>  .set PIN_INT0_DriverIRQHandler,DefaultISR
- 543              	    def_irq_handler    PIN_INT1_DriverIRQHandler
- 543              	>  .weak PIN_INT1_DriverIRQHandler
- 543              	>  .set PIN_INT1_DriverIRQHandler,DefaultISR
- 544              	    def_irq_handler    PIN_INT2_DriverIRQHandler
- 544              	>  .weak PIN_INT2_DriverIRQHandler
- 544              	>  .set PIN_INT2_DriverIRQHandler,DefaultISR
- 545              	    def_irq_handler    PIN_INT3_DriverIRQHandler
- 545              	>  .weak PIN_INT3_DriverIRQHandler
- 545              	>  .set PIN_INT3_DriverIRQHandler,DefaultISR
- 546              	    def_irq_handler    PIN_INT4_DriverIRQHandler
- 546              	>  .weak PIN_INT4_DriverIRQHandler
- 546              	>  .set PIN_INT4_DriverIRQHandler,DefaultISR
- 547              	    def_irq_handler    PIN_INT5_DriverIRQHandler
- 547              	>  .weak PIN_INT5_DriverIRQHandler
- 547              	>  .set PIN_INT5_DriverIRQHandler,DefaultISR
- 548              	    def_irq_handler    PIN_INT6_DriverIRQHandler
- 548              	>  .weak PIN_INT6_DriverIRQHandler
- 548              	>  .set PIN_INT6_DriverIRQHandler,DefaultISR
- 549              	    def_irq_handler    PIN_INT7_DriverIRQHandler
- 549              	>  .weak PIN_INT7_DriverIRQHandler
- 549              	>  .set PIN_INT7_DriverIRQHandler,DefaultISR
- 550              	
- 551 00cc 00000000 	    .end
- 551      00000000 
- 551      00000000 
- 551      00000000 
- 551      00000000 
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 11
+ 333              		.text
+ 334              		.align	1
+ 335              		.global	config_uart0
+ 336              		.syntax unified
+ 337              		.code	16
+ 338              		.thumb_func
+ 340              	config_uart0:
+ 341              		@ args = 0, pretend = 0, frame = 0
+ 342              		@ frame_needed = 0, uses_anonymous_args = 0
+ 343              		@ link register save eliminated.
+ 344 0154 8023     		movs	r3, #128
+ 345              		@ sp needed
+ 346 0156 074A     		ldr	r2, .L35
+ 347 0158 DB01     		lsls	r3, r3, #7
+ 348 015a 1168     		ldr	r1, [r2]
+ 349 015c 0B43     		orrs	r3, r1
+ 350 015e 1360     		str	r3, [r2]
+ 351 0160 1022     		movs	r2, #16
+ 352 0162 054B     		ldr	r3, .L35+4
+ 353 0164 1A60     		str	r2, [r3]
+ 354 0166 054B     		ldr	r3, .L35+8
+ 355 0168 0C3A     		subs	r2, r2, #12
+ 356 016a 1A60     		str	r2, [r3]
+ 357 016c 044B     		ldr	r3, .L35+12
+ 358 016e 0132     		adds	r2, r2, #1
+ 359 0170 1A60     		str	r2, [r3]
+ 360 0172 7047     		bx	lr
+ 361              	.L36:
+ 362              		.align	2
+ 363              	.L35:
+ 364 0174 80800440 		.word	1074036864
+ 365 0178 94800440 		.word	1074036884
+ 366 017c 20400640 		.word	1074151456
+ 367 0180 00400640 		.word	1074151424
+ 369              		.global	ADCResultStruct
+ 370              		.bss
+ 371              		.align	2
+ 372              		.set	.LANCHOR0,. + 0
+ 375              	ADCResultStruct:
+ 376 0000 00000000 		.space	32
+ 376      00000000 
+ 376      00000000 
+ 376      00000000 
+ 376      00000000 
+ 377              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s 			page 8
 
 
 DEFINED SYMBOLS
-    startup_LPC824.S:23     .isr_vector:00000000 $d
-    startup_LPC824.S:25     .isr_vector:00000000 __Vectors
-    startup_LPC824.S:102    .text:00000000 Reset_Handler
-    startup_LPC824.S:182    .text:00000038 NMI_Handler
-    startup_LPC824.S:191    .text:0000003c HardFault_Handler
-    startup_LPC824.S:200    .text:00000040 SVC_Handler
-    startup_LPC824.S:209    .text:00000044 PendSV_Handler
-    startup_LPC824.S:218    .text:00000048 SysTick_Handler
-    startup_LPC824.S:227    .text:0000004c SPI0_IRQHandler
-    startup_LPC824.S:236    .text:00000050 SPI1_IRQHandler
-    startup_LPC824.S:245    .text:00000054 Reserved18_IRQHandler
-    startup_LPC824.S:254    .text:00000058 USART0_IRQHandler
-    startup_LPC824.S:263    .text:0000005c USART1_IRQHandler
-    startup_LPC824.S:272    .text:00000060 USART2_IRQHandler
-    startup_LPC824.S:281    .text:00000064 Reserved22_IRQHandler
-    startup_LPC824.S:290    .text:00000068 I2C1_IRQHandler
-    startup_LPC824.S:299    .text:0000006c I2C0_IRQHandler
-    startup_LPC824.S:308    .text:00000070 SCT0_IRQHandler
-    startup_LPC824.S:317    .text:00000074 MRT0_IRQHandler
-    startup_LPC824.S:326    .text:00000078 CMP_IRQHandler
-    startup_LPC824.S:335    .text:0000007c WDT_IRQHandler
-    startup_LPC824.S:344    .text:00000080 BOD_IRQHandler
-    startup_LPC824.S:353    .text:00000084 FLASH_IRQHandler
-    startup_LPC824.S:362    .text:00000088 WKT_IRQHandler
-    startup_LPC824.S:371    .text:0000008c ADC0_SEQA_IRQHandler
-    startup_LPC824.S:380    .text:00000090 ADC0_SEQB_IRQHandler
-    startup_LPC824.S:389    .text:00000094 ADC0_THCMP_IRQHandler
-    startup_LPC824.S:398    .text:00000098 ADC0_OVR_IRQHandler
-    startup_LPC824.S:407    .text:0000009c DMA0_IRQHandler
-    startup_LPC824.S:416    .text:000000a0 I2C2_IRQHandler
-    startup_LPC824.S:425    .text:000000a4 I2C3_IRQHandler
-    startup_LPC824.S:434    .text:000000a8 Reserved39_IRQHandler
-    startup_LPC824.S:443    .text:000000ac PIN_INT0_IRQHandler
-    startup_LPC824.S:452    .text:000000b0 PIN_INT1_IRQHandler
-    startup_LPC824.S:461    .text:000000b4 PIN_INT2_IRQHandler
-    startup_LPC824.S:470    .text:000000b8 PIN_INT3_IRQHandler
-    startup_LPC824.S:479    .text:000000bc PIN_INT4_IRQHandler
-    startup_LPC824.S:488    .text:000000c0 PIN_INT5_IRQHandler
-    startup_LPC824.S:497    .text:000000c4 PIN_INT6_IRQHandler
-    startup_LPC824.S:506    .text:000000c8 PIN_INT7_IRQHandler
-    startup_LPC824.S:98     .text:00000000 $t
-    startup_LPC824.S:166    .text:0000001e $d
-    startup_LPC824.S:166    .text:00000020 $d
-    startup_LPC824.S:169    .text:00000034 $t
-    startup_LPC824.S:173    .text:00000034 DefaultISR
-    startup_LPC824.S:173    .text:00000034 SPI0_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 SPI1_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 Reserved18_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 USART0_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 USART1_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 USART2_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 Reserved22_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 I2C1_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 I2C0_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 SCT0_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 MRT0_DriverIRQHandler
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccQBf2qU.s 			page 12
-
-
-    startup_LPC824.S:173    .text:00000034 CMP_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 WDT_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 BOD_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 FLASH_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 WKT_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 ADC0_SEQA_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 ADC0_SEQB_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 ADC0_THCMP_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 ADC0_OVR_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 DMA0_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 I2C2_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 I2C3_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 Reserved39_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT0_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT1_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT2_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT3_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT4_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT5_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT6_DriverIRQHandler
-    startup_LPC824.S:173    .text:00000034 PIN_INT7_DriverIRQHandler
-    startup_LPC824.S:551    .text:000000cc $d
+                            *ABS*:00000000 EX3_PART1.c
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:15     .text:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:21     .text:00000000 uart_putch
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:38     .text:00000010 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:45     .text:00000018 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:51     .text:00000018 ADC0_SEQA_IRQHandler
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:81     .text:00000048 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:85     .text:00000054 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:91     .text:00000054 ADC_Configuration
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:128    .text:00000094 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:131    .text:0000009c $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:137    .text:0000009c uart_init
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:170    .text:000000d4 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:174    .text:000000e0 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:180    .text:000000e0 SCT_Configuration
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:236    .text:0000014c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:251    .text.startup:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:257    .text.startup:00000000 main
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:321    .text.startup:00000088 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:334    .text:00000154 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:340    .text:00000154 config_uart0
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:364    .text:00000174 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:375    .bss:00000000 ADCResultStruct
+C:\Users\DENIZA~1\AppData\Local\Temp\cceIS7SX.s:371    .bss:00000000 $d
 
 UNDEFINED SYMBOLS
-__StackTop
-SystemInit
-__etext
-__data_start__
-__data_end__
-_start
+ADC_GetConvSeqAGlobalConversionResult
+ADC_GetChannelConversionResult
+xprintf
+ADC_Init
+ADC_SetConvSeqAConfig
+USART_GetDefaultConfig
+USART_Init
+SCTIMER_GetDefaultConfig
+SCTIMER_Init
+SCTIMER_CreateAndScheduleEvent
+SCTIMER_SetupOutputToggleAction
+BOARD_InitPins
+BOARD_InitBootClocks
+CLOCK_GetFreq
+ADC_DoSelfCalibration
+DbgConsole_Getchar
+xfunc_output
