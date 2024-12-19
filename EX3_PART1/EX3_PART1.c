@@ -25,11 +25,13 @@
 // The pointer and flag are global so that ISR can manipulate them:
 volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (and pointer as well) for 2 ADC channels
 volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
+volatile bool start_conversion = false; // Flag for char control
 void uart_init(void);
 void ADC_Configuration(void);
 void SCT_Configuration(void);
 void clock_init(void);
 void uart_putch(uint8_t character);
+void UART0_IRQHandler(void);
 
 int main(void)
 {
@@ -60,26 +62,36 @@ int main(void)
   ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); // Within ADC0
   NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC  
 
+  USART_EnableInterrupts(USART0, kUSART_RxReadyInterruptEnable);
+  NVIC_EnableIRQ(USART0_IRQn);
+
   xprintf("Configuration Done.\n");
 
   while (1){
-    GETCHAR(); 
-    xprintf("Press a key to start conversion.\r\n");
-    ADC_DoSoftwareTriggerConvSeqA(ADC0); 
 
-    while (!adc_conversion_done)
-    {
-      // Wait for conversion to complete
-    }
+    if (start_conversion){
 
-    adc_conversion_done = false; // Reset flag
+      start_conversion = false;      // Reset the Char Controller flag
+      xprintf("Starting ADC conversion...\r\n");
+      
+      //Start the ADC converter
+      ADC_DoSoftwareTriggerConvSeqA(ADC0);
+      //Wait untill the converting process
+      while (!adc_conversion_done){ 
 
-    // Calculate voltages
-    int16_t voltage_ch0 = (ADCResultStruct[0].result * REF_VOLTAGE_MV) / 4095;
-    int16_t voltage_ch1 = (ADCResultStruct[1].result * REF_VOLTAGE_MV) / 4095;
+        }
 
-    // Print results
-    xprintf("ADC0(Pin 7)=%d mV, ADC1(Pin 6)=%d mV\r\n", voltage_ch0, voltage_ch1);
+
+        adc_conversion_done = false;    // Reset the ADC converter flag
+      
+
+        // Voltage calculations
+        int16_t voltage_ch0 = (ADCResultStruct[0].result * REF_VOLTAGE_MV) / 4095;
+        int16_t voltage_ch1 = (ADCResultStruct[1].result * REF_VOLTAGE_MV) / 4095;
+
+        // Print the measurement to the Serial Monitor
+        xprintf("ADC0(Pin 7)=%d mV, ADC1(Pin 6)=%d mV\r\n", voltage_ch0, voltage_ch1);
+      }
   }
     
 } // END: main()
@@ -208,4 +220,16 @@ void uart_putch(uint8_t character)
   while ((USART0_STAT & 0b0100) == 0)
     ;
   USART0_TXDAT = character;
+}
+void UART0_IRQHandler(void)
+{
+  if (USART_GetStatusFlags(USART0) & kUSART_RxReady){
+
+    // Char has recieved we can proceed 
+    uint8_t received_char = USART_ReadByte(USART0);
+
+    // Flag that starts ADC converter when we type a char
+    start_conversion = true;
+    USART_ClearStatusFlags(USART0, kUSART_RxReady);
+    }
 }
