@@ -27,9 +27,12 @@
 #define ADC_CLOCK_DIVIDER 1U // See Fig 52. ADC clocking in Ref Manual.
 #define USART_INSTANCE 0U
 #define Conversion_Rate 4095U / 4095U // This may be used to convert results to different units
+#define REF_VOLTAGE_MV 3300 // Reference voltage in millivolts
 
 // The pointer and flag are global so that ISR can manipulate them:
 volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (and pointer as well) for 2 ADC channels
+volatile bool gAdcConversionDone = false; // Flag to indicate ADC conversion done
+volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
 void uart_init(void);
 void ADC_Configuration(void);
 void SCT_Configuration(void);
@@ -51,10 +54,10 @@ int main(void)
   POWER_DisablePD(kPDRUNCFG_PD_ADC0); 
 
   frequency = CLOCK_GetFreq(kCLOCK_Irc);
-  if (true == ADC_DoSelfCalibration(ADC0, frequency))
-    xprintf("ADC Calibration Done.\r\n");
-  else
-    xprintf("ADC Calibration Failed.\r\n");
+  if (true == ADC_DoSelfCalibration(ADC0, frequency)){
+    xprintf("ADC Calibration Done.\r\n");}
+  else{
+    xprintf("ADC Calibration Failed.\r\n");}
 
   ADC_Configuration(); // starting ADC 
 
@@ -64,42 +67,46 @@ int main(void)
 
   xprintf("Configuration Done.\r\n");
 
-  while (1)
-  {
+  while (1){
+
     xprintf("Press a key to start conversion.\r\n");
     GETCHAR(); // Kullanıcıdan giriş al
     ADC_DoSoftwareTriggerConvSeqA(ADC0); // ADC Sequence A başlat
-  }
 
+    while (!adc_conversion_done)
+    {
+      // Wait for conversion to complete
+    }
+
+    adc_conversion_done = false; // Reset flag
+
+    // Calculate voltages
+    int16_t voltage_ch0 = (ADCResultStruct[0].result * REF_VOLTAGE_MV) / 4095;
+    int16_t voltage_ch1 = (ADCResultStruct[1].result * REF_VOLTAGE_MV) / 4095;
+
+    // Print results
+    xprintf("ADC0=%d mV, ADC1=%d mV\r\n", voltage_ch0, voltage_ch1);
+  }
+    
 } // END: main()
+
 
 // ISR for ADC conversion sequence A done.
 void ADC0_SEQA_IRQHandler(void)
 {
-    if (kADC_ConvSeqAInterruptFlag & ADC_GetStatusFlags(ADC0)) {
-        // Kanal 0 ve 1 dönüşüm sonuçlarını oku
-        ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_0, &ADCResultStruct[0]);
-        ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_1, &ADCResultStruct[1]);
 
-        // Sonuçları terminale yazdır
-        xprintf("ADC Channel 0: %d, Channel 1: %d\n", ADCResultStruct[0].result, ADCResultStruct[1].result);
+  if (kADC_ConvSeqAInterruptFlag & ADC_GetStatusFlags(ADC0)) {
 
-        // LED'i toggle et
-        GPIO_TogglePinsOutput(GPIO, BOARD_LED_GPIO_PORT, 1U << BOARD_LED_GPIO_PIN);
+    // Kanal 0 ve 1 dönüşüm sonuçlarını oku
+    ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_0, &ADCResultStruct[0]);
+    ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_1, &ADCResultStruct[1]);
+    // Set flag to indicate conversion is complete
+    adc_conversion_done = true;
 
-        // Interrupt bayrağını temizle
-        ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
+    // Interrupt bayrağını temizle
+    ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
     }
 }
-
-
-// Usage of long functions in an ISR:
-// Note that in general an ISR must be written to complete and exit
-// as quickly as possible.
-// xprinft is a function that may take a long time to execute.
-// So it is not advisable to use xprinft in an ISR.
-// However, xprinft is used in an ISR here to
-// emphasize that the main loop is not doing anything.
 
 // Configure and initialize the ADC
 void ADC_Configuration(void)
@@ -110,17 +117,11 @@ void ADC_Configuration(void)
 
   adcConfigStruct.clockDividerNumber = ADC_CLOCK_DIVIDER; // Defined above.
   adcConfigStruct.enableLowPowerMode = false;
-  // See Sec. 21.6.11 A/D trim register (voltage mode):
   adcConfigStruct.voltageRange = kADC_HighVoltageRange;
 
   ADC_Init(ADC0, &adcConfigStruct); // Initialize ADC0 with this structure.
 
-  // Insert this channel in Sequence A, and set conversion properties:
-  // See Sec: 21.6.2 A/D Conversion Sequence A Control Register
-
   adcConvSeqConfigStruct.channelMask = 3U; // Mask the least significant bit0 and bit1 for ADC channel0 and channel1 respectively;
-
-  // Triggered by SCT OUT3 event. See Table 277. "ADC hardware trigger inputs":
   adcConvSeqConfigStruct.triggerMask = 1U;//Trigger with interrupt
   adcConvSeqConfigStruct.triggerPolarity = kADC_TriggerPolarityPositiveEdge;
   adcConvSeqConfigStruct.enableSingleStep = false;
@@ -138,14 +139,10 @@ void ADC_Configuration(void)
 
 void uart_init(void)
 {
-
-  // The following steps set up the serial port USART0:
-  // See User Manual
-  // 13.3 Basic Configuration (USART)
   uint32_t uart_clock_freq;
   usart_config_t config;
-  // 1. Turn the peripheral on:
-  CLOCK_EnableClock(kCLOCK_Uart0); // Enable clock for USART0.
+ 
+  CLOCK_EnableClock(kCLOCK_Uart0);
 
   // 2. Set speed (baud rate) to 115200bps:
   // See Sec. 13.7.1.1 and 13.6.9 in User Manual.
@@ -162,19 +159,9 @@ void uart_init(void)
   USART_GetDefaultConfig(&config);
   config.enableRx = true;
   config.enableTx = true;
-  // config.baudRate_Bps = USART_BAUDRATE;
   USART_Init(USART0, &config, uart_clock_freq);
-  // 3. Enable USART & configure byte format for 8 bit, no parity, 1 stop bit:
-  // (See 13.6.1 USART Configuration register)
-  // (Bit 0) Enable USART
-  // (Bit 1) not used.
-  // (Bit 2:3) Data Length 00 => 8 bits.
-  // (Bit 4:5) Parity 00 => No parity (default)
-  // (Bit 6) Stop bit  0 => 1:  (default)
-  // (Bit 7) Reserved
-  // The remaining bits are left at default values.
-  USART0->CFG = 0b00000101; // Configuration of USART0
-  // USART0->CFG|=(1<<31);
+
+  USART0->CFG = 0b00000101; 
 }
 
 void SCT_Configuration(void)
@@ -191,7 +178,7 @@ void SCT_Configuration(void)
 
   sctimerConfig.clockMode = kSCTIMER_System_ClockMode; // Use system clock as SCT input
 // ayarlanıp ayarlanmadığını hocaya sor
-  matchValueL = 1000U; // This is in: 16.6.20 SCT match registers 0 to 7
+  matchValueL = 48000U; // This is in: 16.6.20 SCT match registers 0 to 7
                        ////////// This value is incorrect
   ////////// You must calculate your match value for 500ms interupt you may use the previous versions
   /////////// where we calculated 1ms counter for 60mhz so calculate for 24mhz /////////////
