@@ -31,7 +31,7 @@ void ADC_Configuration(void);
 void SCT_Configuration(void);
 void clock_init(void);
 void uart_putch(uint8_t character);
-void UART0_IRQHandler(void);
+void USART0_IRQHandler(void);
 
 int main(void)
 {
@@ -62,8 +62,8 @@ int main(void)
   ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); // Within ADC0
   NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC  
 
-  USART_EnableInterrupts(USART0, kUSART_RxReadyInterruptEnable);
-  NVIC_EnableIRQ(USART0_IRQn);
+  USART_EnableInterrupts(USART0, kUSART_RxReadyInterruptEnable); //Enable USART INT
+  NVIC_EnableIRQ(USART0_IRQn); 
 
   xprintf("Configuration Done.\n");
 
@@ -81,16 +81,14 @@ int main(void)
 
         }
 
-
         adc_conversion_done = false;    // Reset the ADC converter flag
-      
 
         // Voltage calculations
         int16_t voltage_ch0 = (ADCResultStruct[0].result * REF_VOLTAGE_MV) / 4095;
         int16_t voltage_ch1 = (ADCResultStruct[1].result * REF_VOLTAGE_MV) / 4095;
 
         // Print the measurement to the Serial Monitor
-        xprintf("ADC0(Pin 7)=%d mV, ADC1(Pin 6)=%d mV\r\n", voltage_ch0, voltage_ch1);
+        xprintf("ADC0=%d mV, ADC1=%d mV\r\n", voltage_ch0, voltage_ch1);
       }
   }
     
@@ -221,7 +219,7 @@ void uart_putch(uint8_t character)
     ;
   USART0_TXDAT = character;
 }
-void UART0_IRQHandler(void)
+void USART0_IRQHandler(void)
 {
   if (USART_GetStatusFlags(USART0) & kUSART_RxReady){
 

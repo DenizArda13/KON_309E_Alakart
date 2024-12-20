@@ -180,7 +180,7 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
                 0x000003d0                ADC_Configuration
                 0x00000418                uart_init
                 0x0000045c                SCT_Configuration
-                0x000004cc                UART0_IRQHandler
+                0x000004cc                USART0_IRQHandler
  .text          0x000004e8       0x60 build/pin_mux.o
                 0x000004e8                BOARD_InitPins
  .text          0x00000548       0x38 build/board.o
@@ -311,13 +311,13 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
  .text          0x0000270c      0x164 build/startup_LPC824.o
                 0x0000270c                Reset_Handler
                 0x00002740                I2C0_DriverIRQHandler
-                0x00002740                Reserved22_DriverIRQHandler
+                0x00002740                FLASH_DriverIRQHandler
                 0x00002740                Reserved39_DriverIRQHandler
                 0x00002740                SPI0_DriverIRQHandler
                 0x00002740                ADC0_OVR_DriverIRQHandler
                 0x00002740                ADC0_SEQA_DriverIRQHandler
                 0x00002740                DMA0_DriverIRQHandler
-                0x00002740                ADC0_SEQB_DriverIRQHandler
+                0x00002740                Reserved22_DriverIRQHandler
                 0x00002740                SPI1_DriverIRQHandler
                 0x00002740                CMP_DriverIRQHandler
                 0x00002740                PIN_INT7_DriverIRQHandler
@@ -328,7 +328,7 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
                 0x00002740                BOD_DriverIRQHandler
                 0x00002740                PIN_INT3_DriverIRQHandler
                 0x00002740                PIN_INT2_DriverIRQHandler
-                0x00002740                FLASH_DriverIRQHandler
+                0x00002740                ADC0_SEQB_DriverIRQHandler
                 0x00002740                I2C2_DriverIRQHandler
                 0x00002740                PIN_INT0_DriverIRQHandler
                 0x00002740                PIN_INT1_DriverIRQHandler
@@ -347,7 +347,6 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
                 0x00002758                SPI0_IRQHandler
                 0x0000275c                SPI1_IRQHandler
                 0x00002760                Reserved18_IRQHandler
-                0x00002764                USART0_IRQHandler
                 0x00002768                USART1_IRQHandler
                 0x0000276c                USART2_IRQHandler
                 0x00002770                Reserved22_IRQHandler
