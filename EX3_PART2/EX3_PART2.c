@@ -28,7 +28,7 @@
 volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (and pointer as well) for 2 ADC channels
 volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
 volatile bool start_conversion = false; // Flag for char control
-volatile bool led_status = true; // Variable that controls the led 
+volatile uint32_t led_status = 0; // Variable that controls the led 
 void uart_init(void);
 void ADC_Configuration(void);
 void SCT_Configuration(void);
@@ -56,7 +56,7 @@ int main(void)
   // LED Configuration 
   gpio_pin_config_t led_config = {kGPIO_DigitalOutput, 0};
   GPIO_PinInit(GPIO, LED_PORT, LED_PIN, &led_config);
-  // Starting as off
+  // Led is off at the begining
   GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, 0);
 
   if (true == ADC_DoSelfCalibration(ADC0, frequency)){
@@ -69,14 +69,17 @@ int main(void)
   // Enable the interrupt the for Sequence A Conversion Complete:
   ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); // Within ADC0
   NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC  
+  NVIC_SetPriority(ADC0_SEQA_IRQn, 2); // Öncelik seviyesini düşük tutun?? deneme
 
   xprintf("Configuration Done.\n");
 
   while (1){
 
+    start_conversion = true;
+
     if (start_conversion){
 
-      start_conversion = false;      // Reset the Char Controller flag
+      start_conversion = false; 
       xprintf("Starting ADC conversion...\r\n");
       
       //Start the ADC converter
@@ -87,8 +90,17 @@ int main(void)
         }
 
         adc_conversion_done = false;    // Reset the ADC converter flag
+        
+        xprintf("Led : %d\r\n", led_status);
 
         GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status); 
+
+        if(led_status == 0){
+          led_status = 1;
+        }
+        else if (led_status == 1){
+          led_status = 0;
+        }
 
         // Voltage calculations
         int16_t voltage_ch0 = (ADCResultStruct[0].result * REF_VOLTAGE_MV) / 4095;
@@ -113,9 +125,6 @@ void ADC0_SEQA_IRQHandler(void)
     ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_1, &ADCResultStruct[1]);
     // Set flag to indicate conversion is complete
     adc_conversion_done = true;
-
-    led_status = !led_status;
-
     // Interrupt bayrağını temizle
     ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
     }
@@ -136,7 +145,7 @@ void ADC_Configuration(void)
   ADC_Init(ADC0, &adcConfigStruct); // Initialize ADC0 with this structure.
 
   adcConvSeqConfigStruct.channelMask = 3U; // Mask the least significant bit0 and bit1 for ADC channel0 and channel1 respectively;
-  adcConvSeqConfigStruct.triggerMask = 1U;//Trigger with timer
+  adcConvSeqConfigStruct.triggerMask = 3U;//Trigger with timer
   adcConvSeqConfigStruct.triggerPolarity = kADC_TriggerPolarityPositiveEdge;
   adcConvSeqConfigStruct.enableSingleStep = false;
   adcConvSeqConfigStruct.enableSyncBypass = false;
@@ -195,7 +204,7 @@ void SCT_Configuration(void)
   sctimerConfig.enableBidirection_l = false; // Use as single directional register.
   // Prescaler is 8 bit, in: CTRL. See: 16.6.3 SCT control register
   // sctimerConfig.prescale_l = 249U; // For this value +1 is used.
-  sctimerConfig.prescale_l = 249U;
+  sctimerConfig.prescale_l = 259U;
   SCTIMER_Init(SCT0, &sctimerConfig); // Initialize SCTimer module
 
   // Configure the low side counter.
@@ -229,3 +238,4 @@ void uart_putch(uint8_t character)
     ;
   USART0_TXDAT = character;
 }
+
