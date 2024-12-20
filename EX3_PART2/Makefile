@@ -1,5 +1,5 @@
 # The files that are used in the program
-TARGET = EX3_PART1
+TARGET = EX3_PART2
 HEX_FILE=$(TARGET).hex
 ELF_FILE=$(TARGET).elf
 BIN_FILE=$(TARGET).bin
@@ -16,7 +16,7 @@ LPC824DIR=$(LIBPATH)/devices/LPC824/
 
 
 # C sources
-C_SOURCES = EX3_PART1.c
+C_SOURCES = EX3_PART2.c
 C_SOURCES += pin_mux.c
 C_SOURCES += board.c
 C_SOURCES += clock_config.c
