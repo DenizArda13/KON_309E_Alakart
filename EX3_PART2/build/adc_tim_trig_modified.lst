@@ -1,0 +1,407 @@
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 1
+
+
+   1              		.cpu cortex-m0plus
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"adc_tim_trig_modified.c"
+  14              		.text
+  15              		.align	1
+  16              		.global	uart_putch
+  17              		.syntax unified
+  18              		.code	16
+  19              		.thumb_func
+  21              	uart_putch:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 0423     		movs	r3, #4
+  26 0002 0349     		ldr	r1, .L5
+  27              	.L2:
+  28 0004 0A68     		ldr	r2, [r1]
+  29 0006 1A42     		tst	r2, r3
+  30 0008 FCD0     		beq	.L2
+  31              		@ sp needed
+  32 000a 024B     		ldr	r3, .L5+4
+  33 000c 1860     		str	r0, [r3]
+  34 000e 7047     		bx	lr
+  35              	.L6:
+  36              		.align	2
+  37              	.L5:
+  38 0010 08400640 		.word	1074151432
+  39 0014 1C400640 		.word	1074151452
+  41              		.section	.rodata.str1.1,"aMS",%progbits,1
+  42              	.LC1:
+  43 0000 41646320 		.ascii	"Adc Sonuc \012\000"
+  43      536F6E75 
+  43      63200A00 
+  44              		.text
+  45              		.align	1
+  46              		.global	ADC0_SEQA_IRQHandler
+  47              		.syntax unified
+  48              		.code	16
+  49              		.thumb_func
+  51              	ADC0_SEQA_IRQHandler:
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54 0018 70B5     		push	{r4, r5, r6, lr}
+  55 001a 0B4C     		ldr	r4, .L16
+  56 001c A36E     		ldr	r3, [r4, #104]
+  57 001e DB00     		lsls	r3, r3, #3
+  58 0020 11D5     		bpl	.L7
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 2
+
+
+  59 0022 0A4D     		ldr	r5, .L16+4
+  60 0024 2000     		movs	r0, r4
+  61 0026 2900     		movs	r1, r5
+  62 0028 FFF7FEFF 		bl	ADC_GetConvSeqAGlobalConversionResult
+  63              	.L9:
+  64 002c 2A00     		movs	r2, r5
+  65 002e 0021     		movs	r1, #0
+  66 0030 0548     		ldr	r0, .L16
+  67 0032 FFF7FEFF 		bl	ADC_GetChannelConversionResult
+  68 0036 0028     		cmp	r0, #0
+  69 0038 F8D0     		beq	.L9
+  70 003a 0548     		ldr	r0, .L16+8
+  71 003c FFF7FEFF 		bl	xprintf
+  72 0040 8023     		movs	r3, #128
+  73 0042 5B05     		lsls	r3, r3, #21
+  74 0044 A366     		str	r3, [r4, #104]
+  75              	.L7:
+  76              		@ sp needed
+  77 0046 70BD     		pop	{r4, r5, r6, pc}
+  78              	.L17:
+  79              		.align	2
+  80              	.L16:
+  81 0048 00C00140 		.word	1073856512
+  82 004c 00000000 		.word	.LANCHOR0
+  83 0050 00000000 		.word	.LC1
+  85              		.align	1
+  86              		.global	ADC_Configuration
+  87              		.syntax unified
+  88              		.code	16
+  89              		.thumb_func
+  91              	ADC_Configuration:
+  92              		@ args = 0, pretend = 0, frame = 24
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94 0054 0123     		movs	r3, #1
+  95 0056 10B5     		push	{r4, lr}
+  96 0058 86B0     		sub	sp, sp, #24
+  97 005a 0193     		str	r3, [sp, #4]
+  98 005c 0023     		movs	r3, #0
+  99 005e 0D4C     		ldr	r4, .L19
+ 100 0060 01A9     		add	r1, sp, #4
+ 101 0062 2000     		movs	r0, r4
+ 102 0064 8B80     		strh	r3, [r1, #4]
+ 103 0066 FFF7FEFF 		bl	ADC_Init
+ 104 006a 0323     		movs	r3, #3
+ 105 006c 0393     		str	r3, [sp, #12]
+ 106 006e 0493     		str	r3, [sp, #16]
+ 107 0070 094B     		ldr	r3, .L19+4
+ 108 0072 2000     		movs	r0, r4
+ 109 0074 03A9     		add	r1, sp, #12
+ 110 0076 0593     		str	r3, [sp, #20]
+ 111 0078 FFF7FEFF 		bl	ADC_SetConvSeqAConfig
+ 112 007c 8023     		movs	r3, #128
+ 113 007e A268     		ldr	r2, [r4, #8]
+ 114 0080 1B06     		lsls	r3, r3, #24
+ 115 0082 1343     		orrs	r3, r2
+ 116 0084 A360     		str	r3, [r4, #8]
+ 117 0086 8023     		movs	r3, #128
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 3
+
+
+ 118 0088 A268     		ldr	r2, [r4, #8]
+ 119 008a DB04     		lsls	r3, r3, #19
+ 120 008c 1343     		orrs	r3, r2
+ 121 008e A360     		str	r3, [r4, #8]
+ 122 0090 06B0     		add	sp, sp, #24
+ 123              		@ sp needed
+ 124 0092 10BD     		pop	{r4, pc}
+ 125              	.L20:
+ 126              		.align	2
+ 127              	.L19:
+ 128 0094 00C00140 		.word	1073856512
+ 129 0098 01000001 		.word	16777217
+ 131              		.align	1
+ 132              		.global	uart_init
+ 133              		.syntax unified
+ 134              		.code	16
+ 135              		.thumb_func
+ 137              	uart_init:
+ 138              		@ args = 0, pretend = 0, frame = 16
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140 009c 1FB5     		push	{r0, r1, r2, r3, r4, lr}
+ 141 009e 8023     		movs	r3, #128
+ 142              		@ sp needed
+ 143 00a0 0C4A     		ldr	r2, .L22
+ 144 00a2 DB01     		lsls	r3, r3, #7
+ 145 00a4 D16F     		ldr	r1, [r2, #124]
+ 146 00a6 0C4C     		ldr	r4, .L22+4
+ 147 00a8 0B43     		orrs	r3, r1
+ 148 00aa D367     		str	r3, [r2, #124]
+ 149 00ac 0D22     		movs	r2, #13
+ 150 00ae 0B4B     		ldr	r3, .L22+8
+ 151 00b0 6846     		mov	r0, sp
+ 152 00b2 1A60     		str	r2, [r3]
+ 153 00b4 0123     		movs	r3, #1
+ 154 00b6 2362     		str	r3, [r4, #32]
+ 155 00b8 FFF7FEFF 		bl	USART_GetDefaultConfig
+ 156 00bc 0223     		movs	r3, #2
+ 157 00be 6A46     		mov	r2, sp
+ 158 00c0 FF33     		adds	r3, r3, #255
+ 159 00c2 9380     		strh	r3, [r2, #4]
+ 160 00c4 6946     		mov	r1, sp
+ 161 00c6 0022     		movs	r2, #0
+ 162 00c8 2000     		movs	r0, r4
+ 163 00ca FFF7FEFF 		bl	USART_Init
+ 164 00ce 0523     		movs	r3, #5
+ 165 00d0 2360     		str	r3, [r4]
+ 166 00d2 1FBD     		pop	{r0, r1, r2, r3, r4, pc}
+ 167              	.L23:
+ 168              		.align	2
+ 169              	.L22:
+ 170 00d4 04800440 		.word	1074036740
+ 171 00d8 00400640 		.word	1074151424
+ 172 00dc 94800440 		.word	1074036884
+ 174              		.align	1
+ 175              		.global	SCT_Configuration
+ 176              		.syntax unified
+ 177              		.code	16
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 4
+
+
+ 178              		.thumb_func
+ 180              	SCT_Configuration:
+ 181              		@ args = 0, pretend = 0, frame = 16
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183 00e0 70B5     		push	{r4, r5, r6, lr}
+ 184 00e2 86B0     		sub	sp, sp, #24
+ 185 00e4 03AD     		add	r5, sp, #12
+ 186 00e6 2800     		movs	r0, r5
+ 187 00e8 FFF7FEFF 		bl	SCTIMER_GetDefaultConfig
+ 188 00ec 0026     		movs	r6, #0
+ 189 00ee F923     		movs	r3, #249
+ 190 00f0 164C     		ldr	r4, .L25
+ 191 00f2 2900     		movs	r1, r5
+ 192 00f4 2000     		movs	r0, r4
+ 193 00f6 2E80     		strh	r6, [r5]
+ 194 00f8 EE70     		strb	r6, [r5, #3]
+ 195 00fa 6B71     		strb	r3, [r5, #5]
+ 196 00fc FFF7FEFF 		bl	SCTIMER_Init
+ 197 0100 0125     		movs	r5, #1
+ 198 0102 FA22     		movs	r2, #250
+ 199 0104 8021     		movs	r1, #128
+ 200 0106 02AB     		add	r3, sp, #8
+ 201 0108 0193     		str	r3, [sp, #4]
+ 202 010a 0095     		str	r5, [sp]
+ 203 010c 3300     		movs	r3, r6
+ 204 010e 2000     		movs	r0, r4
+ 205 0110 9200     		lsls	r2, r2, #2
+ 206 0112 4901     		lsls	r1, r1, #5
+ 207 0114 FFF7FEFF 		bl	SCTIMER_CreateAndScheduleEvent
+ 208 0118 2000     		movs	r0, r4
+ 209 011a 029A     		ldr	r2, [sp, #8]
+ 210 011c 0321     		movs	r1, #3
+ 211 011e FFF7FEFF 		bl	SCTIMER_SetupOutputToggleAction
+ 212 0122 029B     		ldr	r3, [sp, #8]
+ 213 0124 C121     		movs	r1, #193
+ 214 0126 9D40     		lsls	r5, r5, r3
+ 215 0128 2289     		ldrh	r2, [r4, #8]
+ 216 012a DB00     		lsls	r3, r3, #3
+ 217 012c 2A43     		orrs	r2, r5
+ 218 012e 92B2     		uxth	r2, r2
+ 219 0130 2281     		strh	r2, [r4, #8]
+ 220 0132 1B19     		adds	r3, r3, r4
+ 221 0134 8900     		lsls	r1, r1, #2
+ 222 0136 5A58     		ldr	r2, [r3, r1]
+ 223 0138 0548     		ldr	r0, .L25+4
+ 224 013a 0240     		ands	r2, r0
+ 225 013c 5A50     		str	r2, [r3, r1]
+ 226 013e 0422     		movs	r2, #4
+ 227 0140 A388     		ldrh	r3, [r4, #4]
+ 228 0142 9343     		bics	r3, r2
+ 229 0144 A380     		strh	r3, [r4, #4]
+ 230 0146 06B0     		add	sp, sp, #24
+ 231              		@ sp needed
+ 232 0148 70BD     		pop	{r4, r5, r6, pc}
+ 233              	.L26:
+ 234 014a C046     		.align	2
+ 235              	.L25:
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 5
+
+
+ 236 014c 00400050 		.word	1342193664
+ 237 0150 FFFF9FFF 		.word	-6291457
+ 239              		.section	.rodata.str1.1
+ 240              	.LC5:
+ 241 000c 41444320 		.ascii	"ADC interrupt example.\015\012\000"
+ 241      696E7465 
+ 241      72727570 
+ 241      74206578 
+ 241      616D706C 
+ 242              	.LC7:
+ 243 0025 41444320 		.ascii	"ADC Calibration Done.\015\012\000"
+ 243      43616C69 
+ 243      62726174 
+ 243      696F6E20 
+ 243      446F6E65 
+ 244              	.LC9:
+ 245 003d 41444320 		.ascii	"ADC Calibration Failed.\015\012\000"
+ 245      43616C69 
+ 245      62726174 
+ 245      696F6E20 
+ 245      4661696C 
+ 246              	.LC11:
+ 247 0057 436F6E66 		.ascii	"Configuration Done.\012\000"
+ 247      69677572 
+ 247      6174696F 
+ 247      6E20446F 
+ 247      6E652E0A 
+ 248              		.section	.text.startup,"ax",%progbits
+ 249              		.align	1
+ 250              		.global	main
+ 251              		.syntax unified
+ 252              		.code	16
+ 253              		.thumb_func
+ 255              	main:
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 258 0000 70B5     		push	{r4, r5, r6, lr}
+ 259 0002 FFF7FEFF 		bl	BOARD_InitPins
+ 260 0006 FFF7FEFF 		bl	BOARD_InitBootClocks
+ 261 000a FFF7FEFF 		bl	uart_init
+ 262 000e 1B4B     		ldr	r3, .L32
+ 263 0010 1B4A     		ldr	r2, .L32+4
+ 264 0012 1C48     		ldr	r0, .L32+8
+ 265 0014 1A60     		str	r2, [r3]
+ 266 0016 FFF7FEFF 		bl	xprintf
+ 267 001a 8023     		movs	r3, #128
+ 268 001c 1A4C     		ldr	r4, .L32+12
+ 269 001e 5B00     		lsls	r3, r3, #1
+ 270 0020 E26F     		ldr	r2, [r4, #124]
+ 271 0022 1A4D     		ldr	r5, .L32+16
+ 272 0024 1343     		orrs	r3, r2
+ 273 0026 E367     		str	r3, [r4, #124]
+ 274 0028 FFF7FEFF 		bl	SCT_Configuration
+ 275 002c 8023     		movs	r3, #128
+ 276 002e E26F     		ldr	r2, [r4, #124]
+ 277 0030 5B04     		lsls	r3, r3, #17
+ 278 0032 1343     		orrs	r3, r2
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 6
+
+
+ 279 0034 8E22     		movs	r2, #142
+ 280 0036 1021     		movs	r1, #16
+ 281 0038 E367     		str	r3, [r4, #124]
+ 282 003a 9200     		lsls	r2, r2, #2
+ 283 003c AB58     		ldr	r3, [r5, r2]
+ 284 003e 0320     		movs	r0, #3
+ 285 0040 8B43     		bics	r3, r1
+ 286 0042 AB50     		str	r3, [r5, r2]
+ 287 0044 FFF7FEFF 		bl	CLOCK_GetFreq
+ 288 0048 0100     		movs	r1, r0
+ 289 004a 1148     		ldr	r0, .L32+20
+ 290 004c FFF7FEFF 		bl	ADC_DoSelfCalibration
+ 291 0050 0028     		cmp	r0, #0
+ 292 0052 11D0     		beq	.L28
+ 293 0054 0F48     		ldr	r0, .L32+24
+ 294              	.L31:
+ 295 0056 FFF7FEFF 		bl	xprintf
+ 296 005a FFF7FEFF 		bl	ADC_Configuration
+ 297 005e 0123     		movs	r3, #1
+ 298 0060 0B4A     		ldr	r2, .L32+20
+ 299 0062 516E     		ldr	r1, [r2, #100]
+ 300 0064 0B43     		orrs	r3, r1
+ 301 0066 5366     		str	r3, [r2, #100]
+ 302 0068 8022     		movs	r2, #128
+ 303 006a 0B4B     		ldr	r3, .L32+28
+ 304 006c 5202     		lsls	r2, r2, #9
+ 305 006e 1A60     		str	r2, [r3]
+ 306 0070 0A48     		ldr	r0, .L32+32
+ 307 0072 FFF7FEFF 		bl	xprintf
+ 308              	.L30:
+ 309 0076 FEE7     		b	.L30
+ 310              	.L28:
+ 311 0078 0948     		ldr	r0, .L32+36
+ 312 007a ECE7     		b	.L31
+ 313              	.L33:
+ 314              		.align	2
+ 315              	.L32:
+ 316 007c 00000000 		.word	xfunc_output
+ 317 0080 00000000 		.word	uart_putch
+ 318 0084 0C000000 		.word	.LC5
+ 319 0088 04800440 		.word	1074036740
+ 320 008c 00800440 		.word	1074036736
+ 321 0090 00C00140 		.word	1073856512
+ 322 0094 25000000 		.word	.LC7
+ 323 0098 00E100E0 		.word	-536813312
+ 324 009c 57000000 		.word	.LC11
+ 325 00a0 3D000000 		.word	.LC9
+ 327              		.global	ADCResultStruct
+ 328              		.bss
+ 329              		.align	2
+ 330              		.set	.LANCHOR0,. + 0
+ 333              	ADCResultStruct:
+ 334 0000 00000000 		.space	32
+ 334      00000000 
+ 334      00000000 
+ 334      00000000 
+ 334      00000000 
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 7
+
+
+ 335              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc_tim_trig_modified.c
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:15     .text:00000000 $t
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:21     .text:00000000 uart_putch
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:38     .text:00000010 $d
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:45     .text:00000018 $t
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:51     .text:00000018 ADC0_SEQA_IRQHandler
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:81     .text:00000048 $d
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:85     .text:00000054 $t
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:91     .text:00000054 ADC_Configuration
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:128    .text:00000094 $d
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:131    .text:0000009c $t
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:137    .text:0000009c uart_init
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:170    .text:000000d4 $d
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:174    .text:000000e0 $t
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:180    .text:000000e0 SCT_Configuration
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:236    .text:0000014c $d
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:249    .text.startup:00000000 $t
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:255    .text.startup:00000000 main
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:316    .text.startup:0000007c $d
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:333    .bss:00000000 ADCResultStruct
+C:\Users\ozgur\AppData\Local\Temp\ccHEMWeg.s:329    .bss:00000000 $d
+
+UNDEFINED SYMBOLS
+ADC_GetConvSeqAGlobalConversionResult
+ADC_GetChannelConversionResult
+xprintf
+ADC_Init
+ADC_SetConvSeqAConfig
+USART_GetDefaultConfig
+USART_Init
+SCTIMER_GetDefaultConfig
+SCTIMER_Init
+SCTIMER_CreateAndScheduleEvent
+SCTIMER_SetupOutputToggleAction
+BOARD_InitPins
+BOARD_InitBootClocks
+CLOCK_GetFreq
+ADC_DoSelfCalibration
+xfunc_output
