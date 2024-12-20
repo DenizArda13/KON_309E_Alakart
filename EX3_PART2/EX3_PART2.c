@@ -27,8 +27,9 @@
 // The pointer and flag are global so that ISR can manipulate them:
 volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (and pointer as well) for 2 ADC channels
 volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
-volatile bool start_conversion = false; // Flag for char control
 volatile uint32_t led_status = 0; // Variable that controls the led 
+volatile bool start_conversion = true; // Flag to control ADC conversion
+uint32_t eventCounterL;
 void uart_init(void);
 void ADC_Configuration(void);
 void SCT_Configuration(void);
@@ -71,22 +72,19 @@ int main(void)
   NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC  
   NVIC_SetPriority(ADC0_SEQA_IRQn, 2); // Öncelik seviyesini düşük tutun?? deneme
 
+  // Configure SCTimer
+  SCT_Configuration();
+  // Enable SCTimer interrupt
+  SCTIMER_EnableInterrupts(SCT0, eventCounterL);
+  EnableIRQ(SCT0_IRQn);
+
   xprintf("Configuration Done.\n");
 
   while (1){
 
-    start_conversion = true;
-
-    if (start_conversion){
-
-      start_conversion = false; 
-      xprintf("Starting ADC conversion...\r\n");
-      
-      //Start the ADC converter
-      ADC_DoSoftwareTriggerConvSeqA(ADC0);
-      //Wait untill the converting process
+      //Wait untill the ADC connversion is done
       while (!adc_conversion_done){ 
-
+        __WFI(); // Wait for interrupt
         }
 
         adc_conversion_done = false;    // Reset the ADC converter flag
@@ -109,9 +107,21 @@ int main(void)
         // Print the measurement to the Serial Monitor
         xprintf("ADC0=%d mV, ADC1=%d mV\r\n", voltage_ch0, voltage_ch1);
       }
-  }
+
     
 } // END: main()
+
+void SCT0_IRQHandler(void)
+{
+    // Clear the interrupt flag
+    SCTIMER_ClearStatusFlags(SCT0, kSCTIMER_Event0Flag); // Use the correct event flag
+
+    if (start_conversion)
+    {
+        // Trigger ADC conversion
+        ADC_DoSoftwareTriggerConvSeqA(ADC0);
+    }
+}
 
 
 // ISR for ADC conversion sequence A done.
@@ -200,11 +210,11 @@ void SCT_Configuration(void)
   sctimerConfig.enableCounterUnify = false; // Use as two 16 bit timers.
 
   sctimerConfig.clockMode = kSCTIMER_System_ClockMode; // Use system clock as SCT input
-  matchValueL = 48000U; // This is in: 16.6.20 SCT match registers 0 to 7
+  matchValueL = 500000000U; // This is in: 16.6.20 SCT match registers 0 to 7
   sctimerConfig.enableBidirection_l = false; // Use as single directional register.
   // Prescaler is 8 bit, in: CTRL. See: 16.6.3 SCT control register
   // sctimerConfig.prescale_l = 249U; // For this value +1 is used.
-  sctimerConfig.prescale_l = 259U;
+  sctimerConfig.prescale_l = 999U;
   SCTIMER_Init(SCT0, &sctimerConfig); // Initialize SCTimer module
 
   // Configure the low side counter.
