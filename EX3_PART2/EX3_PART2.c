@@ -88,8 +88,6 @@ int main(void)
         }
 
         adc_conversion_done = false;    // Reset the ADC converter flag
-        
-        xprintf("Led : %d\r\n", led_status);
 
         GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status); 
 
