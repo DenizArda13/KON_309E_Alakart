@@ -165,7 +165,7 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
  .crp           0x000002fc        0x4 build/startup_LPC824.o
                 0x00000300                        . = ALIGN (0x4)
 
-.text           0x00000300     0x3c54
+.text           0x00000300     0x3c48
                 0x00000300                        . = ALIGN (0x4)
  *(.text)
  .text          0x00000300        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
@@ -620,104 +620,105 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
  .rodata.all_implied_fbits
                 0x00003d64       0x24 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
  .rodata.str1.1
-                0x00003d88       0x8b build/EX3_PART1.o
+                0x00003d88       0x7d build/EX3_PART1.o
  .rodata.str1.1
-                0x00003e13        0x1 build/xprintf.o
+                0x00003e05        0x1 build/xprintf.o
  .rodata._ctype_
-                0x00003e13      0x101 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libc_nano.a(libc_a-ctype_.o)
-                0x00003e13                _ctype_
+                0x00003e05      0x101 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libc_nano.a(libc_a-ctype_.o)
+                0x00003e05                _ctype_
+ *fill*         0x00003f06        0x2 
  .rodata.all_implied_fbits
-                0x00003f14       0x24 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtend.o
+                0x00003f08       0x24 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtend.o
  *(.glue_7)
- .glue_7        0x00003f38        0x0 linker stubs
+ .glue_7        0x00003f2c        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x00003f38        0x0 linker stubs
+ .glue_7t       0x00003f2c        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x00003f38        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
- .eh_frame      0x00003f38        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtend.o
+ .eh_frame      0x00003f2c        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+ .eh_frame      0x00003f2c        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtend.o
  *(.init)
- .init          0x00003f3c        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
-                0x00003f3c                _init
- .init          0x00003f40        0x8 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
+ .init          0x00003f30        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
+                0x00003f30                _init
+ .init          0x00003f34        0x8 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
  *(.fini)
- .fini          0x00003f48        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
-                0x00003f48                _fini
- .fini          0x00003f4c        0x8 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
-                0x00003f54                        . = ALIGN (0x4)
+ .fini          0x00003f3c        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
+                0x00003f3c                _fini
+ .fini          0x00003f40        0x8 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
+                0x00003f48                        . = ALIGN (0x4)
 
-.vfp11_veneer   0x00003f54        0x0
- .vfp11_veneer  0x00003f54        0x0 linker stubs
+.vfp11_veneer   0x00003f48        0x0
+ .vfp11_veneer  0x00003f48        0x0 linker stubs
 
-.v4_bx          0x00003f54        0x0
- .v4_bx         0x00003f54        0x0 linker stubs
+.v4_bx          0x00003f48        0x0
+ .v4_bx         0x00003f48        0x0 linker stubs
 
-.iplt           0x00003f54        0x0
- .iplt          0x00003f54        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+.iplt           0x00003f48        0x0
+ .iplt          0x00003f48        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.ARM.extab      0x00003f54        0x0
+.ARM.extab      0x00003f48        0x0
  *(.ARM.extab* .gnu.linkonce.armextab.*)
- .ARM.extab     0x00003f54        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crt0.o
+ .ARM.extab     0x00003f48        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crt0.o
  .ARM.extab.text.__udivmoddi4
-                0x00003f54        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivmoddi4.o)
+                0x00003f48        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivmoddi4.o)
  .ARM.extab.text.__divdi3
-                0x00003f54        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divdi3.o)
+                0x00003f48        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divdi3.o)
 
-.ARM            0x00003f54        0x8
-                0x00003f54                        __exidx_start = .
+.ARM            0x00003f48        0x8
+                0x00003f48                        __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x00003f54        0x8 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crt0.o
+ .ARM.exidx     0x00003f48        0x8 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crt0.o
                                  0x10 (size before relaxing)
  .ARM.exidx.text.__udivmoddi4
-                0x00003f5c        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivmoddi4.o)
+                0x00003f50        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivmoddi4.o)
                                   0x8 (size before relaxing)
  .ARM.exidx.text.__divdi3
-                0x00003f5c        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divdi3.o)
+                0x00003f50        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divdi3.o)
                                   0x8 (size before relaxing)
-                0x00003f5c                        __exidx_end = .
+                0x00003f50                        __exidx_end = .
 
-.rel.dyn        0x00003f5c        0x0
- .rel.iplt      0x00003f5c        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+.rel.dyn        0x00003f50        0x0
+ .rel.iplt      0x00003f50        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.ctors          0x00003f5c        0x0
-                0x00003f5c                        __CTOR_LIST__ = .
+.ctors          0x00003f50        0x0
+                0x00003f50                        __CTOR_LIST__ = .
  *crtbegin.o(.ctors)
  *crtbegin?.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
  *(SORT_BY_NAME(.ctors.*))
  *(.ctors)
-                0x00003f5c                        __CTOR_END__ = .
+                0x00003f50                        __CTOR_END__ = .
 
-.dtors          0x00003f5c        0x0
-                0x00003f5c                        __DTOR_LIST__ = .
+.dtors          0x00003f50        0x0
+                0x00003f50                        __DTOR_LIST__ = .
  *crtbegin.o(.dtors)
  *crtbegin?.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
-                0x00003f5c                        __DTOR_END__ = .
+                0x00003f50                        __DTOR_END__ = .
 
-.preinit_array  0x00003f5c        0x0
-                0x00003f5c                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x00003f50        0x0
+                0x00003f50                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x00003f5c                        PROVIDE (__preinit_array_end = .)
+                0x00003f50                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x00003f5c        0x4
-                0x00003f5c                        PROVIDE (__init_array_start = .)
+.init_array     0x00003f50        0x4
+                0x00003f50                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x00003f5c        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
-                0x00003f60                        PROVIDE (__init_array_end = .)
+ .init_array    0x00003f50        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+                0x00003f54                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x00003f60        0x4
+.fini_array     0x00003f54        0x4
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x00003f60        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+ .fini_array    0x00003f54        0x4 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x00003f64                        __etext = .
-                0x00003f64                        __DATA_ROM = .
+                0x00003f58                        __etext = .
+                0x00003f58                        __DATA_ROM = .
 
-.data           0x10000000       0x64 load address 0x00003f64
+.data           0x10000000       0x64 load address 0x00003f58
                 0x10000000                        . = ALIGN (0x4)
                 0x10000000                        __DATA_RAM = .
                 0x10000000                        __data_start__ = .
@@ -808,21 +809,21 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
  *(.jcr*)
                 0x10000064                        . = ALIGN (0x4)
                 0x10000064                        __data_end__ = .
-                0x00003fc8                        __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+                0x00003fbc                        __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
                 0x00008000                        text_end = (ORIGIN (m_text) + LENGTH (m_text))
                 0x00000001                        ASSERT ((__DATA_END <= text_end), region m_text overflowed with text and data)
 
 .tm_clone_table
-                0x10000064        0x0 load address 0x00003fc8
+                0x10000064        0x0 load address 0x00003fbc
  .tm_clone_table
                 0x10000064        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
  .tm_clone_table
                 0x10000064        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtend.o
 
-.igot.plt       0x10000064        0x0 load address 0x00003fc8
+.igot.plt       0x10000064        0x0 load address 0x00003fbc
  .igot.plt      0x10000064        0x0 C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.bss            0x10000064      0x200 load address 0x00003fc8
+.bss            0x10000064      0x200 load address 0x00003fbc
                 0x10000064                        . = ALIGN (0x4)
                 0x10000064                        __START_BSS = .
                 0x10000064                        __bss_start__ = .
@@ -952,7 +953,7 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
                 0x10000264                        __bss_end__ = .
                 0x10000264                        __END_BSS = .
 
-.heap           0x10000264      0x404 load address 0x000041c8
+.heap           0x10000264      0x404 load address 0x000041bc
                 0x10000268                        . = ALIGN (0x8)
  *fill*         0x10000264        0x4 
                 0x10000268                        __end__ = .
@@ -963,7 +964,7 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
                 0x10000668                        __HeapLimit = .
                 0x10000668                        __heap_limit = .
 
-.stack          0x10000668      0x800 load address 0x000045cc
+.stack          0x10000668      0x800 load address 0x000045c0
                 0x10000668                        . = ALIGN (0x8)
                 0x10000e68                        . = (. + STACK_SIZE)
  *fill*         0x10000668      0x800 

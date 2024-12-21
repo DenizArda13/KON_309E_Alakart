@@ -83,11 +83,11 @@ int main(void)
 
       //Wait untill the ADC connversion is done
       while (!adc_conversion_done){ 
-        __WFI(); // Wait for interrupt
+        //__WFI(); // Wait for interrupt
         }
 
         adc_conversion_done = false;    // Reset the ADC converter flag
-        xprintf("ADC conversion complate.\r\n",);
+        xprintf("ADC conversion complate.\r\n");
 
         GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status); // At the begining led is off
         //Led Toggle 
