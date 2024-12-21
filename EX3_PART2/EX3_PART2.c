@@ -211,7 +211,7 @@ void SCT_Configuration(void)
   matchValueL = 500000000U; // This is in: 16.6.20 SCT match registers 0 to 7
   sctimerConfig.enableBidirection_l = false; // Use as single directional register.
   // Prescaler is 8 bit, in: CTRL. See: 16.6.3 SCT control register
-  // sctimerConfig.prescale_l = 249U; // For this value +1 is used.
+  // sctimerConfig.prescale_l = 999U; // For this value +1 is used.
   sctimerConfig.prescale_l = 999U;
   SCTIMER_Init(SCT0, &sctimerConfig); // Initialize SCTimer module
 

@@ -72,6 +72,7 @@ void BOARD_InitPins(void) {
   // Configure PIO0_7 with these properties.
   IOCON_PinMuxSet(IOCON, IOCON_INDEX_PIO0_7, IOCON_config);
   
+  // Connect ADC_CHN0 to PIO0_7:
   SWM_SetFixedPinSelect(SWM0, kSWM_ADC_CHN0, true);
   
 }

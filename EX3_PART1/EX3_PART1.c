@@ -72,8 +72,8 @@ int main(void)
     if (start_conversion){
 
       start_conversion = false;      // Reset the Char Controller flag
+
       xprintf("Starting ADC conversion...\r\n");
-      
       //Start the ADC converter
       ADC_DoSoftwareTriggerConvSeqA(ADC0);
       //Wait untill the converting process
@@ -101,13 +101,13 @@ void ADC0_SEQA_IRQHandler(void)
 
   if (kADC_ConvSeqAInterruptFlag & ADC_GetStatusFlags(ADC0)) {
 
-    // Kanal 0 ve 1 dönüşüm sonuçlarını oku
+    // Read the conversion results from channel 0 and 1
     ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_0, &ADCResultStruct[0]);
     ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_1, &ADCResultStruct[1]);
     // Set flag to indicate conversion is complete
     adc_conversion_done = true;
 
-    // Interrupt bayrağını temizle
+    // Clear the interrupt flag
     ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
     }
 }
@@ -148,7 +148,7 @@ void uart_init(void)
  
   CLOCK_EnableClock(kCLOCK_Uart0);
 
-  // 2. Set speed (baud rate) to 115200bps:
+  // 2. Set speed (baud rate) to 38400bps:
   // See Sec. 13.7.1.1 and 13.6.9 in User Manual.
   // Obtain a preliminary clock by first dividing the processor main clock
   // Processor main clock is 24MHz. (240000000)
@@ -223,11 +223,11 @@ void USART0_IRQHandler(void)
 {
   if (USART_GetStatusFlags(USART0) & kUSART_RxReady){
 
-    // Char has recieved we can proceed 
+    // If char has recieved we can proceed and we can print the received char but i did not prefer to print it 
     uint8_t received_char = USART_ReadByte(USART0);
 
     // Flag that starts ADC converter when we type a char
-    start_conversion = true;
-    USART_ClearStatusFlags(USART0, kUSART_RxReady);
+    start_conversion = true; // Starting the ADC conversion
+    USART_ClearStatusFlags(USART0, kUSART_RxReady);// Clear the status flag for the next interrupt
     }
 }
