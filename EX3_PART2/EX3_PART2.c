@@ -28,7 +28,6 @@
 volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (and pointer as well) for 2 ADC channels
 volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
 volatile uint32_t led_status = 0; // Variable that controls the led 
-volatile bool start_conversion = true; // Flag to control ADC conversion
 uint32_t eventCounterL;
 void uart_init(void);
 void ADC_Configuration(void);
@@ -70,7 +69,7 @@ int main(void)
   // Enable the interrupt the for Sequence A Conversion Complete:
   ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); // Within ADC0
   NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC  
-  NVIC_SetPriority(ADC0_SEQA_IRQn, 2); // Öncelik seviyesini düşük tutun?? deneme
+  NVIC_SetPriority(ADC0_SEQA_IRQn, 2); // set the priority of the ADC ISR
 
   // Configure SCTimer
   SCT_Configuration();
@@ -88,9 +87,10 @@ int main(void)
         }
 
         adc_conversion_done = false;    // Reset the ADC converter flag
+        xprintf("ADC conversion complate.\r\n",);
 
-        GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status); 
-
+        GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status); // At the begining led is off
+        //Led Toggle 
         if(led_status == 0){
           led_status = 1;
         }
@@ -114,11 +114,8 @@ void SCT0_IRQHandler(void)
     // Clear the interrupt flag
     SCTIMER_ClearStatusFlags(SCT0, kSCTIMER_Event0Flag); // Use the correct event flag
 
-    if (start_conversion)
-    {
         // Trigger ADC conversion
         ADC_DoSoftwareTriggerConvSeqA(ADC0);
-    }
 }
 
 
@@ -128,12 +125,12 @@ void ADC0_SEQA_IRQHandler(void)
 
   if (kADC_ConvSeqAInterruptFlag & ADC_GetStatusFlags(ADC0)) {
 
-    // Kanal 0 ve 1 dönüşüm sonuçlarını oku
+    // Read the conversion results from channel 0 and 1
     ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_0, &ADCResultStruct[0]);
     ADC_GetChannelConversionResult(ADC0, ADC_CHANNEL_1, &ADCResultStruct[1]);
     // Set flag to indicate conversion is complete
     adc_conversion_done = true;
-    // Interrupt bayrağını temizle
+    // Clear the status flag
     ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
     }
     
