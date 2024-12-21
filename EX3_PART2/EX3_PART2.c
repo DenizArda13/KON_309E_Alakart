@@ -29,6 +29,7 @@ volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (a
 volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
 volatile uint32_t led_status = 0; // Variable that controls the led 
 uint32_t eventCounterL;
+uint32_t counter = 0;
 void uart_init(void);
 void ADC_Configuration(void);
 void SCT_Configuration(void);
@@ -69,55 +70,29 @@ int main(void)
   // Enable the interrupt the for Sequence A Conversion Complete:
   ADC_EnableInterrupts(ADC0, kADC_ConvSeqAInterruptEnable); // Within ADC0
   NVIC_EnableIRQ(ADC0_SEQA_IRQn);                           // Within NVIC  
-  NVIC_SetPriority(ADC0_SEQA_IRQn, 2); // set the priority of the ADC ISR
-
-  // Configure SCTimer
-  SCT_Configuration();
-  // Enable SCTimer interrupt
-  SCTIMER_EnableInterrupts(SCT0, eventCounterL);
-  EnableIRQ(SCT0_IRQn);
 
   xprintf("Configuration Done.\n");
 
   while (1){
+    if (adc_conversion_done){
+        adc_conversion_done = false; 
 
-      //Wait untill the ADC connversion is done
-      while (!adc_conversion_done){ 
-        //__WFI(); // Wait for interrupt
-        }
-
-        adc_conversion_done = false;    // Reset the ADC converter flag
-        xprintf("ADC conversion complate.\r\n");
-
-        GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status); // At the begining led is off
-        //Led Toggle 
-        if(led_status == 0){
-          led_status = 1;
-        }
-        else if (led_status == 1){
-          led_status = 0;
-        }
-
-        // Voltage calculations
         int16_t voltage_ch0 = (ADCResultStruct[0].result * REF_VOLTAGE_MV) / 4095;
         int16_t voltage_ch1 = (ADCResultStruct[1].result * REF_VOLTAGE_MV) / 4095;
 
-        // Print the measurement to the Serial Monitor
         xprintf("ADC0=%d mV, ADC1=%d mV\r\n", voltage_ch0, voltage_ch1);
-      }
+        
+        xprintf("counter=%d\r\n", counter);
+        counter ++;
 
-    
-} // END: main()
 
-void SCT0_IRQHandler(void)
-{
-    // Clear the interrupt flag
-    SCTIMER_ClearStatusFlags(SCT0, kSCTIMER_Event0Flag); // Use the correct event flag
+        led_status = !led_status;
+        GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status);  
+    }
+    __WFI();  
 
-        // Trigger ADC conversion
-        ADC_DoSoftwareTriggerConvSeqA(ADC0);
+  }
 }
-
 
 // ISR for ADC conversion sequence A done.
 void ADC0_SEQA_IRQHandler(void)
@@ -205,11 +180,11 @@ void SCT_Configuration(void)
   sctimerConfig.enableCounterUnify = false; // Use as two 16 bit timers.
 
   sctimerConfig.clockMode = kSCTIMER_System_ClockMode; // Use system clock as SCT input
-  matchValueL = 500000000U; // This is in: 16.6.20 SCT match registers 0 to 7
+  matchValueL = 24000U; // This is in: 16.6.20 SCT match registers 0 to 7
   sctimerConfig.enableBidirection_l = false; // Use as single directional register.
   // Prescaler is 8 bit, in: CTRL. See: 16.6.3 SCT control register
   // sctimerConfig.prescale_l = 999U; // For this value +1 is used.
-  sctimerConfig.prescale_l = 999U;
+  sctimerConfig.prescale_l = 249U;
   SCTIMER_Init(SCT0, &sctimerConfig); // Initialize SCTimer module
 
   // Configure the low side counter.
