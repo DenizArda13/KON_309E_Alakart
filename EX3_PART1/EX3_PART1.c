@@ -78,7 +78,6 @@ int main(void)
       ADC_DoSoftwareTriggerConvSeqA(ADC0);
       //Wait untill the converting process
       while (!adc_conversion_done){ 
-
         }
 
         adc_conversion_done = false;    // Reset the ADC converter flag
@@ -181,11 +180,11 @@ void SCT_Configuration(void)
   sctimerConfig.enableCounterUnify = false; // Use as two 16 bit timers.
 
   sctimerConfig.clockMode = kSCTIMER_System_ClockMode; // Use system clock as SCT input
-  matchValueL = 1U; // This is in: 16.6.20 SCT match registers 0 to 7
+  matchValueL = 24000U; // This is in: 16.6.20 SCT match registers 0 to 7
   sctimerConfig.enableBidirection_l = false; // Use as single directional register.
   // Prescaler is 8 bit, in: CTRL. See: 16.6.3 SCT control register
   // sctimerConfig.prescale_l = 11999999U; // For this value +1 is used.
-  sctimerConfig.prescale_l = 11999999U;
+  sctimerConfig.prescale_l = 249U;
   SCTIMER_Init(SCT0, &sctimerConfig); // Initialize SCTimer module
 
   // Configure the low side counter.
