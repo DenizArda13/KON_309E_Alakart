@@ -29,7 +29,7 @@ volatile adc_result_info_t ADCResultStruct[2]; // ADC results structure array (a
 volatile bool adc_conversion_done = false; // Flag for ADC conversion completion
 volatile uint32_t led_status = 0; // Variable that controls the led 
 uint32_t eventCounterL;
-uint32_t counter = 0;
+//uint32_t counter = 0;
 void uart_init(void);
 void ADC_Configuration(void);
 void SCT_Configuration(void);
@@ -75,22 +75,25 @@ int main(void)
 
   while (1){
     if (adc_conversion_done){
-        adc_conversion_done = false; 
 
+        adc_conversion_done = false; // Reset the flag
+
+        // Voltage calculations
         int16_t voltage_ch0 = (ADCResultStruct[0].result * REF_VOLTAGE_MV) / 4095;
         int16_t voltage_ch1 = (ADCResultStruct[1].result * REF_VOLTAGE_MV) / 4095;
 
+        // Printring the voltage values in mV
         xprintf("ADC0=%d mV, ADC1=%d mV\r\n", voltage_ch0, voltage_ch1);
+
+        // Added a counter to see whether Serial Monitor is broker or not
+        //xprintf("counter=%d\r\n", counter);
+        //counter ++;
         
-        xprintf("counter=%d\r\n", counter);
-        counter ++;
-
-
+        // Toggle the led
         led_status = !led_status;
         GPIO_PinWrite(GPIO, LED_PORT, LED_PIN, led_status);  
     }
-    __WFI();  
-
+    __WFI();  // Wait For Interrupt to save power
   }
 }
 
@@ -107,8 +110,7 @@ void ADC0_SEQA_IRQHandler(void)
     adc_conversion_done = true;
     // Clear the status flag
     ADC_ClearStatusFlags(ADC0, kADC_ConvSeqAInterruptFlag);
-    }
-    
+    }    
 }
 
 // Configure and initialize the ADC
