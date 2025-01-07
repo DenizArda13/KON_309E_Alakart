@@ -8,15 +8,15 @@
 
 #define LM75_ADDR      0x48 // This is the 7 bit address.
 #define LM75_REG_TEMP  0x00 // Temp readout register This is the default value.
-#define LM75_REG_CONF  0x00 // Config Register
-#define LM75_REG_HYST  0x00 // Hysteresis register.
-#define LM75_REG_TOS   0x00 // Thermostat register
+#define LM75_REG_CONF  0x01 // Config Register
+#define LM75_REG_HYST  0x02 // Hysteresis register.
+#define LM75_REG_TOS   0x03 // Thermostat register
 
 #define LM75_READ_LEN   2 // LM75 returns 2 bytes.
 #define LM75_WRITE_LEN   2 // LM75 requires 2 bytes.
 
-#define LM75_T_HIGH   2 // Alarm threshold upper temp
-#define LM75_T_LOW   1 // Alarm threshold lower temp
+#define LM75_T_HIGH   30 // Alarm threshold upper temp
+#define LM75_T_LOW   28 // Alarm threshold lower temp
 
 extern volatile bool i2c_TX_complete;
 

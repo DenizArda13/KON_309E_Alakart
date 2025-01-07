@@ -39,9 +39,7 @@ void clock_init(void);
 
 
 void SysTick_DelayTicks(uint32_t n);
-static void i2c_master_callback(I2C_Type *base,
-				i2c_master_handle_t *handle,
-				status_t status, void *userData);
+static void i2c_master_callback(I2C_Type *base,i2c_master_handle_t *handle,status_t status, void *userData);
 
 void I2C_Write(uint8_t data, uint8_t address, i2c_master_handle_t* i2c_handle);
 
@@ -71,7 +69,7 @@ int main(void) {
  
   xdev_out(uart_putch); // Set the hardware interface function for xprintf
 
-  xprintf ("\r\n\r\nLM75 temperature sensor example. \r\n");
+  xprintf ("\r\n\r\n EXPERIMENT 4. \r\n");
   
   
   // Set PIO0_16 as an output:
@@ -91,40 +89,47 @@ int main(void) {
   masterConfig.baudRate_Bps = I2C_BAUDRATE; // Set I2C transmission speed.
   
   // Initialize the I2C peripheral as master:
-  I2C_MasterInit(I2C0_BASE_ADDR, &masterConfig,
-		 I2C_MASTER_CLOCK_FREQUENCY);
+  I2C_MasterInit(I2C0_BASE_ADDR, &masterConfig,I2C_MASTER_CLOCK_FREQUENCY);
   
   // Create the I2C handle for non-blocking transfers
-  I2C_MasterTransferCreateHandle(I2C0_BASE_ADDR,
-				 &i2c_handle,
-				 i2c_master_callback, NULL);
+  I2C_MasterTransferCreateHandle(I2C0_BASE_ADDR,&i2c_handle,i2c_master_callback, NULL);
 
-  xprintf ("Initialized I2C.\r\n");
+//  Configuration register 
+  i2c_txbuf[0]=16;
+  i2c_txbuf[1]=0;
+  LM75_Write_Reg(LM75_REG_CONF, i2c_txbuf, LM75_READ_LEN, &i2c_handle);
 
+  // Check what has been written:
+  LM75_Read_Reg(LM75_REG_CONF, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
+  xprintf("\nLM75 Configuration\n\n");
+  print_os_fault(i2c_rxbuf); // Defined at lm75.c
   
-
   // Set the alarm ON temperature
-  i2c_txbuf[0]=LM75_T_HIGH; 
+  i2c_txbuf[0]=LM75_T_HIGH; // LM75_T_HIGH = 30
   i2c_txbuf[1]=0;
   LM75_Write_Reg (LM75_REG_TOS, i2c_txbuf, LM75_READ_LEN, &i2c_handle);
 
   // Check what has been written:
   LM75_Read_Reg (LM75_REG_TOS, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
-  xprintf("Upper alarm temp= ");
+  xprintf("\n\nAlarm Configuration\n");
+  xprintf("\n Upper alarm temp= ");
   print_temp(i2c_rxbuf);
-  xprintf("\n\r");
+  xprintf(" Celcius Degree\n\r");
 
 
   // Set the alarm clear temperature.
-  i2c_txbuf[0]=LM75_T_LOW;  
+  i2c_txbuf[0]=LM75_T_LOW;  // LM75_T_LOW = 28
   i2c_txbuf[1]=0;
   LM75_Write_Reg (LM75_REG_HYST, i2c_txbuf, LM75_READ_LEN, &i2c_handle);
 
   // Check what has been written:
   LM75_Read_Reg (LM75_REG_HYST, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
-  xprintf("Lower alarm temp= ");
+  xprintf("\n Lower alarm temp= ");
   print_temp(i2c_rxbuf);
-  xprintf("\n\r\n\r");
+  xprintf(" Celcius Degree\n\r");
+
+  xprintf ("I2C initialization complete.\n\n");
+  //xprintf("\n\r\n\r");
 
 
   
@@ -133,11 +138,13 @@ int main(void) {
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=0;
     
     LM75_Read_Reg (LM75_REG_TEMP, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
+    xprintf("T=");
     print_temp(i2c_rxbuf);
-    xprintf("\n\r");
-    
+    xprintf(" deg C\n\r");
+    SysTick_DelayTicks(500U);
 
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=1;
+    SysTick_DelayTicks(500U);
   }
   
 }

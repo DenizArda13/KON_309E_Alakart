@@ -1,0 +1,578 @@
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 1
+
+
+   1              		.cpu cortex-m0plus
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"EX4.c"
+  14              		.text
+  15              		.section	.text.i2c_master_callback,"ax",%progbits
+  16              		.align	1
+  17              		.syntax unified
+  18              		.code	16
+  19              		.thumb_func
+  21              	i2c_master_callback:
+  22              		@ args = 0, pretend = 0, frame = 0
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 002A     		cmp	r2, #0
+  26 0002 02D1     		bne	.L1
+  27 0004 014B     		ldr	r3, .L3
+  28 0006 0132     		adds	r2, r2, #1
+  29 0008 1A70     		strb	r2, [r3]
+  30              	.L1:
+  31              		@ sp needed
+  32 000a 7047     		bx	lr
+  33              	.L4:
+  34              		.align	2
+  35              	.L3:
+  36 000c 00000000 		.word	i2c_TX_complete
+  38              		.section	.text.uart_putch,"ax",%progbits
+  39              		.align	1
+  40              		.global	uart_putch
+  41              		.syntax unified
+  42              		.code	16
+  43              		.thumb_func
+  45              	uart_putch:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 0422     		movs	r2, #4
+  50 0002 034B     		ldr	r3, .L9
+  51              	.L6:
+  52 0004 9968     		ldr	r1, [r3, #8]
+  53 0006 1142     		tst	r1, r2
+  54 0008 FCD0     		beq	.L6
+  55              		@ sp needed
+  56 000a D861     		str	r0, [r3, #28]
+  57 000c 7047     		bx	lr
+  58              	.L10:
+  59 000e C046     		.align	2
+  60              	.L9:
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 2
+
+
+  61 0010 00400640 		.word	1074151424
+  63              		.section	.text.I2C_Write,"ax",%progbits
+  64              		.align	1
+  65              		.global	I2C_Write
+  66              		.syntax unified
+  67              		.code	16
+  68              		.thumb_func
+  70              	I2C_Write:
+  71              		@ args = 0, pretend = 0, frame = 32
+  72              		@ frame_needed = 0, uses_anonymous_args = 0
+  73 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  74 0002 0700     		movs	r7, r0
+  75 0004 89B0     		sub	sp, sp, #36
+  76 0006 02AC     		add	r4, sp, #8
+  77 0008 0D00     		movs	r5, r1
+  78 000a 1600     		movs	r6, r2
+  79 000c 0021     		movs	r1, #0
+  80 000e 1022     		movs	r2, #16
+  81 0010 2000     		movs	r0, r4
+  82 0012 FFF7FEFF 		bl	memset
+  83 0016 01AB     		add	r3, sp, #4
+  84 0018 1F70     		strb	r7, [r3]
+  85 001a 0693     		str	r3, [sp, #24]
+  86 001c 0123     		movs	r3, #1
+  87 001e 0793     		str	r3, [sp, #28]
+  88 0020 0023     		movs	r3, #0
+  89 0022 A580     		strh	r5, [r4, #4]
+  90 0024 064D     		ldr	r5, .L15
+  91 0026 2200     		movs	r2, r4
+  92 0028 3100     		movs	r1, r6
+  93 002a 0648     		ldr	r0, .L15+4
+  94 002c 2B70     		strb	r3, [r5]
+  95 002e FFF7FEFF 		bl	I2C_MasterTransferNonBlocking
+  96              	.L12:
+  97 0032 2B78     		ldrb	r3, [r5]
+  98 0034 002B     		cmp	r3, #0
+  99 0036 FCD0     		beq	.L12
+ 100 0038 0023     		movs	r3, #0
+ 101 003a 2B70     		strb	r3, [r5]
+ 102 003c 09B0     		add	sp, sp, #36
+ 103              		@ sp needed
+ 104 003e F0BD     		pop	{r4, r5, r6, r7, pc}
+ 105              	.L16:
+ 106              		.align	2
+ 107              	.L15:
+ 108 0040 00000000 		.word	i2c_TX_complete
+ 109 0044 00000540 		.word	1074069504
+ 111              		.section	.text.clock_init,"ax",%progbits
+ 112              		.align	1
+ 113              		.global	clock_init
+ 114              		.syntax unified
+ 115              		.code	16
+ 116              		.thumb_func
+ 118              	clock_init:
+ 119              		@ args = 0, pretend = 0, frame = 8
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121 0000 8E23     		movs	r3, #142
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 3
+
+
+ 122 0002 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 123 0004 0125     		movs	r5, #1
+ 124              		@ sp needed
+ 125 0006 0221     		movs	r1, #2
+ 126 0008 0026     		movs	r6, #0
+ 127 000a 1A4C     		ldr	r4, .L18
+ 128 000c 9B00     		lsls	r3, r3, #2
+ 129 000e E258     		ldr	r2, [r4, r3]
+ 130 0010 6846     		mov	r0, sp
+ 131 0012 AA43     		bics	r2, r5
+ 132 0014 E250     		str	r2, [r4, r3]
+ 133 0016 E258     		ldr	r2, [r4, r3]
+ 134 0018 174F     		ldr	r7, .L18+4
+ 135 001a 8A43     		bics	r2, r1
+ 136 001c E250     		str	r2, [r4, r3]
+ 137 001e 174B     		ldr	r3, .L18+8
+ 138 0020 1E60     		str	r6, [r3]
+ 139 0022 6B46     		mov	r3, sp
+ 140 0024 1E71     		strb	r6, [r3, #4]
+ 141 0026 164B     		ldr	r3, .L18+12
+ 142 0028 0093     		str	r3, [sp]
+ 143 002a FFF7FEFF 		bl	CLOCK_InitSystemPll
+ 144 002e C020     		movs	r0, #192
+ 145 0030 8000     		lsls	r0, r0, #2
+ 146 0032 FFF7FEFF 		bl	CLOCK_SetMainClkSrc
+ 147 0036 0323     		movs	r3, #3
+ 148 0038 FF22     		movs	r2, #255
+ 149 003a 3B60     		str	r3, [r7]
+ 150 003c A36F     		ldr	r3, [r4, #120]
+ 151 003e 9343     		bics	r3, r2
+ 152 0040 2B43     		orrs	r3, r5
+ 153 0042 A367     		str	r3, [r4, #120]
+ 154 0044 FFF7FEFF 		bl	SystemCoreClockUpdate
+ 155 0048 0323     		movs	r3, #3
+ 156 004a 3B60     		str	r3, [r7]
+ 157 004c 2300     		movs	r3, r4
+ 158 004e C822     		movs	r2, #200
+ 159 0050 E433     		adds	r3, r3, #228
+ 160 0052 1E60     		str	r6, [r3]
+ 161 0054 0434     		adds	r4, r4, #4
+ 162 0056 1D60     		str	r5, [r3]
+ 163 0058 5A60     		str	r2, [r3, #4]
+ 164 005a E36F     		ldr	r3, [r4, #124]
+ 165 005c 7F35     		adds	r5, r5, #127
+ 166 005e 2B43     		orrs	r3, r5
+ 167 0060 E367     		str	r3, [r4, #124]
+ 168 0062 2E21     		movs	r1, #46
+ 169 0064 0748     		ldr	r0, .L18+16
+ 170 0066 AE3A     		subs	r2, r2, #174
+ 171 0068 FFF7FEFF 		bl	SWM_SetMovablePinSelect
+ 172 006c E36F     		ldr	r3, [r4, #124]
+ 173 006e AB43     		bics	r3, r5
+ 174 0070 E367     		str	r3, [r4, #124]
+ 175 0072 F7BD     		pop	{r0, r1, r2, r4, r5, r6, r7, pc}
+ 176              	.L19:
+ 177              		.align	2
+ 178              	.L18:
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 4
+
+
+ 179 0074 00800440 		.word	1074036736
+ 180 0078 E0800440 		.word	1074036960
+ 181 007c 40800440 		.word	1074036800
+ 182 0080 00879303 		.word	60000000
+ 183 0084 00C00040 		.word	1073790976
+ 185              		.section	.text.config_uart0,"ax",%progbits
+ 186              		.align	1
+ 187              		.global	config_uart0
+ 188              		.syntax unified
+ 189              		.code	16
+ 190              		.thumb_func
+ 192              	config_uart0:
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195              		@ link register save eliminated.
+ 196 0000 8023     		movs	r3, #128
+ 197              		@ sp needed
+ 198 0002 074A     		ldr	r2, .L21
+ 199 0004 DB01     		lsls	r3, r3, #7
+ 200 0006 D16F     		ldr	r1, [r2, #124]
+ 201 0008 0B43     		orrs	r3, r1
+ 202 000a D367     		str	r3, [r2, #124]
+ 203 000c 0822     		movs	r2, #8
+ 204 000e 054B     		ldr	r3, .L21+4
+ 205 0010 1A60     		str	r2, [r3]
+ 206 0012 054B     		ldr	r3, .L21+8
+ 207 0014 053A     		subs	r2, r2, #5
+ 208 0016 1A62     		str	r2, [r3, #32]
+ 209 0018 0232     		adds	r2, r2, #2
+ 210 001a 1A60     		str	r2, [r3]
+ 211 001c 7047     		bx	lr
+ 212              	.L22:
+ 213 001e C046     		.align	2
+ 214              	.L21:
+ 215 0020 04800440 		.word	1074036740
+ 216 0024 94800440 		.word	1074036884
+ 217 0028 00400640 		.word	1074151424
+ 219              		.section	.text.SysTick_Handler,"ax",%progbits
+ 220              		.align	1
+ 221              		.global	SysTick_Handler
+ 222              		.syntax unified
+ 223              		.code	16
+ 224              		.thumb_func
+ 226              	SysTick_Handler:
+ 227              		@ args = 0, pretend = 0, frame = 0
+ 228              		@ frame_needed = 0, uses_anonymous_args = 0
+ 229              		@ link register save eliminated.
+ 230 0000 034B     		ldr	r3, .L28
+ 231 0002 1A68     		ldr	r2, [r3]
+ 232 0004 002A     		cmp	r2, #0
+ 233 0006 02D0     		beq	.L23
+ 234 0008 1A68     		ldr	r2, [r3]
+ 235 000a 013A     		subs	r2, r2, #1
+ 236 000c 1A60     		str	r2, [r3]
+ 237              	.L23:
+ 238              		@ sp needed
+ 239 000e 7047     		bx	lr
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 5
+
+
+ 240              	.L29:
+ 241              		.align	2
+ 242              	.L28:
+ 243 0010 00000000 		.word	SystickCounter
+ 245              		.section	.text.SysTick_DelayTicks,"ax",%progbits
+ 246              		.align	1
+ 247              		.global	SysTick_DelayTicks
+ 248              		.syntax unified
+ 249              		.code	16
+ 250              		.thumb_func
+ 252              	SysTick_DelayTicks:
+ 253              		@ args = 0, pretend = 0, frame = 0
+ 254              		@ frame_needed = 0, uses_anonymous_args = 0
+ 255              		@ link register save eliminated.
+ 256 0000 024B     		ldr	r3, .L33
+ 257 0002 1860     		str	r0, [r3]
+ 258              	.L31:
+ 259 0004 1A68     		ldr	r2, [r3]
+ 260 0006 002A     		cmp	r2, #0
+ 261 0008 FCD1     		bne	.L31
+ 262              		@ sp needed
+ 263 000a 7047     		bx	lr
+ 264              	.L34:
+ 265              		.align	2
+ 266              	.L33:
+ 267 000c 00000000 		.word	SystickCounter
+ 269              		.section	.rodata.main.str1.1,"aMS",%progbits,1
+ 270              	.LC6:
+ 271 0000 0D0A0D0A 		.ascii	"\015\012\015\012 EXPERIMENT 4. \015\012\000"
+ 271      20455850 
+ 271      4552494D 
+ 271      454E5420 
+ 271      342E200D 
+ 272              		.global	__aeabi_uidiv
+ 273              	.LC10:
+ 274 0016 0A4C4D37 		.ascii	"\012LM75 Configuration\012\000"
+ 274      3520436F 
+ 274      6E666967 
+ 274      75726174 
+ 274      696F6E0A 
+ 275              	.LC12:
+ 276 002b 0A0A416C 		.ascii	"\012\012Alarm Configuration\012\000"
+ 276      61726D20 
+ 276      436F6E66 
+ 276      69677572 
+ 276      6174696F 
+ 277              	.LC14:
+ 278 0042 0A205570 		.ascii	"\012 Upper alarm temp= \000"
+ 278      70657220 
+ 278      616C6172 
+ 278      6D207465 
+ 278      6D703D20 
+ 279              	.LC16:
+ 280 0057 2043656C 		.ascii	" Celcius Degree\012\015\000"
+ 280      63697573 
+ 280      20446567 
+ 280      7265650A 
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 6
+
+
+ 280      0D00
+ 281              	.LC18:
+ 282 0069 0A204C6F 		.ascii	"\012 Lower alarm temp= \000"
+ 282      77657220 
+ 282      616C6172 
+ 282      6D207465 
+ 282      6D703D20 
+ 283              	.LC20:
+ 284 007e 49324320 		.ascii	"I2C initialization complete.\012\012\000"
+ 284      696E6974 
+ 284      69616C69 
+ 284      7A617469 
+ 284      6F6E2063 
+ 285              	.LC22:
+ 286 009d 543D00   		.ascii	"T=\000"
+ 287              	.LC24:
+ 288 00a0 20646567 		.ascii	" deg C\012\015\000"
+ 288      20430A0D 
+ 288      00
+ 289              		.section	.text.startup.main,"ax",%progbits
+ 290              		.align	1
+ 291              		.global	main
+ 292              		.syntax unified
+ 293              		.code	16
+ 294              		.thumb_func
+ 296              	main:
+ 297              		@ Volatile: function does not return.
+ 298              		@ args = 0, pretend = 0, frame = 80
+ 299              		@ frame_needed = 0, uses_anonymous_args = 0
+ 300 0000 8022     		movs	r2, #128
+ 301 0002 30B5     		push	{r4, r5, lr}
+ 302 0004 584B     		ldr	r3, .L39
+ 303 0006 D201     		lsls	r2, r2, #7
+ 304 0008 D96F     		ldr	r1, [r3, #124]
+ 305 000a 95B0     		sub	sp, sp, #84
+ 306 000c 0A43     		orrs	r2, r1
+ 307 000e DA67     		str	r2, [r3, #124]
+ 308 0010 2022     		movs	r2, #32
+ 309 0012 D96F     		ldr	r1, [r3, #124]
+ 310 0014 A024     		movs	r4, #160
+ 311 0016 0A43     		orrs	r2, r1
+ 312 0018 DA67     		str	r2, [r3, #124]
+ 313 001a FFF7FEFF 		bl	InitPins
+ 314 001e FFF7FEFF 		bl	clock_init
+ 315 0022 FFF7FEFF 		bl	config_uart0
+ 316 0026 514B     		ldr	r3, .L39+4
+ 317 0028 514A     		ldr	r2, .L39+8
+ 318 002a 5248     		ldr	r0, .L39+12
+ 319 002c 1A60     		str	r2, [r3]
+ 320 002e FFF7FEFF 		bl	xprintf
+ 321 0032 8022     		movs	r2, #128
+ 322 0034 8023     		movs	r3, #128
+ 323 0036 9201     		lsls	r2, r2, #6
+ 324 0038 2406     		lsls	r4, r4, #24
+ 325 003a A158     		ldr	r1, [r4, r2]
+ 326 003c 5B02     		lsls	r3, r3, #9
+ 327 003e 0B43     		orrs	r3, r1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 7
+
+
+ 328 0040 FA21     		movs	r1, #250
+ 329 0042 A350     		str	r3, [r4, r2]
+ 330 0044 4C4B     		ldr	r3, .L39+16
+ 331 0046 8900     		lsls	r1, r1, #2
+ 332 0048 1868     		ldr	r0, [r3]
+ 333 004a FFF7FEFF 		bl	__aeabi_uidiv
+ 334 004e 8023     		movs	r3, #128
+ 335 0050 0138     		subs	r0, r0, #1
+ 336 0052 5B04     		lsls	r3, r3, #17
+ 337 0054 9842     		cmp	r0, r3
+ 338 0056 00D3     		bcc	.LCB307
+ 339 0058 84E0     		b	.L36	@long jump
+ 340              	.LCB307:
+ 341 005a C021     		movs	r1, #192
+ 342 005c 474A     		ldr	r2, .L39+20
+ 343 005e 0906     		lsls	r1, r1, #24
+ 344 0060 5060     		str	r0, [r2, #4]
+ 345 0062 4748     		ldr	r0, .L39+24
+ 346 0064 0025     		movs	r5, #0
+ 347 0066 036A     		ldr	r3, [r0, #32]
+ 348 0068 1B02     		lsls	r3, r3, #8
+ 349 006a 1B0A     		lsrs	r3, r3, #8
+ 350 006c 0B43     		orrs	r3, r1
+ 351 006e 0362     		str	r3, [r0, #32]
+ 352 0070 0723     		movs	r3, #7
+ 353 0072 9560     		str	r5, [r2, #8]
+ 354 0074 03A8     		add	r0, sp, #12
+ 355 0076 1360     		str	r3, [r2]
+ 356 0078 FFF7FEFF 		bl	I2C_MasterGetDefaultConfig
+ 357 007c 414B     		ldr	r3, .L39+28
+ 358 007e 424A     		ldr	r2, .L39+32
+ 359 0080 4248     		ldr	r0, .L39+36
+ 360 0082 03A9     		add	r1, sp, #12
+ 361 0084 0493     		str	r3, [sp, #16]
+ 362 0086 FFF7FEFF 		bl	I2C_MasterInit
+ 363 008a 2B00     		movs	r3, r5
+ 364 008c 404A     		ldr	r2, .L39+40
+ 365 008e 3F48     		ldr	r0, .L39+36
+ 366 0090 06A9     		add	r1, sp, #24
+ 367 0092 FFF7FEFF 		bl	I2C_MasterTransferCreateHandle
+ 368 0096 1023     		movs	r3, #16
+ 369 0098 6A46     		mov	r2, sp
+ 370 009a 0120     		movs	r0, #1
+ 371 009c 1381     		strh	r3, [r2, #8]
+ 372 009e 02A9     		add	r1, sp, #8
+ 373 00a0 0222     		movs	r2, #2
+ 374 00a2 06AB     		add	r3, sp, #24
+ 375 00a4 FFF7FEFF 		bl	LM75_Write_Reg
+ 376 00a8 0222     		movs	r2, #2
+ 377 00aa 06AB     		add	r3, sp, #24
+ 378 00ac 01A9     		add	r1, sp, #4
+ 379 00ae 0120     		movs	r0, #1
+ 380 00b0 FFF7FEFF 		bl	LM75_Read_Reg
+ 381 00b4 3748     		ldr	r0, .L39+44
+ 382 00b6 FFF7FEFF 		bl	xprintf
+ 383 00ba 01A8     		add	r0, sp, #4
+ 384 00bc FFF7FEFF 		bl	print_os_fault
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 8
+
+
+ 385 00c0 1E23     		movs	r3, #30
+ 386 00c2 6A46     		mov	r2, sp
+ 387 00c4 0320     		movs	r0, #3
+ 388 00c6 1381     		strh	r3, [r2, #8]
+ 389 00c8 02A9     		add	r1, sp, #8
+ 390 00ca 0222     		movs	r2, #2
+ 391 00cc 06AB     		add	r3, sp, #24
+ 392 00ce FFF7FEFF 		bl	LM75_Write_Reg
+ 393 00d2 0222     		movs	r2, #2
+ 394 00d4 06AB     		add	r3, sp, #24
+ 395 00d6 01A9     		add	r1, sp, #4
+ 396 00d8 0320     		movs	r0, #3
+ 397 00da FFF7FEFF 		bl	LM75_Read_Reg
+ 398 00de 2E48     		ldr	r0, .L39+48
+ 399 00e0 FFF7FEFF 		bl	xprintf
+ 400 00e4 2D48     		ldr	r0, .L39+52
+ 401 00e6 FFF7FEFF 		bl	xprintf
+ 402 00ea 01A8     		add	r0, sp, #4
+ 403 00ec FFF7FEFF 		bl	print_temp
+ 404 00f0 2B4D     		ldr	r5, .L39+56
+ 405 00f2 2800     		movs	r0, r5
+ 406 00f4 FFF7FEFF 		bl	xprintf
+ 407 00f8 1C23     		movs	r3, #28
+ 408 00fa 6A46     		mov	r2, sp
+ 409 00fc 1381     		strh	r3, [r2, #8]
+ 410 00fe 0222     		movs	r2, #2
+ 411 0100 06AB     		add	r3, sp, #24
+ 412 0102 1000     		movs	r0, r2
+ 413 0104 02A9     		add	r1, sp, #8
+ 414 0106 FFF7FEFF 		bl	LM75_Write_Reg
+ 415 010a 0222     		movs	r2, #2
+ 416 010c 06AB     		add	r3, sp, #24
+ 417 010e 1000     		movs	r0, r2
+ 418 0110 01A9     		add	r1, sp, #4
+ 419 0112 FFF7FEFF 		bl	LM75_Read_Reg
+ 420 0116 2348     		ldr	r0, .L39+60
+ 421 0118 FFF7FEFF 		bl	xprintf
+ 422 011c 01A8     		add	r0, sp, #4
+ 423 011e FFF7FEFF 		bl	print_temp
+ 424 0122 2800     		movs	r0, r5
+ 425 0124 FFF7FEFF 		bl	xprintf
+ 426 0128 FA25     		movs	r5, #250
+ 427 012a 1F48     		ldr	r0, .L39+64
+ 428 012c FFF7FEFF 		bl	xprintf
+ 429 0130 6D00     		lsls	r5, r5, #1
+ 430              	.L37:
+ 431 0132 0020     		movs	r0, #0
+ 432 0134 06AB     		add	r3, sp, #24
+ 433 0136 0222     		movs	r2, #2
+ 434 0138 01A9     		add	r1, sp, #4
+ 435 013a 2074     		strb	r0, [r4, #16]
+ 436 013c FFF7FEFF 		bl	LM75_Read_Reg
+ 437 0140 1A48     		ldr	r0, .L39+68
+ 438 0142 FFF7FEFF 		bl	xprintf
+ 439 0146 01A8     		add	r0, sp, #4
+ 440 0148 FFF7FEFF 		bl	print_temp
+ 441 014c 1848     		ldr	r0, .L39+72
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 9
+
+
+ 442 014e FFF7FEFF 		bl	xprintf
+ 443 0152 2800     		movs	r0, r5
+ 444 0154 FFF7FEFF 		bl	SysTick_DelayTicks
+ 445 0158 0123     		movs	r3, #1
+ 446 015a 2800     		movs	r0, r5
+ 447 015c 2374     		strb	r3, [r4, #16]
+ 448 015e FFF7FEFF 		bl	SysTick_DelayTicks
+ 449 0162 E6E7     		b	.L37
+ 450              	.L36:
+ 451 0164 FEE7     		b	.L36
+ 452              	.L40:
+ 453 0166 C046     		.align	2
+ 454              	.L39:
+ 455 0168 04800440 		.word	1074036740
+ 456 016c 00000000 		.word	xfunc_output
+ 457 0170 00000000 		.word	uart_putch
+ 458 0174 00000000 		.word	.LC6
+ 459 0178 00000000 		.word	SystemCoreClock
+ 460 017c 10E000E0 		.word	-536813552
+ 461 0180 00ED00E0 		.word	-536810240
+ 462 0184 A0860100 		.word	100000
+ 463 0188 001BB700 		.word	12000000
+ 464 018c 00000540 		.word	1074069504
+ 465 0190 00000000 		.word	i2c_master_callback
+ 466 0194 16000000 		.word	.LC10
+ 467 0198 2B000000 		.word	.LC12
+ 468 019c 42000000 		.word	.LC14
+ 469 01a0 57000000 		.word	.LC16
+ 470 01a4 69000000 		.word	.LC18
+ 471 01a8 7E000000 		.word	.LC20
+ 472 01ac 9D000000 		.word	.LC22
+ 473 01b0 A0000000 		.word	.LC24
+ 475              		.global	SystickCounter
+ 476              		.section	.bss.SystickCounter,"aw",%nobits
+ 477              		.align	2
+ 480              	SystickCounter:
+ 481 0000 00000000 		.space	4
+ 482              		.global	i2c_TX_complete
+ 483              		.section	.bss.i2c_TX_complete,"aw",%nobits
+ 486              	i2c_TX_complete:
+ 487 0000 00       		.space	1
+ 488              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 EX4.c
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:16     .text.i2c_master_callback:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:21     .text.i2c_master_callback:00000000 i2c_master_callback
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:36     .text.i2c_master_callback:0000000c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:486    .bss.i2c_TX_complete:00000000 i2c_TX_complete
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:39     .text.uart_putch:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:45     .text.uart_putch:00000000 uart_putch
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:61     .text.uart_putch:00000010 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:64     .text.I2C_Write:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:70     .text.I2C_Write:00000000 I2C_Write
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:108    .text.I2C_Write:00000040 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:112    .text.clock_init:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:118    .text.clock_init:00000000 clock_init
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:179    .text.clock_init:00000074 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:186    .text.config_uart0:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:192    .text.config_uart0:00000000 config_uart0
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:215    .text.config_uart0:00000020 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:220    .text.SysTick_Handler:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:226    .text.SysTick_Handler:00000000 SysTick_Handler
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:243    .text.SysTick_Handler:00000010 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:480    .bss.SystickCounter:00000000 SystickCounter
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:246    .text.SysTick_DelayTicks:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:252    .text.SysTick_DelayTicks:00000000 SysTick_DelayTicks
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:267    .text.SysTick_DelayTicks:0000000c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:290    .text.startup.main:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:296    .text.startup.main:00000000 main
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:455    .text.startup.main:00000168 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:477    .bss.SystickCounter:00000000 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccLkFYth.s:487    .bss.i2c_TX_complete:00000000 $d
+
+UNDEFINED SYMBOLS
+memset
+I2C_MasterTransferNonBlocking
+CLOCK_InitSystemPll
+CLOCK_SetMainClkSrc
+SystemCoreClockUpdate
+SWM_SetMovablePinSelect
+__aeabi_uidiv
+InitPins
+xprintf
+I2C_MasterGetDefaultConfig
+I2C_MasterInit
+I2C_MasterTransferCreateHandle
+LM75_Write_Reg
+LM75_Read_Reg
+print_os_fault
+print_temp
+xfunc_output
+SystemCoreClock

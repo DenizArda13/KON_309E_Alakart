@@ -32,7 +32,7 @@ void LM75_Write_Reg(uint8_t pointer, uint8_t *txbuf, uint8_t write_len, i2c_mast
   
   
   i2c_master_transfer_t masterXfer = {0};
-  status_t retVal                   = kStatus_Fail;
+  status_t retVal = kStatus_Fail;
   
   masterXfer.slaveAddress   = LM75_ADDR;
   masterXfer.direction      = kI2C_Write;
@@ -133,4 +133,33 @@ void print_temp (uint8_t* buf){
     xprintf("00");      // For that, we need to add a trailing '00' manually.
   }
   //xprintf("\n\r");  // Better keep the format related characters at the calling function.
+}
+
+void print_os_fault(uint8_t* buf)
+{
+    uint8_t significant_value = buf[0];
+
+    uint8_t bit_3 = significant_value & 0b00001000;
+    uint8_t bit_4 = significant_value & 0b00010000;
+
+//    queue value 1
+    if (bit_4 == 0 && bit_3 == 0)
+    {
+        xprintf("Queue Value = 1\n");
+    }
+//    queue value 2
+    else if (bit_4 == 0 && bit_3 != 0)
+    {
+        xprintf("Queue Value = 2\n");
+    }
+//    queue value 4
+    else if (bit_4 != 0 && bit_3 == 0)
+    {
+        xprintf("Queue Value = 4\n");
+    }
+//    queue value 6
+    else if (bit_4 != 0 && bit_3 != 0)
+    {
+        xprintf("Queue Value = 6\n");
+    }
 }
