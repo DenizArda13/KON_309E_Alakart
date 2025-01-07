@@ -135,6 +135,37 @@ void print_temp (uint8_t* buf){
   //xprintf("\n\r");  // Better keep the format related characters at the calling function.
 }
 
+void print_temp_fahrenheit(uint8_t* buf) {
+    // Convert raw temperature data to Celsius
+    int16_t raw_temp = (buf[0] << 8) | buf[1]; // 16-bit raw temperature data
+    raw_temp >>= 5; // Extract the most significant 11 bits (MSB) of the temperature data
+    float temp_celsius = raw_temp * 0.125f; // Convert to Celsius using 0.125°C resolution
+
+    // Convert Celsius to Fahrenheit
+    float temp_fahrenheit = (temp_celsius * 1.8f) + 32.0f;
+
+    // Separate integer and fractional parts
+    int16_t int_part = (int16_t)temp_fahrenheit; // Integer part of the Fahrenheit temperature
+    uint16_t frac_part = (uint16_t)((temp_fahrenheit - int_part) * 1000); // Fractional part (3 digits)
+
+    // Print Fahrenheit temperature
+    xprintf("T = %d.%03d deg F\n\r", int_part, frac_part);
+}
+
+
+float get_temperature_celsius(uint8_t* buf) {
+    // Extract the raw temperature data from the buffer
+    int16_t raw_temp = (buf[0] << 8) | buf[1]; // Combine the two bytes (MSB and LSB)
+    
+    // Right shift to get the meaningful temperature value (11 bits)
+    raw_temp >>= 5; // LM75 stores 11 bits of data
+    
+    // Convert raw temperature value to Celsius (0.125°C per bit)
+    float temp_celsius = raw_temp * 0.125f;
+    
+    return temp_celsius;
+}
+
 void print_os_fault(uint8_t* buf)
 {
     uint8_t significant_value = buf[0];

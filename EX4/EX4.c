@@ -141,6 +141,7 @@ int main(void) {
     xprintf("T=");
     print_temp(i2c_rxbuf);
     xprintf(" deg C\n\r");
+    print_temp_fahrenheit(i2c_rxbuf);
     SysTick_DelayTicks(500U);
 
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=1;
