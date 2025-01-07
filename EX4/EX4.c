@@ -27,6 +27,7 @@
 
 #define PORT_PIO0 0
 #define BLUE_LED_PIN 16
+#define RED_LED_PIN 12
 
 #define CORE_CLOCK   30000000U  // Set CPU Core clock frequency (Hz)
 
@@ -40,9 +41,7 @@ void clock_init(void);
 
 void SysTick_DelayTicks(uint32_t n);
 static void i2c_master_callback(I2C_Type *base,i2c_master_handle_t *handle,status_t status, void *userData);
-
 void I2C_Write(uint8_t data, uint8_t address, i2c_master_handle_t* i2c_handle);
-
 void config_uart0 (void);
 void uart_putch (uint8_t character);
 
@@ -75,6 +74,8 @@ int main(void) {
   // Set PIO0_16 as an output:
   GPIO->DIR[PORT_PIO0] |= (1<< BLUE_LED_PIN);
 
+  // Set PIO0_12 as an output:
+  GPIO->DIR[PORT_PIO0] |= (1<< RED_LED_PIN);
    
   // Set systick reload value to generate 1ms interrupt
   if (SysTick_Config(SystemCoreClock / 1000U)){
@@ -129,11 +130,29 @@ int main(void) {
   xprintf(" Celcius Degree\n\r");
 
   xprintf ("I2C initialization complete.\n\n");
-  //xprintf("\n\r\n\r");
 
-
-  
   while (1){  // Read temp. every second.
+
+  LM75_Read_Reg (LM75_REG_TEMP, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
+  float temp_celcius = get_temperature_celcius(i2c_rxbuf);
+
+  // Check the temperature 
+  if (temp_celcius > 30.0f){
+    GPIO->B[PORT_PIO0][RED_LED_PIN]=0;
+
+    LM75_Read_Reg (LM75_REG_TEMP, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
+    xprintf("T=");
+    print_temp(i2c_rxbuf);
+    xprintf(" deg C\n\r");
+    print_temp_fahrenheit(i2c_rxbuf); // Defined at lm75.c     
+    SysTick_DelayTicks(500U);
+
+    GPIO->B[PORT_PIO0][RED_LED_PIN]=1;
+    SysTick_DelayTicks(500U);
+    
+  }
+
+  else if (temp_celcius < 28.0f){
 
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=0;
     
@@ -141,13 +160,32 @@ int main(void) {
     xprintf("T=");
     print_temp(i2c_rxbuf);
     xprintf(" deg C\n\r");
-    print_temp_fahrenheit(i2c_rxbuf);
+    print_temp_fahrenheit(i2c_rxbuf); // Defined at lm75.c 
     SysTick_DelayTicks(500U);
 
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=1;
-    SysTick_DelayTicks(500U);
+    SysTick_DelayTicks(500U);         
   }
-  
+
+  else{
+    GPIO->B[PORT_PIO0][BLUE_LED_PIN]=0;
+    GPIO->B[PORT_PIO0][RED_LED_PIN]=0;
+    
+    LM75_Read_Reg (LM75_REG_TEMP, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
+    xprintf("T=");
+    print_temp(i2c_rxbuf);
+    xprintf(" deg C\n\r");
+    print_temp_fahrenheit(i2c_rxbuf); // Defined at lm75.c 
+    SysTick_DelayTicks(500U);
+
+    GPIO->B[PORT_PIO0][BLUE_LED_PIN]=1;
+    GPIO->B[PORT_PIO0][RED_LED_PIN]=1;
+    SysTick_DelayTicks(500U);
+    
+  }
+
+  }
+ 
 }
 
 

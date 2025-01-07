@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
 
 
    1              		.cpu cortex-m0plus
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 1
   56              		@ sp needed
   57 0040 F0BD     		pop	{r4, r5, r6, r7, pc}
   58              	.L6:
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 2
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 2
 
 
   59 0042 C046     		.align	2
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 1
  115              	.L14:
  116              		.align	2
  117              	.L13:
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 3
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 3
 
 
  118 004c 48000100 		.word	65608
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 1
  174      25642E25 
  174      30336420 
  174      64656720 
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 4
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 4
 
 
  174      460A0D00 
@@ -230,98 +230,122 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 1
  221 0054 6666E63F 		.word	1072064102
  222 0058 00007A44 		.word	1148846080
  223 005c 00000000 		.word	.LC8
- 225              		.section	.rodata.print_os_fault.str1.1,"aMS",%progbits,1
- 226              	.LC10:
- 227 0000 51756575 		.ascii	"Queue Value = 1\012\000"
- 227      65205661 
- 227      6C756520 
- 227      3D20310A 
- 227      00
- 228              	.LC12:
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 5
+ 225              		.section	.text.get_temperature_celcius,"ax",%progbits
+ 226              		.align	1
+ 227              		.global	get_temperature_celcius
+ 228              		.syntax unified
+ 229              		.code	16
+ 230              		.thumb_func
+ 232              	get_temperature_celcius:
+ 233              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 5
 
 
- 229 0011 51756575 		.ascii	"Queue Value = 2\012\000"
- 229      65205661 
- 229      6C756520 
- 229      3D20320A 
- 229      00
- 230              	.LC14:
- 231 0022 51756575 		.ascii	"Queue Value = 4\012\000"
- 231      65205661 
- 231      6C756520 
- 231      3D20340A 
- 231      00
- 232              	.LC16:
- 233 0033 51756575 		.ascii	"Queue Value = 6\012\000"
- 233      65205661 
- 233      6C756520 
- 233      3D20360A 
- 233      00
- 234              		.section	.text.print_os_fault,"ax",%progbits
- 235              		.align	1
- 236              		.global	print_os_fault
- 237              		.syntax unified
- 238              		.code	16
- 239              		.thumb_func
- 241              	print_os_fault:
- 242              		@ args = 0, pretend = 0, frame = 0
- 243              		@ frame_needed = 0, uses_anonymous_args = 0
- 244 0000 1823     		movs	r3, #24
- 245 0002 10B5     		push	{r4, lr}
- 246 0004 0278     		ldrb	r2, [r0]
- 247 0006 0948     		ldr	r0, .L31
- 248 0008 1A42     		tst	r2, r3
- 249 000a 0BD0     		beq	.L30
- 250 000c 0823     		movs	r3, #8
- 251 000e 1340     		ands	r3, r2
- 252 0010 D206     		lsls	r2, r2, #27
- 253 0012 03D4     		bmi	.L25
- 254 0014 0648     		ldr	r0, .L31+4
- 255 0016 002B     		cmp	r3, #0
- 256 0018 04D1     		bne	.L30
- 257              	.L22:
- 258              		@ sp needed
- 259 001a 10BD     		pop	{r4, pc}
- 260              	.L25:
- 261 001c 0548     		ldr	r0, .L31+8
- 262 001e 002B     		cmp	r3, #0
- 263 0020 00D0     		beq	.L30
- 264 0022 0548     		ldr	r0, .L31+12
- 265              	.L30:
- 266 0024 FFF7FEFF 		bl	xprintf
- 267 0028 F7E7     		b	.L22
- 268              	.L32:
- 269 002a C046     		.align	2
- 270              	.L31:
- 271 002c 00000000 		.word	.LC10
- 272 0030 11000000 		.word	.LC12
- 273 0034 22000000 		.word	.LC14
- 274 0038 33000000 		.word	.LC16
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 6
+ 234              		@ frame_needed = 0, uses_anonymous_args = 0
+ 235 0000 10B5     		push	{r4, lr}
+ 236 0002 0378     		ldrb	r3, [r0]
+ 237 0004 4078     		ldrb	r0, [r0, #1]
+ 238              		@ sp needed
+ 239 0006 0002     		lsls	r0, r0, #8
+ 240 0008 1843     		orrs	r0, r3
+ 241 000a C0BA     		revsh	r0, r0
+ 242 000c 4011     		asrs	r0, r0, #5
+ 243 000e FFF7FEFF 		bl	__aeabi_i2f
+ 244 0012 F821     		movs	r1, #248
+ 245 0014 8905     		lsls	r1, r1, #22
+ 246 0016 FFF7FEFF 		bl	__aeabi_fmul
+ 247 001a 10BD     		pop	{r4, pc}
+ 249              		.section	.rodata.print_os_fault.str1.1,"aMS",%progbits,1
+ 250              	.LC10:
+ 251 0000 51756575 		.ascii	"Queue Value = 1\012\000"
+ 251      65205661 
+ 251      6C756520 
+ 251      3D20310A 
+ 251      00
+ 252              	.LC12:
+ 253 0011 51756575 		.ascii	"Queue Value = 2\012\000"
+ 253      65205661 
+ 253      6C756520 
+ 253      3D20320A 
+ 253      00
+ 254              	.LC14:
+ 255 0022 51756575 		.ascii	"Queue Value = 4\012\000"
+ 255      65205661 
+ 255      6C756520 
+ 255      3D20340A 
+ 255      00
+ 256              	.LC16:
+ 257 0033 51756575 		.ascii	"Queue Value = 6\012\000"
+ 257      65205661 
+ 257      6C756520 
+ 257      3D20360A 
+ 257      00
+ 258              		.section	.text.print_os_fault,"ax",%progbits
+ 259              		.align	1
+ 260              		.global	print_os_fault
+ 261              		.syntax unified
+ 262              		.code	16
+ 263              		.thumb_func
+ 265              	print_os_fault:
+ 266              		@ args = 0, pretend = 0, frame = 0
+ 267              		@ frame_needed = 0, uses_anonymous_args = 0
+ 268 0000 1823     		movs	r3, #24
+ 269 0002 10B5     		push	{r4, lr}
+ 270 0004 0278     		ldrb	r2, [r0]
+ 271 0006 0948     		ldr	r0, .L32
+ 272 0008 1A42     		tst	r2, r3
+ 273 000a 0BD0     		beq	.L31
+ 274 000c 0823     		movs	r3, #8
+ 275 000e 1340     		ands	r3, r2
+ 276 0010 D206     		lsls	r2, r2, #27
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 6
 
 
- 276              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s 			page 7
+ 277 0012 03D4     		bmi	.L26
+ 278 0014 0648     		ldr	r0, .L32+4
+ 279 0016 002B     		cmp	r3, #0
+ 280 0018 04D1     		bne	.L31
+ 281              	.L23:
+ 282              		@ sp needed
+ 283 001a 10BD     		pop	{r4, pc}
+ 284              	.L26:
+ 285 001c 0548     		ldr	r0, .L32+8
+ 286 001e 002B     		cmp	r3, #0
+ 287 0020 00D0     		beq	.L31
+ 288 0022 0548     		ldr	r0, .L32+12
+ 289              	.L31:
+ 290 0024 FFF7FEFF 		bl	xprintf
+ 291 0028 F7E7     		b	.L23
+ 292              	.L33:
+ 293 002a C046     		.align	2
+ 294              	.L32:
+ 295 002c 00000000 		.word	.LC10
+ 296 0030 11000000 		.word	.LC12
+ 297 0034 22000000 		.word	.LC14
+ 298 0038 33000000 		.word	.LC16
+ 300              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 lm75.c
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:16     .text.LM75_Write_Reg:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:22     .text.LM75_Write_Reg:00000000 LM75_Write_Reg
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:61     .text.LM75_Write_Reg:00000044 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:65     .text.LM75_Read_Reg:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:71     .text.LM75_Read_Reg:00000000 LM75_Read_Reg
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:118    .text.LM75_Read_Reg:0000004c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:130    .text.print_temp:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:136    .text.print_temp:00000000 print_temp
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:162    .text.print_temp:0000002c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:176    .text.print_temp_fahrenheit:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:182    .text.print_temp_fahrenheit:00000000 print_temp_fahrenheit
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:221    .text.print_temp_fahrenheit:00000054 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:235    .text.print_os_fault:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:241    .text.print_os_fault:00000000 print_os_fault
-C:\Users\DENIZA~1\AppData\Local\Temp\ccTGa1XR.s:271    .text.print_os_fault:0000002c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:16     .text.LM75_Write_Reg:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:22     .text.LM75_Write_Reg:00000000 LM75_Write_Reg
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:61     .text.LM75_Write_Reg:00000044 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:65     .text.LM75_Read_Reg:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:71     .text.LM75_Read_Reg:00000000 LM75_Read_Reg
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:118    .text.LM75_Read_Reg:0000004c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:130    .text.print_temp:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:136    .text.print_temp:00000000 print_temp
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:162    .text.print_temp:0000002c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:176    .text.print_temp_fahrenheit:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:182    .text.print_temp_fahrenheit:00000000 print_temp_fahrenheit
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:221    .text.print_temp_fahrenheit:00000054 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:226    .text.get_temperature_celcius:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:232    .text.get_temperature_celcius:00000000 get_temperature_celcius
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:259    .text.print_os_fault:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:265    .text.print_os_fault:00000000 print_os_fault
+C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:295    .text.print_os_fault:0000002c $d
 
 UNDEFINED SYMBOLS
 memset

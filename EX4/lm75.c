@@ -117,9 +117,6 @@ int16_t LM75_Read_Reg(uint8_t pointer, uint8_t * rxbuf, uint8_t read_len, i2c_ma
   return (temperature);
 }
 
-
-
-
 void print_temp (uint8_t* buf){
   // xprintf cannot print floating point numbers, we mimic it here:
   
@@ -135,6 +132,7 @@ void print_temp (uint8_t* buf){
   //xprintf("\n\r");  // Better keep the format related characters at the calling function.
 }
 
+// Printing temperature in Fahrenheit
 void print_temp_fahrenheit(uint8_t* buf) {
     // Convert raw temperature data to Celsius
     int16_t raw_temp = (buf[0] << 8) | buf[1]; // 16-bit raw temperature data
@@ -152,7 +150,7 @@ void print_temp_fahrenheit(uint8_t* buf) {
     xprintf("T = %d.%03d deg F\n\r", int_part, frac_part);
 }
 
-
+// Returns the temperature in Celsius to compare with the edge values
 float get_temperature_celsius(uint8_t* buf) {
     // Extract the raw temperature data from the buffer
     int16_t raw_temp = (buf[0] << 8) | buf[1]; // Combine the two bytes (MSB and LSB)
@@ -166,6 +164,7 @@ float get_temperature_celsius(uint8_t* buf) {
     return temp_celsius;
 }
 
+// Print the OS FAULT value that is configured by user
 void print_os_fault(uint8_t* buf)
 {
     uint8_t significant_value = buf[0];
