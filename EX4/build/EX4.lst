@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s 			page 1
 
 
    1              		.cpu cortex-m0plus
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
   56              		@ sp needed
   57 0040 F0BD     		pop	{r4, r5, r6, r7, pc}
   58              	.L6:
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 2
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s 			page 2
 
 
   59 0042 C046     		.align	2
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
  115              	.L14:
  116              		.align	2
  117              	.L13:
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 3
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s 			page 3
 
 
  118 004c 48000100 		.word	65608
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
  174      25642E25 
  174      30336420 
  174      64656720 
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 4
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s 			page 4
 
 
  174      460A0D00 
@@ -230,15 +230,15 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
  221 0054 6666E63F 		.word	1072064102
  222 0058 00007A44 		.word	1148846080
  223 005c 00000000 		.word	.LC8
- 225              		.section	.text.get_temperature_celcius,"ax",%progbits
+ 225              		.section	.text.get_temperature_celsius,"ax",%progbits
  226              		.align	1
- 227              		.global	get_temperature_celcius
+ 227              		.global	get_temperature_celsius
  228              		.syntax unified
  229              		.code	16
  230              		.thumb_func
- 232              	get_temperature_celcius:
+ 232              	get_temperature_celsius:
  233              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 5
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s 			page 5
 
 
  234              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
  274 000c 0823     		movs	r3, #8
  275 000e 1340     		ands	r3, r2
  276 0010 D206     		lsls	r2, r2, #27
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 6
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s 			page 6
 
 
  277 0012 03D4     		bmi	.L26
@@ -324,28 +324,28 @@ ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 1
  297 0034 22000000 		.word	.LC14
  298 0038 33000000 		.word	.LC16
  300              		.ident	"GCC: (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614"
-ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s 			page 7
+ARM GAS  C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 lm75.c
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:16     .text.LM75_Write_Reg:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:22     .text.LM75_Write_Reg:00000000 LM75_Write_Reg
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:61     .text.LM75_Write_Reg:00000044 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:65     .text.LM75_Read_Reg:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:71     .text.LM75_Read_Reg:00000000 LM75_Read_Reg
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:118    .text.LM75_Read_Reg:0000004c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:130    .text.print_temp:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:136    .text.print_temp:00000000 print_temp
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:162    .text.print_temp:0000002c $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:176    .text.print_temp_fahrenheit:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:182    .text.print_temp_fahrenheit:00000000 print_temp_fahrenheit
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:221    .text.print_temp_fahrenheit:00000054 $d
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:226    .text.get_temperature_celcius:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:232    .text.get_temperature_celcius:00000000 get_temperature_celcius
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:259    .text.print_os_fault:00000000 $t
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:265    .text.print_os_fault:00000000 print_os_fault
-C:\Users\DENIZA~1\AppData\Local\Temp\ccqgVBTZ.s:295    .text.print_os_fault:0000002c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:16     .text.LM75_Write_Reg:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:22     .text.LM75_Write_Reg:00000000 LM75_Write_Reg
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:61     .text.LM75_Write_Reg:00000044 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:65     .text.LM75_Read_Reg:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:71     .text.LM75_Read_Reg:00000000 LM75_Read_Reg
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:118    .text.LM75_Read_Reg:0000004c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:130    .text.print_temp:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:136    .text.print_temp:00000000 print_temp
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:162    .text.print_temp:0000002c $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:176    .text.print_temp_fahrenheit:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:182    .text.print_temp_fahrenheit:00000000 print_temp_fahrenheit
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:221    .text.print_temp_fahrenheit:00000054 $d
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:226    .text.get_temperature_celsius:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:232    .text.get_temperature_celsius:00000000 get_temperature_celsius
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:259    .text.print_os_fault:00000000 $t
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:265    .text.print_os_fault:00000000 print_os_fault
+C:\Users\DENIZA~1\AppData\Local\Temp\ccokNKiO.s:295    .text.print_os_fault:0000002c $d
 
 UNDEFINED SYMBOLS
 memset

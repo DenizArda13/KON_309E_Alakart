@@ -130,14 +130,17 @@ int main(void) {
   xprintf(" Celcius Degree\n\r");
 
   xprintf ("I2C initialization complete.\n\n");
+  
 
-  while (1){  // Read temp. every second.
+  while (1){  // Main loop
 
+  // Read the temperature and define the current temperature for comparing with the alarm values.
   LM75_Read_Reg (LM75_REG_TEMP, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
-  float temp_celcius = get_temperature_celcius(i2c_rxbuf);
+  float temp_celsius = get_temperature_celsius(i2c_rxbuf); // Defined at lm75.c 
 
   // Check the temperature 
-  if (temp_celcius > 30.0f){
+
+  if (temp_celsius > 30.0f){ // Blink the Red Led on the Alakart.
     GPIO->B[PORT_PIO0][RED_LED_PIN]=0;
 
     LM75_Read_Reg (LM75_REG_TEMP, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
@@ -152,7 +155,7 @@ int main(void) {
     
   }
 
-  else if (temp_celcius < 28.0f){
+  else if (temp_celsius < 28.0f){ // Blink the Blue Led on the Alakart.
 
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=0;
     
@@ -167,7 +170,7 @@ int main(void) {
     SysTick_DelayTicks(500U);         
   }
 
-  else{
+  else{ // Blink the Red and Blue Led on the Alakart.
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=0;
     GPIO->B[PORT_PIO0][RED_LED_PIN]=0;
     

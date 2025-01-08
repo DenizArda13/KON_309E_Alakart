@@ -34,7 +34,7 @@ void print_temp (uint8_t* buf);
 
 void print_temp_fahrenheit(uint8_t* buf);
 
-float get_temperature_celcius(uint8_t* buf);
+float get_temperature_celsius(uint8_t* buf);
 
 void print_os_fault(uint8_t* buf);
 

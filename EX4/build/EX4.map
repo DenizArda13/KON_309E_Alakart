@@ -379,9 +379,9 @@ LOAD C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin/../lib
  .text.print_temp_fahrenheit
                 0x00000e64       0x60 build/lm75.o
                 0x00000e64                print_temp_fahrenheit
- .text.get_temperature_celcius
+ .text.get_temperature_celsius
                 0x00000ec4       0x1c build/lm75.o
-                0x00000ec4                get_temperature_celcius
+                0x00000ec4                get_temperature_celsius
  .text.print_os_fault
                 0x00000ee0       0x3c build/lm75.o
                 0x00000ee0                print_os_fault
