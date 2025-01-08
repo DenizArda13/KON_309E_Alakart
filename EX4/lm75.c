@@ -124,11 +124,13 @@ void print_temp (uint8_t* buf){
   
   // The digits after the decimal point are shifted 5 places to the right:
   buf[1]=buf[1]>>5;  // Correct it. 
+
   uint16_t i=buf[1]*125;   // Each digit represents 0.125 degC
   xprintf("%d",i );
   if (buf[1]==0){ // They print correctly, except .0
     xprintf("00");      // For that, we need to add a trailing '00' manually.
   }
+  //xprintf("LSB : %d\n\n", buf[1]); // For debug 
   //xprintf("\n\r");  // Better keep the format related characters at the calling function.
 }
 
@@ -139,15 +141,22 @@ void print_temp_fahrenheit(uint8_t* buf) {
     raw_temp >>= 5; // Extract the most significant 11 bits (MSB) of the temperature data
     float temp_celsius = raw_temp * 0.125f; // Convert to Celsius using 0.125°C resolution
 
+    //xprintf("raw = %d\n\n", raw_temp);
+
+
+
     // Convert Celsius to Fahrenheit
     float temp_fahrenheit = (temp_celsius * 1.8f) + 32.0f;
 
     // Separate integer and fractional parts
     int16_t int_part = (int16_t)temp_fahrenheit; // Integer part of the Fahrenheit temperature
-    uint16_t frac_part = (uint16_t)((temp_fahrenheit - int_part) * 1000); // Fractional part (3 digits)
+    uint16_t frac_part = (uint16_t)((temp_fahrenheit - int_part) * 1000.0f); // Fractional part (3 digits)
 
     // Print Fahrenheit temperature
-    xprintf("T = %d.%03d deg F\n\r", int_part, frac_part);
+    xprintf("T = ");
+    xprintf("%d.", int_part);
+    xprintf("%03d", frac_part);
+    xprintf(" deg F\n\r");
 }
 
 // Returns the temperature in Celsius to compare with the edge values
