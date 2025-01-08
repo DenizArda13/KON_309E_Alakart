@@ -137,16 +137,13 @@ void print_temp (uint8_t* buf){
 // Printing temperature in Fahrenheit
 void print_temp_fahrenheit(uint8_t* buf) {
     // Convert raw temperature data to Celsius
-    int16_t raw_temp = (buf[0] << 8) | buf[1]; // 16-bit raw temperature data
-    raw_temp >>= 5; // Extract the most significant 11 bits (MSB) of the temperature data
-    float temp_celsius = raw_temp * 0.125f; // Convert to Celsius using 0.125°C resolution
+    int16_t raw_int_part = buf[0];
+    uint16_t raw_frac_part = buf[1];// n-No need to shift right 5 bits because it is alread done in print_temp function
 
-    //xprintf("raw = %d\n\n", raw_temp);
-
-
+    float raw_celsius = raw_int_part + raw_frac_part * 0.125f;
 
     // Convert Celsius to Fahrenheit
-    float temp_fahrenheit = (temp_celsius * 1.8f) + 32.0f;
+    float temp_fahrenheit = (raw_celsius * 1.8f) + 32.0f;
 
     // Separate integer and fractional parts
     int16_t int_part = (int16_t)temp_fahrenheit; // Integer part of the Fahrenheit temperature
