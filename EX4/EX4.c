@@ -77,8 +77,9 @@ int main(void) {
   // Set PIO0_12 as an output:
   GPIO->DIR[PORT_PIO0] |= (1<< RED_LED_PIN);
 
-  // Turn off the leds as default state
-  GPIO->B[PORT_PIO0][RED_LED_PIN]=1;
+  // Turn off the leds as default state 
+  // 0 turns on the led, 1turns of the led. At internal leds on Alakart turn on opposite way.
+  GPIO->B[PORT_PIO0][RED_LED_PIN]=1; 
   GPIO->B[PORT_PIO0][BLUE_LED_PIN]=1;
    
   // Set systick reload value to generate 1ms interrupt
@@ -100,7 +101,8 @@ int main(void) {
   I2C_MasterTransferCreateHandle(I2C0_BASE_ADDR,&i2c_handle,i2c_master_callback, NULL);
 
 //  Configuration register 
-  i2c_txbuf[0]=16;
+// Os Fault Queue = 4. B[4:3] bits of the register should be 10 queue value = 4.(section 7.4.2 at datasheet)  
+  i2c_txbuf[0]=16; 
   i2c_txbuf[1]=0;
   LM75_Write_Reg(LM75_REG_CONF, i2c_txbuf, LM75_READ_LEN, &i2c_handle);
 
@@ -110,7 +112,7 @@ int main(void) {
   print_os_fault(i2c_rxbuf); // Defined at lm75.c
   
   // Set the alarm ON temperature
-  i2c_txbuf[0]=LM75_T_HIGH; // LM75_T_HIGH = 60 so 30 degrees (0.5 resolution)
+  i2c_txbuf[0]=LM75_T_HIGH; // LM75_T_HIGH = 30 degrees 
   i2c_txbuf[1]=0;
   LM75_Write_Reg (LM75_REG_TOS, i2c_txbuf, LM75_READ_LEN, &i2c_handle);
 
@@ -123,7 +125,7 @@ int main(void) {
 
 
   // Set the alarm clear temperature.
-  i2c_txbuf[0]=LM75_T_LOW;  // LM75_T_LOW = 56 so 28 degrees (0.5 resolution)
+  i2c_txbuf[0]=LM75_T_LOW;  // LM75_T_LOW = 28 degrees 
   i2c_txbuf[1]=0;
   LM75_Write_Reg (LM75_REG_HYST, i2c_txbuf, LM75_READ_LEN, &i2c_handle);
 
@@ -144,7 +146,7 @@ int main(void) {
 
   // Check the temperature 
 
-  if (temp_celsius > 30.0f){ // Blink the Red Led on the Alakart.
+  if (temp_celsius >= 30.0f){ // Blink the Red Led on the Alakart.
   while (temp_celsius >= 28.0f){ // Keep blinking until the temperature drops below 28 degrees.
 
     GPIO->B[PORT_PIO0][RED_LED_PIN]=0;
@@ -161,6 +163,7 @@ int main(void) {
     GPIO->B[PORT_PIO0][BLUE_LED_PIN]=1;
     SysTick_DelayTicks(500U);
 
+    // Read the value again to break the loop if the temperature drops below 28 degrees.
     LM75_Read_Reg (LM75_REG_TEMP, i2c_rxbuf, LM75_READ_LEN,  &i2c_handle);
     temp_celsius = get_temperature_celsius(i2c_rxbuf); // Defined at lm75.c 
   }

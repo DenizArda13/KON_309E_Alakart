@@ -138,7 +138,7 @@ void print_temp (uint8_t* buf){
 void print_temp_fahrenheit(uint8_t* buf) {
     // Convert raw temperature data to Celsius
     int16_t raw_int_part = buf[0];
-    uint16_t raw_frac_part = buf[1];// n-No need to shift right 5 bits because it is alread done in print_temp function
+    uint16_t raw_frac_part = buf[1];// No need to shift right 5 bits because it is alread done in print_temp function
 
     float raw_celsius = raw_int_part + raw_frac_part * 0.125f;
 
