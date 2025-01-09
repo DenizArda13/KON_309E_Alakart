@@ -130,7 +130,6 @@ void print_temp (uint8_t* buf){
   if (buf[1]==0){ // They print correctly, except .0
     xprintf("00");      // For that, we need to add a trailing '00' manually.
   }
-  //xprintf("LSB : %d\n\n", buf[1]); // For debug 
   //xprintf("\n\r");  // Better keep the format related characters at the calling function.
 }
 

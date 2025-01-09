@@ -15,8 +15,8 @@
 #define LM75_READ_LEN   2 // LM75 returns 2 bytes.
 #define LM75_WRITE_LEN   2 // LM75 requires 2 bytes.
 
-#define LM75_T_HIGH   30 // Alarm threshold upper temp (section 7.4 in datasheet) 60*0.5=30 degrees 
-#define LM75_T_LOW   28 // Alarm threshold lower temp (section 7.4 in datasheet) 56*0.5=28 degrees
+#define LM75_T_HIGH   30 // Alarm threshold upper temp 
+#define LM75_T_LOW   28 // Alarm threshold lower temp 
 
 extern volatile bool i2c_TX_complete;
 
